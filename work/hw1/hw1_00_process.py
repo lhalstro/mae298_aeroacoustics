@@ -12,6 +12,8 @@ Single-side power spectral density (FFT)
 """
 
 import numpy as np
+import pandas as pd
+
 import os
 
 
