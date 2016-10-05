@@ -11,6 +11,9 @@ Single-side power spectral density (FFT)
 1/3 octave and octave band
 """
 
+#IMPORT GLOBAL VARIABLES
+from hw1_98_globalVars import *
+
 import numpy as np
 import pandas as pd
 
@@ -19,8 +22,7 @@ import os
 
 import matplotlib.pyplot as plt
 
-#IMPORT GLOBAL VARIABLES
-from hw1_98_globalVars import *
+
 
 def ReadWav(filename):
     """Read a .wav file and return sampling frequency
@@ -72,45 +74,47 @@ def main(source):
     """
 
     #READ SOUND FILE
-    dat = pd.DataFrame() #Stores signal data
+    df = pd.DataFrame() #Stores signal data
     #Read source frequency (fs) and signal in volts
-    fs, dat['V'] = ReadWav( '{}/{}'.format(datadir, source) )
+    fs, df['V'] = ReadWav( '{}/{}'.format(datadir, source) )
     #Convert to pascals
-    dat['Pa'] = dat['V'] * volt2pasc
+    df['Pa'] = df['V'] * volt2pasc
 
     ##TIME
     ##calculate time of each signal, in seconds, from source frequency
-    #N = len(dat['V']) #Number of data points in signal
+    #N = len(df['V']) #Number of data points in signal
     #dt = 1 / fs #time step
     #T = N * dt #total time interval of signal (s)
-    #dat['time'] = np.arange(N) * dt
+    #df['time'] = np.arange(N) * dt
 
     #TIME
     #calculate time of each signal, in seconds, from source frequency
-    N = len(dat['Pa']) #Number of data points in signal
+    N = len(df['Pa']) #Number of data points in signal
     dt = 1 / fs #time step
     T = N * dt #total time interval of signal (s)
-    dat['time'] = np.arange(N) * dt #individual sample times
+    df['time'] = np.arange(N) * dt #individual sample times
 
     #POWER SPECTRUM
-    fft = np.fft.fft(dat['Pa']) * dt #Fast-Fourier Transform
+    fft = np.fft.fft(df['Pa']) * dt #Fast-Fourier Transform
     Sxx = np.abs(fft) ** 2 / T #Two-sided power spectrum
 
     idx = range(int(N/2)) #Indices of single-sided power spectrum
     Gxx = Sxx[idx] #Single-sided power spectrum
     #Gxx = 2 * Sxx #Single-sided power spectrum
 
-    freqs = np.fft.fftfreq(dat['Pa'].size, dt) #Frequencies
+    freqs = np.fft.fftfreq(df['Pa'].size, dt) #Frequencies
     #freqs = np.arange(N) / T #Frequencies
 
     freqs = freqs[idx] #single-sided frequencies
     print(freqs[:10])
 
+    powspec = pd.DataFrame({'freq' : freqs, 'Gxx' : Gxx})
+
 
 
 
     #plt.figure()
-    #plt.plot(dat['time'], dat['Pa'])
+    #plt.plot(df['time'], df['Pa'])
     #plt.show()
 
 
@@ -121,7 +125,7 @@ def main(source):
 
 
     ##NUMBER OF DISCRETE DATA POINTS
-    #time = np.array(dat['time'])
+    #time = np.array(df['time'])
     #N = len(time)
     ##DATA TIME INTERVAL
     #TT = time[-1] - time[0]
@@ -131,7 +135,7 @@ def main(source):
     #xmax = time[-1]
     #xmin = time[0]
     ##FFT OF DATA
-    #fftfull = np.fft.fft(dat['Pa'])
+    #fftfull = np.fft.fft(df['Pa'])
     ##Only use postitive frequencies (first half)
     #fft = fftfull[0:N/2-1]
     ##POWER SPECTRUM OF FFT
@@ -156,11 +160,11 @@ def main(source):
 
 
     ##Power spectrum
-    #fft = np.fft.fft(dat['Pa']) * dt
+    #fft = np.fft.fft(df['Pa']) * dt
     #Sxx = np.abs(fft) ** 2 / T
     #Gxx = 2 * Sxx
 
-    #freqs = np.fft.fftfreq(dat['Pa'].size, dt)
+    #freqs = np.fft.fftfreq(df['Pa'].size, dt)
     ##freqs = np.arange(N) / T
 
     #print(freqs[:10])
@@ -181,19 +185,27 @@ def main(source):
 
 
     #FIND SOUND PRESSURE LEVEL IN dB
-    dat['SPL'] = SPLi(dat['Pa'])
+    df['SPL'] = SPLi(df['Pa'])
 
     plt.figure()
-    plt.plot(dat['time'], dat['SPL'])
+    plt.plot(df['time'], df['SPL'])
     plt.show()
 
 
+    #SONIC BOOM N-WAVE DURATION
     #Get times of maximum and minimum peaks of sonic boom
-    tmax = float(dat[dat['Pa'] == max(dat['Pa'])]['time']) #max press
-    tmin = float(dat[dat['Pa'] == min(dat['Pa'])]['time']) #min press
+    tmax = float(df[df['Pa'] == max(df['Pa'])]['time']) #max press
+    tmin = float(df[df['Pa'] == min(df['Pa'])]['time']) #min press
     #Duration of sonic boom N-wave (time from max pressure to min pressure)
     dt_Nwave = tmin - tmax
 
+    #SAVE DATA
+    df = df[['time', 'Pa', 'SPL', 'V']] #reorder
+    df.to_csv( '{}/signal.dat'.format(datadir), sep=' ', index=False ) #save
+
+    #save fft
+    powspec.to_csv( '{}/powspec.dat'.format(datadir), sep=' ', index=False )
+    #save single data (fs, Nwave)
 
 
 if __name__ == "__main__":

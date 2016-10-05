@@ -1,0 +1,9 @@
+Homework 1 Notes
+
+is pascal/volts conversion correct?
+Use source frequency 44100 from Matlab example or 48000 from .wav data?
+
+Add atmospheric pressure isobar to pressure N-wave plot
+add text box with N-wave duration time to pressure wave plot
+
+add text boox with reference pressure to SPL plot
