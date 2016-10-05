@@ -60,7 +60,7 @@ def SinglePowerSpec(fs, data):
     freqs = freqs[idx] #single-sided frequencies
     print(freqs[:10])
 
-def SPLi(P, Pref=20e-5):
+def SPLi(P, Pref=20e-6):
     """Sound Pressure Level (SPL) in dB of a single pressue source (i)
     P --> pressure signal
     Pref --> reference pressure
@@ -98,15 +98,15 @@ def main(source):
     fft = np.fft.fft(df['Pa']) * dt #Fast-Fourier Transform
     Sxx = np.abs(fft) ** 2 / T #Two-sided power spectrum
 
-    idx = range(int(N/2)) #Indices of single-sided power spectrum
-    Gxx = Sxx[idx] #Single-sided power spectrum
-    #Gxx = 2 * Sxx #Single-sided power spectrum
+    idx = range(int(N/2)) #Indices of single-sided power spectrum (first half)
+    #Gxx = Sxx[idx] #Single-sided power spectrum
+    Gxx = 2 * Sxx[idx] #Single-sided power spectrum
 
     freqs = np.fft.fftfreq(df['Pa'].size, dt) #Frequencies
     #freqs = np.arange(N) / T #Frequencies
 
     freqs = freqs[idx] #single-sided frequencies
-    print(freqs[:10])
+
 
     powspec = pd.DataFrame({'freq' : freqs, 'Gxx' : Gxx})
 

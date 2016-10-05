@@ -1,7 +1,12 @@
 Homework 1 Notes
 
+do we have to play sound in code?
 is pascal/volts conversion correct?
 Use source frequency 44100 from Matlab example or 48000 from .wav data?
+is given pressure P or Prms
+
+is peak of power on right order?
+what is y ax units for power spec?
 
 Add atmospheric pressure isobar to pressure N-wave plot
 add text box with N-wave duration time to pressure wave plot
