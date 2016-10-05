@@ -32,33 +32,33 @@ def ReadWav(filename):
     sampFreq, snd = wavfile.read(filename)
     return sampFreq, snd
 
-def SinglePowerSpec(fs, data):
-    """Find the single-sided power spectral density of a time function.
-    Requires an even amount of data points
-    fs --> sampling (source) frequency
-    data --> sampled data
-    """
+#def SinglePowerSpec(fs, data):
+#    """Find the single-sided power spectral density of a time function.
+#    Requires an even amount of data points
+#    fs --> sampling (source) frequency
+#    data --> sampled data
+#    """
 
-    #TIME
-    #calculate time of each signal, in seconds, from source frequency
-    N = len(data) #Number of data points in signal
-    dt = 1 / fs #time step
-    T = N * dt #total time interval of signal (s)
-    time = np.arange(N) * dt #individual sample times
+#    #TIME
+#    #calculate time of each signal, in seconds, from source frequency
+#    N = len(data) #Number of data points in signal
+#    dt = 1 / fs #time step
+#    T = N * dt #total time interval of signal (s)
+#    time = np.arange(N) * dt #individual sample times
 
-    #POWER SPECTRUM
-    fft = np.fft.fft(data) * dt #Fast-Fourier Transform
-    Sxx = np.abs(fft) ** 2 / T #Two-sided power spectrum
+#    #POWER SPECTRUM
+#    fft = np.fft.fft(data) * dt #Fast-Fourier Transform
+#    Sxx = np.abs(fft) ** 2 / T #Two-sided power spectrum
 
-    idx = range(int(N/2)) #Indices of single-sided power spectrum
-    Gxx = Sxx[idx] #Single-sided power spectrum
-    #Gxx = 2 * Sxx #Single-sided power spectrum
+#    idx = range(int(N/2)) #Indices of single-sided power spectrum
+#    Gxx = Sxx[idx] #Single-sided power spectrum
+#    #Gxx = 2 * Sxx #Single-sided power spectrum
 
-    freqs = np.fft.fftfreq(data.size, dt) #Frequencies
-    #freqs = np.arange(N) / T #Frequencies
+#    freqs = np.fft.fftfreq(data.size, dt) #Frequencies
+#    #freqs = np.arange(N) / T #Frequencies
 
-    freqs = freqs[idx] #single-sided frequencies
-    print(freqs[:10])
+#    freqs = freqs[idx] #single-sided frequencies
+#    print(freqs[:10])
 
 def SPLi(P, Pref=20e-6):
     """Sound Pressure Level (SPL) in dB of a single pressue source (i)
@@ -73,19 +73,19 @@ def main(source):
 
     """
 
-    #READ SOUND FILE
+    ####################################################################
+    ### READ SOUND FILE ################################################
+    ####################################################################
+
     df = pd.DataFrame() #Stores signal data
     #Read source frequency (fs) and signal in volts
     fs, df['V'] = ReadWav( '{}/{}'.format(datadir, source) )
     #Convert to pascals
     df['Pa'] = df['V'] * volt2pasc
 
-    ##TIME
-    ##calculate time of each signal, in seconds, from source frequency
-    #N = len(df['V']) #Number of data points in signal
-    #dt = 1 / fs #time step
-    #T = N * dt #total time interval of signal (s)
-    #df['time'] = np.arange(N) * dt
+    ####################################################################
+    ### POWER SPECTRAL DENSITY #########################################
+    ####################################################################
 
     #TIME
     #calculate time of each signal, in seconds, from source frequency
@@ -93,21 +93,20 @@ def main(source):
     dt = 1 / fs #time step
     T = N * dt #total time interval of signal (s)
     df['time'] = np.arange(N) * dt #individual sample times
+    idx = range(int(N/2)) #Indices of single-sided power spectrum (first half)
 
     #POWER SPECTRUM
     fft = np.fft.fft(df['Pa']) * dt #Fast-Fourier Transform
     Sxx = np.abs(fft) ** 2 / T #Two-sided power spectrum
-
-    idx = range(int(N/2)) #Indices of single-sided power spectrum (first half)
     #Gxx = Sxx[idx] #Single-sided power spectrum
     Gxx = 2 * Sxx[idx] #Single-sided power spectrum
 
+    #FREQUENCY
     freqs = np.fft.fftfreq(df['Pa'].size, dt) #Frequencies
     #freqs = np.arange(N) / T #Frequencies
-
     freqs = freqs[idx] #single-sided frequencies
 
-
+    #COMBINE POWER SPECTRUM DATA INTO DATAFRAME
     powspec = pd.DataFrame({'freq' : freqs, 'Gxx' : Gxx})
 
 
@@ -178,33 +177,43 @@ def main(source):
 
 
 
-    plt.figure()
-    plt.plot(freqs, Gxx)
-    plt.xlim([0,50])
-    plt.show()
+    #plt.figure()
+    #plt.plot(freqs, Gxx)
+    #plt.xlim([0,50])
+    #plt.show()
 
+    ####################################################################
+    ### FIND SOUND PRESSURE LEVEL IN dB ################################
+    ####################################################################
 
-    #FIND SOUND PRESSURE LEVEL IN dB
     df['SPL'] = SPLi(df['Pa'])
 
-    plt.figure()
-    plt.plot(df['time'], df['SPL'])
-    plt.show()
+    #plt.figure()
+    #plt.plot(df['time'], df['SPL'])
+    #plt.show()
 
+    ####################################################################
+    ### SONIC BOOM N-WAVE DURATION #####################################
+    ####################################################################
 
-    #SONIC BOOM N-WAVE DURATION
     #Get times of maximum and minimum peaks of sonic boom
     tmax = float(df[df['Pa'] == max(df['Pa'])]['time']) #max press
     tmin = float(df[df['Pa'] == min(df['Pa'])]['time']) #min press
     #Duration of sonic boom N-wave (time from max pressure to min pressure)
     dt_Nwave = tmin - tmax
 
-    #SAVE DATA
+
+    ####################################################################
+    ### SAVE DATA ######################################################
+    ####################################################################
+
+    #SAVE WAVE SIGNAL DATA
     df = df[['time', 'Pa', 'SPL', 'V']] #reorder
     df.to_csv( '{}/signal.dat'.format(datadir), sep=' ', index=False ) #save
 
-    #save fft
+    #SAVE POWER SPECTRUM DATA
     powspec.to_csv( '{}/powspec.dat'.format(datadir), sep=' ', index=False )
+
     #save single data (fs, Nwave)
 
 
