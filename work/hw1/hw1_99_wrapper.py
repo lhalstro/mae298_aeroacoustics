@@ -9,7 +9,7 @@ DESCRIPTION: Run data processing and plotting programs with common inputs.
 """
 
 #IMPORT GLOBAL VARIABLES AND PROGRAMS TO WRAP
-from globalVars import *
+from hw1_98_globalVars import *
 import hw1_00_process as process
 import hw1_02_plot as plot
 

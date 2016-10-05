@@ -11,3 +11,6 @@ DESCRIPTION: Provide global variables for all scripts including wrapper.
 #LOAD/SAVE DIRECTORIES
 datadir = 'Data'
 savedir = 'Results'
+
+#CONVERSIONS
+volt2pasc = -116.0 #volts to pascals

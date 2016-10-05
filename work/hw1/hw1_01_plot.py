@@ -24,11 +24,22 @@ import sys
 sys.path.append('/Users/Logan/lib/python')
 from lplot import *
 
+#IMPORT GLOBAL VARIABLES
+from hw1_98_globalVars import *
 
 def main():
     """input description
     """
 
 
+
+
+
+
+
 if __name__ == "__main__":
+
+
+
+
     main()
