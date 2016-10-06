@@ -157,17 +157,52 @@ def main():
 
     _,ax = PlotStart(None, 'Frequency (Hz)', 'SPL (dB)', figsize=[6, 6])
 
-    labels = ['narrow', 'octave', '$\\frac{1}{3}$octave']
+    #dats = [powspec, octv3rd, octv]
+    #labels = ['narrow', 'octave', '$\\frac{1}{3}$octave']
+    #mkevery = [25, 1, 1]
 
-    for dat, lbl, clr, mkr in zip([powspec, octv3rd, octv], labels, colors, markers):
-        ax.plot(dat['freq'], dat['SPL'], label=lbl,
-                color=clr,
-                # linewidth=0,
-                #marker=mkr, markevery=500,
-                #markeredgecolor=clr, markeredgewidth=MarkerWidth,
-                #markerfacecolor="None",
-                )
+    #for dat, lbl, clr, mkr, mkev in zip(dats, labels, colors, markers, mkevery):
+    #    ax.plot(dat['freq'], dat['SPL'], label=lbl,
+    #            #color=clr,
+    #            # linewidth=0,
+    #            marker=mkr, markevery=mkev,
+    #            markeredgecolor=clr, markeredgewidth=MarkerWidth,
+    #            markerfacecolor="None",
+    #            )
+
+    #Plot Overall SPL as Horizontal Line
+    xmin = min(powspec['freq'])
+    xmax = max(powspec['freq'])
+    ax.plot([xmin, xmax], [params['SPL_overall'], params['SPL_overall']],
+            label='Overall', color='black', linestyle='--')
+
+    i = 1
+    #Plot Octave-Band
+    ax.plot(octv['freq'], octv['SPL'], label='oct',
+            color=colors[i],
+            marker=markers[i], markevery=1,
+            markeredgecolor=colors[i], markeredgewidth=MarkerWidth,
+            markerfacecolor="None",
+            )
+
+    i += 1
+    #Plot 1/3 Octave-Band
+    ax.plot(octv3rd['freq'], octv3rd['SPL'], label='$\\frac{1}{3}$oct',
+            color=colors[i],
+            marker=markers[i], markevery=1,
+            markeredgecolor=colors[i], markeredgewidth=MarkerWidth,
+            markerfacecolor="None",
+            )
+
+    #i += 1
+    i = 0
+    #Plot Narrow-Band
+    ax.plot(powspec['freq'], powspec['SPL'], label='nar',
+            color=colors[i],
+            )
+
     ax.set_xscale('log')
+    ax.set_xlim([xmin, xmax])
     PlotLegend(ax)
 
     savename = '{}/2_SPLf_all.{}'.format(picdir, pictype)

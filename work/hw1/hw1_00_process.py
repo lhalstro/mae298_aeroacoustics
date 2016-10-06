@@ -131,7 +131,16 @@ def OctaveCenterFreqs(narrow, octv=1):
             freqs.append(fc) #if current fc is in original range, save
     return freqs
 
-def OctaveLp(df, octv=1):
+def OctaveLp(Lp):
+    """Given a range of SPLs that are contained within a given octave band,
+    perform the appropriate log-sum to determine the octave SPL
+    Lp --> SPL range in octave-band
+    """
+    #Sum 10^(Lp/10) accross current octave-band, take log
+    Lp_octv = 10 * np.log10( np.sum( 10 ** (Lp / 10) ) )
+    return Lp_octv
+
+def GetOctaveBand(df, octv=1):
     """Get SPL ( Lp(fc,m) ) for octave-band center frequency.
     Returns octave-band center frequencies and corresponding SPLs
     df --> pandas dataframe containing narrow-band frequencies and SPL
@@ -151,9 +160,9 @@ def OctaveLp(df, octv=1):
 
         #SPLs in current octave-band
         Lp = np.array(band['SPL'])
-        #Sum 10^(Lp/10) accross current octave-band
-        Sum = np.sum( 10 ** (Lp / 10) )
-        Lp_octv[i] = 10 * np.log10(Sum)
+        #Sum 10^(Lp/10) accross current octave-band, take log
+        Lp_octv[i] = OctaveLp(Lp)
+        #Lp_octv[i] = 10 * np.log10( np.sum( 10 ** (Lp / 10) ) )
 
     return fcs, Lp_octv
 
@@ -306,11 +315,15 @@ def main(source):
     #print(frq)
 
     octv3rd = pd.DataFrame()
-    octv3rd['freq'], octv3rd['SPL'] = OctaveLp(powspec, octv=1/3)
+    octv3rd['freq'], octv3rd['SPL'] = GetOctaveBand(powspec, octv=1/3)
 
     octv = pd.DataFrame()
-    octv['freq'], octv['SPL'] = OctaveLp(powspec, octv=1)
+    octv['freq'], octv['SPL'] = GetOctaveBand(powspec, octv=1)
 
+    #OVERALL SOUND PRESSURE LEVEL
+    #Single SPL value for entire series
+    #Sum over either octave or 1/3 octave bands (identical)
+    Lp_overall = OctaveLp(octv['SPL'])
 
 
 
@@ -336,7 +349,9 @@ def main(source):
 
     #SAVE SINGLE PARAMETERS
     params = pd.DataFrame()
-    params = params.append(pd.Series({'fs' : fs, 'tNwave' : dt_Nwave, }), ignore_index=True)
+    params = params.append(pd.Series(
+        {'fs' : fs, 'tNwave' : dt_Nwave, 'SPL_overall' : Lp_overall}
+        ), ignore_index=True)
     params.to_csv( '{}/params.dat'.format(datadir), sep=' ', index=False)
 
 
