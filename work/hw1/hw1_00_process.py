@@ -76,9 +76,42 @@ def SPLf(Gxx, T, Pref=20e-6):
     """
     return 10 * np.log10( (Gxx / T) / Pref ** 2 )
 
-def main(source):
-    """input description
+def CenterFreqsGen(dx=3, n=39):
+    """Produce general center frequencies for octave-band spectra
+    dx --> frequency interval spacing (3 for octave, 1 for 1/3 octave)
+    n --> number of center freqs to product (starting at dx)
+    """
+    fc30 = 1000 #Preferred center freq for m=30 is 1000Hz
+    m = np.arange(1, n+1) * dx #for n center freqs, multiply 1-->n by dx
+    freqs = fc30 * 2 ** (-10 + m/3) #Formula for center freqs
 
+def CenterFreqs(narrow, dx=3):
+    """Calculate center frequencies (fc) for octave or 1/3 octave bands.
+    Provide original narrow-band frequency vector to bound octave-band.
+    narrow --> original narrow-band frequencies (provides bounds for octave)
+    dx --> frequency interval spacing (3 for octave, 1 for 1/3 octave)
+    """
+    fc30 = 1000 #Preferred center freq for m=30 is 1000Hz
+    freqs = []
+    for i in range(len(narrow)):
+        m = dx * (i + 1) #current index
+        freq = fc30 * 2 ** (-10 + m/3) #Formula for center freq
+        if freq > max(narrow):
+            break #quit if current fc is greater than original range
+        if freq >= min(narrow):
+            freqs.append(freq) #if current fc is in original range, save
+    return freqs
+
+def Octave(fc30=1000, power=1):
+    """Convert to octave-band
+    """
+    #Frequencies
+    fc = fc30 * 2 ** (-10 + m / 3)
+
+
+def main(source):
+    """Perform calculations for frequency data processing
+    source --> file name of source sound file
     """
 
     ####################################################################
@@ -218,7 +251,8 @@ def main(source):
     ### OCTAVE-BAND CONVERSION #########################################
     ####################################################################
 
-
+    octfreqs = CenterFreqs(freqs)
+    print(octfreqs)
 
 
 
