@@ -45,6 +45,8 @@ def main():
     df = pd.read_csv('{}/timespec.dat'.format(datadir), sep=' ' )
     powspec = pd.read_csv('{}/freqspec.dat'.format(datadir), sep=' ' )
     params = pd.read_csv('{}/params.dat'.format(datadir), sep=' ' )
+    octv3rd = pd.read_csv('{}/octv3rd.dat'.format(datadir), sep=' ' )
+    octv = pd.read_csv('{}/octv.dat'.format(datadir), sep=' ' )
 
 
     ####################################################################
@@ -113,7 +115,63 @@ def main():
     savename = '{}/1_3_SPLf.{}'.format(picdir, pictype)
     SavePlot(savename)
 
+    ####################################################################
+    ### 2.1 PLOT 1/3 OCTAVE-BAND SPL ###################################
+    ####################################################################
 
+    _,ax = PlotStart(None, 'Frequency (Hz)', 'SPL (dB)', figsize=[6, 6])
+    #Hollow Marker Plot
+    ax.plot(octv3rd['freq'], octv3rd['SPL'],
+            #label=lbl, color=clr,
+            # linewidth=0,
+            marker=markers[0], markevery=500,
+            markeredgecolor=colors[0], markeredgewidth=MarkerWidth,
+            markerfacecolor="None",
+            )
+    ax.set_xscale('log')
+
+    savename = '{}/2_1_SPLf_octv3rd.{}'.format(picdir, pictype)
+    SavePlot(savename)
+
+    ####################################################################
+    ### 2.2 PLOT OCTAVE-BAND SPL #######################################
+    ####################################################################
+
+    _,ax = PlotStart(None, 'Frequency (Hz)', 'SPL (dB)', figsize=[6, 6])
+    #Hollow Marker Plot
+    ax.plot(octv['freq'], octv['SPL'],
+            #label=lbl, color=clr,
+            # linewidth=0,
+            marker=markers[0], markevery=500,
+            markeredgecolor=colors[0], markeredgewidth=MarkerWidth,
+            markerfacecolor="None",
+            )
+    ax.set_xscale('log')
+
+    savename = '{}/2_2_SPLf_octv.{}'.format(picdir, pictype)
+    SavePlot(savename)
+
+    ####################################################################
+    ### PLOT ALL OCTAVE-BAND SPL #######################################
+    ####################################################################
+
+    _,ax = PlotStart(None, 'Frequency (Hz)', 'SPL (dB)', figsize=[6, 6])
+
+    labels = ['narrow', 'octave', '$\\frac{1}{3}$octave']
+
+    for dat, lbl, clr, mkr in zip([powspec, octv3rd, octv], labels, colors, markers):
+        ax.plot(dat['freq'], dat['SPL'], label=lbl,
+                color=clr,
+                # linewidth=0,
+                #marker=mkr, markevery=500,
+                #markeredgecolor=clr, markeredgewidth=MarkerWidth,
+                #markerfacecolor="None",
+                )
+    ax.set_xscale('log')
+    PlotLegend(ax)
+
+    savename = '{}/2_SPLf_all.{}'.format(picdir, pictype)
+    SavePlot(savename)
 
 
 

@@ -76,7 +76,16 @@ def SPLf(Gxx, T, Pref=20e-6):
     """
     return 10 * np.log10( (Gxx / T) / Pref ** 2 )
 
-def CenterFreqsGen(dx=3, n=39):
+def OctaveBounds(fc, octv=1):
+    """Get upper/lower frequency bounds for given octave band.
+    fc --> current center frequency
+    octv --> octave-band (octave-->1, 1/3 octave-->1/3)
+    """
+    upper = 2 ** ( octv / 2) * fc
+    lower = 2 ** (-octv / 2) * fc
+    return upper, lower
+
+def OctaveCenterFreqsGen(dx=3, n=39):
     """Produce general center frequencies for octave-band spectra
     dx --> frequency interval spacing (3 for octave, 1 for 1/3 octave)
     n --> number of center freqs to product (starting at dx)
@@ -85,28 +94,70 @@ def CenterFreqsGen(dx=3, n=39):
     m = np.arange(1, n+1) * dx #for n center freqs, multiply 1-->n by dx
     freqs = fc30 * 2 ** (-10 + m/3) #Formula for center freqs
 
-def CenterFreqs(narrow, dx=3):
+#def OctaveCenterFreqs(narrow, octv=1):
+#    """Calculate center frequencies (fc) for octave or 1/3 octave bands.
+#    Provide original narrow-band frequency vector to bound octave-band.
+#    narrow --> original narrow-band frequencies (provides bounds for octave)
+#    octv --> frequency interval spacing (1 for octave, 1/3 for 1/3 octave)
+#    """
+#    fc30 = 1000 #Preferred center freq for m=30 is 1000Hz
+#    freqs = []
+#    for i in range(len(narrow)):
+#        #current index
+#        m = (3 * octv) * (i + 1) #octave, every 3rd, 1/3 octave, every 1
+#        freq = fc30 * 2 ** (-10 + m/3) #Formula for center freq
+#        if freq > max(narrow):
+#            break #quit if current fc is greater than original range
+#        if freq >= min(narrow):
+#            freqs.append(freq) #if current fc is in original range, save
+#    return freqs
+
+def OctaveCenterFreqs(narrow, octv=1):
     """Calculate center frequencies (fc) for octave or 1/3 octave bands.
     Provide original narrow-band frequency vector to bound octave-band.
     narrow --> original narrow-band frequencies (provides bounds for octave)
-    dx --> frequency interval spacing (3 for octave, 1 for 1/3 octave)
+    octv --> frequency interval spacing (1 for octave, 1/3 for 1/3 octave)
     """
     fc30 = 1000 #Preferred center freq for m=30 is 1000Hz
     freqs = []
     for i in range(len(narrow)):
-        m = dx * (i + 1) #current index
-        freq = fc30 * 2 ** (-10 + m/3) #Formula for center freq
-        if freq > max(narrow):
+        #current index
+        m = (3 * octv) * (i + 1) #octave, every 3rd, 1/3 octave, every 1
+        fc = fc30 * 2 ** (-10 + m/3) #Formula for center freq
+        fcu, fcl = OctaveBounds(fc, octv) #upper and lower bounds for fc band
+        if fcu > max(narrow):
             break #quit if current fc is greater than original range
-        if freq >= min(narrow):
-            freqs.append(freq) #if current fc is in original range, save
+        if fcl >= min(narrow):
+            freqs.append(fc) #if current fc is in original range, save
     return freqs
 
-def Octave(fc30=1000, power=1):
-    """Convert to octave-band
+def OctaveLp(df, octv=1):
+    """Get SPL ( Lp(fc,m) ) for octave-band center frequency.
+    Returns octave-band center frequencies and corresponding SPLs
+    df --> pandas dataframe containing narrow-band frequencies and SPL
+    octv --> octave-band type (octave-->1, 1/3 octave-->1/3)
     """
-    #Frequencies
-    fc = fc30 * 2 ** (-10 + m / 3)
+
+    #Get Center Frequencies
+    fcs = OctaveCenterFreqs(df['freq'], octv)
+    Lp_octv = np.zeros(len(fcs))
+    for i, fc in enumerate(fcs):
+        #Get Upper/Lower center freqency band bounds
+        fcu, fcl = OctaveBounds(fc, octv)
+
+        band = df[df['freq'] >= fcl]
+        band = band[band['freq'] <= fcu]
+        #band = df[df['freq'] >= fcl and df['freq'] <= fcu]
+
+        #SPLs in current octave-band
+        Lp = np.array(band['SPL'])
+        #Sum 10^(Lp/10) accross current octave-band
+        Sum = np.sum( 10 ** (Lp / 10) )
+        Lp_octv[i] = 10 * np.log10(Sum)
+
+    return fcs, Lp_octv
+
+
 
 
 def main(source):
@@ -251,10 +302,14 @@ def main(source):
     ### OCTAVE-BAND CONVERSION #########################################
     ####################################################################
 
-    octfreqs = CenterFreqs(freqs)
-    print(octfreqs)
+    #frq = OctaveCenterFreqs(np.array(powspec['freq']), octv=1)
+    #print(frq)
 
+    octv3rd = pd.DataFrame()
+    octv3rd['freq'], octv3rd['SPL'] = OctaveLp(powspec, octv=1/3)
 
+    octv = pd.DataFrame()
+    octv['freq'], octv['SPL'] = OctaveLp(powspec, octv=1)
 
 
 
@@ -275,7 +330,11 @@ def main(source):
     #SAVE POWER SPECTRUM DATA
     powspec.to_csv( '{}/freqspec.dat'.format(datadir), sep=' ', index=False )
 
-    #save single data
+    #SAVE OCTAVE-BAND DATA
+    octv3rd.to_csv( '{}/octv3rd.dat'.format(datadir), sep=' ', index=False)
+    octv.to_csv( '{}/octv.dat'.format(datadir), sep=' ', index=False)
+
+    #SAVE SINGLE PARAMETERS
     params = pd.DataFrame()
     params = params.append(pd.Series({'fs' : fs, 'tNwave' : dt_Nwave, }), ignore_index=True)
     params.to_csv( '{}/params.dat'.format(datadir), sep=' ', index=False)
