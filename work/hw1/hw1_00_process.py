@@ -62,11 +62,19 @@ def ReadWav(filename):
 
 def SPLi(P, Pref=20e-6):
     """Sound Pressure Level (SPL) in dB of a single pressue source (i)
+    as a function of time
     P --> pressure signal
     Pref --> reference pressure
     """
     PrmsSq = 0.5 * P ** 2 #RMS pressure squared
     return 10 * np.log10(PrmsSq / Pref ** 2)
+
+def SPLf(Gxx, T, Pref=20e-6):
+    """Sound Pressure Level (SPL) in dB of a single pressue source (i)
+    P --> pressure signal
+    Pref --> reference pressure
+    """
+    return 10 * np.log10( (Gxx / T) / Pref ** 2 )
 
 def main(source):
     """input description
@@ -108,7 +116,6 @@ def main(source):
 
     #COMBINE POWER SPECTRUM DATA INTO DATAFRAME
     powspec = pd.DataFrame({'freq' : freqs, 'Gxx' : Gxx})
-
 
 
 
@@ -186,7 +193,11 @@ def main(source):
     ### FIND SOUND PRESSURE LEVEL IN dB ################################
     ####################################################################
 
-    df['SPL'] = SPLi(df['Pa'])
+    df['SPL'] = SPLi(df['Pa']) #vs time
+    powspec['SPL'] = SPLf(Gxx, T) #vs freq
+
+    #print(len(freqs))
+    #print(len(df['SPL']))
 
     #plt.figure()
     #plt.plot(df['time'], df['SPL'])
@@ -204,17 +215,36 @@ def main(source):
 
 
     ####################################################################
+    ### OCTAVE-BAND CONVERSION #########################################
+    ####################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ####################################################################
     ### SAVE DATA ######################################################
     ####################################################################
 
     #SAVE WAVE SIGNAL DATA
     df = df[['time', 'Pa', 'SPL', 'V']] #reorder
-    df.to_csv( '{}/signal.dat'.format(datadir), sep=' ', index=False ) #save
+    df.to_csv( '{}/timespec.dat'.format(datadir), sep=' ', index=False ) #save
 
     #SAVE POWER SPECTRUM DATA
-    powspec.to_csv( '{}/powspec.dat'.format(datadir), sep=' ', index=False )
+    powspec.to_csv( '{}/freqspec.dat'.format(datadir), sep=' ', index=False )
 
-    #save single data (fs, Nwave)
+    #save single data
+    params = pd.DataFrame()
+    params = params.append(pd.Series({'fs' : fs, 'tNwave' : dt_Nwave, }), ignore_index=True)
+    params.to_csv( '{}/params.dat'.format(datadir), sep=' ', index=False)
 
 
 if __name__ == "__main__":

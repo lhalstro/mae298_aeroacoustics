@@ -42,8 +42,9 @@ def main():
     MakeOutputDir(picdir)
 
     #LOAD DATA
-    df = pd.read_csv('{}/signal.dat'.format(datadir), sep=' ' )
-    powspec = pd.read_csv('{}/powspec.dat'.format(datadir), sep=' ' )
+    df = pd.read_csv('{}/timespec.dat'.format(datadir), sep=' ' )
+    powspec = pd.read_csv('{}/freqspec.dat'.format(datadir), sep=' ' )
+    params = pd.read_csv('{}/params.dat'.format(datadir), sep=' ' )
 
 
     ####################################################################
@@ -95,7 +96,21 @@ def main():
             markerfacecolor="None",
             )
 
-    savename = '{}/1_3_SPL.{}'.format(picdir, pictype)
+    savename = '{}/1_3_SPLt.{}'.format(picdir, pictype)
+    SavePlot(savename)
+
+    _,ax = PlotStart(None, 'Frequency (Hz)', 'SPL (dB)', figsize=[6, 6])
+    #Hollow Marker Plot
+    ax.plot(powspec['freq'], powspec['SPL'],
+            #label=lbl, color=clr,
+            # linewidth=0,
+            marker=markers[0], markevery=500,
+            markeredgecolor=colors[0], markeredgewidth=MarkerWidth,
+            markerfacecolor="None",
+            )
+    ax.set_xscale('log')
+
+    savename = '{}/1_3_SPLf.{}'.format(picdir, pictype)
     SavePlot(savename)
 
 
