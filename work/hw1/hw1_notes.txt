@@ -1,14 +1,19 @@
 Homework 1 Notes
+Logan Halstrom
 
 #QUESTIONS
 do we have to play sound in code?
 is pascal/volts conversion correct?
 Use source frequency 44100 from Matlab example or 48000 from .wav data?
-is given pressure P or Prms
+is given pressure P or Prms?
 
+#1.2
 is peak of power on right order?
+extend frequency axis beyond 50Hz?
 what is y ax units for power spec?
-
+#1.3
+SPL vs time or freq?
+#2
 if center frequency band is out of range of original data, do we include it?
 
 #ADD TO CODE:
