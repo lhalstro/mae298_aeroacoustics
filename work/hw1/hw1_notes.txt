@@ -27,6 +27,9 @@ SPL vs time or freq?
 if center frequency band is out of range of original data, do we include it?
     No
 
+why mult by 2 gxx
+is splf right?
+
 #ADD TO CODE:
 Add atmospheric pressure isobar to pressure N-wave plot
 add text box with N-wave duration time to pressure wave plot

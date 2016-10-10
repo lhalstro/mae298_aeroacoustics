@@ -34,15 +34,17 @@ markers = bigmarkers         #marker cycle
 
 MarkerWidth = 2.25
 
-def PlotArrow(ax, x1, y1, x2, y2, label, head1='<', head2='>', color='grey',
-                sz=10):
-    """Plot an arrow between two given points (currently double-headed)
-    ax --> plot axis object
-    x1,y1 --> x,y coordinates of starting point
-    x2,y2 --> x,y coordinates of ending point
-    label --> label for legend
-    head --> first and second arrowheads (e.g. '<', '>', 'v', '^')
-    color --> color of arrow
+def PlotArrow(ax, x1, y1, x2, y2, label, head1='<', head2='>',
+                color='grey', sz=10):
+    """Plot an arrow between two given points.  Specify arrowhead type on
+    either side (default double-headed arrow).
+    ax      --> plot axis object
+    x1,y1   --> x,y coordinates of starting point
+    x2,y2   --> x,y coordinates of ending point
+    label   --> label for legend
+    head1,2 --> first and second arrowheads (e.g. '<', '>', 'v', '^')
+    color   --> color of arrow
+    sz      --> size of arrowheads
     """
     #Plot line connecting two points
     ax.plot([x1, x2], [y1, y2], color=color, label=label)
