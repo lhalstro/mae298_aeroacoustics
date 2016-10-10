@@ -1,6 +1,17 @@
 
 %%% use twocolumn and 10pt options with the asme2ej format
 \documentclass[twocolumn,10pt]{asme2ej}
+%% The class has several options
+%  onecolumn/twocolumn - format for one or two columns per page
+%  10pt/11pt/12pt - use 10, 11, or 12 point font
+%  oneside/twoside - format for oneside/twosided printing
+%  final/draft - format for final/draft copy
+%  cleanfoot - take out copyright info in footer leave page number
+%  cleanhead - take out the conference banner on the title page
+%  titlepage/notitlepage - put in titlepage or leave out titlepage
+%
+%% The default is oneside, onecolumn, 10pt, final
+
 
 \usepackage{epsfig} %% for loading postscript figures
 \usepackage{listings}
@@ -58,16 +69,7 @@
 
 
 
-%% The class has several options
-%  onecolumn/twocolumn - format for one or two columns per page
-%  10pt/11pt/12pt - use 10, 11, or 12 point font
-%  oneside/twoside - format for oneside/twosided printing
-%  final/draft - format for final/draft copy
-%  cleanfoot - take out copyright info in footer leave page number
-%  cleanhead - take out the conference banner on the title page
-%  titlepage/notitlepage - put in titlepage or leave out titlepage
-%
-%% The default is oneside, onecolumn, 10pt, final
+
 
 \title{MAE 298 -- Homework 1\\Computation of Sound Pressure Level\\and Octave Band Spectrum}
 
@@ -78,7 +80,7 @@
 	Center for Human/Robot/Vehicle Integration and Performance\\
 	Department of Mechanical and Aerospace Engineering\\
 	University of California, Davis\\
-	Davis, California 95616\\
+	% Davis, California 95616\\
     Email: ldhalstrom@ucdavis.edu
     }
 }
