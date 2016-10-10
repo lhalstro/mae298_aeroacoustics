@@ -4,21 +4,36 @@ Logan Halstrom
 #QUESTIONS
 do we have to play sound in code?
 is pascal/volts conversion correct?
+    yes
+    ~0.56V
 Use source frequency 44100 from Matlab example or 48000 from .wav data?
+    48000 is ok
 is given pressure P or Prms?
+
+#1.1
+what are the higher freq peaks in power spectrum? reflections off mountains?
 
 #1.2
 is peak of power on right order?
+    No
 extend frequency axis beyond 50Hz?
+    yes, 10kHz
 what is y ax units for power spec?
+    Power spectrum density Pa^2/HZ
 #1.3
 SPL vs time or freq?
+    vs freq, time doesn't mean much
 #2
 if center frequency band is out of range of original data, do we include it?
+    No
 
 #ADD TO CODE:
 Add atmospheric pressure isobar to pressure N-wave plot
 add text box with N-wave duration time to pressure wave plot
 
 add text boox with reference pressure to SPL plot
+
+#SOUND READING ISSUES
+scipy does not read in normalized sound like matlab
+scipy and soundfile return same data after normalization
 

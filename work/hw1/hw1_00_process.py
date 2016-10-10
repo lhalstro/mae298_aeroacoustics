@@ -5,10 +5,13 @@ HOMEWORK 1 - SIGNAL PROCESSING
 CREATED: 04 OCT 2016
 MODIFIY: 04 OCT 2016
 
-DESCRIPTION: Read sound file of sonic boom and convert signal:
-Narrow-band in Pa
-Single-side power spectral density (FFT)
+DESCRIPTION: Read sound file of sonic boom and convert signal to
+Narrow-band in Pa.
+Compute Single-side power spectral density (FFT).
 1/3 octave and octave band
+
+NOTE: use 'soundfile' module to read audio data.  This normalizes data from
+-1 to 1, like Matlab's 'audioread'.  'scipy.io.wavfile' does not normalize
 """
 
 #IMPORT GLOBAL VARIABLES
@@ -17,20 +20,53 @@ from hw1_98_globalVars import *
 import numpy as np
 import pandas as pd
 
-import os
-
-
-import matplotlib.pyplot as plt
-
-
+def ReadWavNorm(filename):
+    """Read a .wav file and return sampling frequency.
+    Use 'soundfile' module, which normalizes audio data between -1 and 1,
+    identically to MATLAB's 'audioread' function
+    """
+    import soundfile as sf
+    #Returns sampled data and sampling frequency
+    data, samplerate = sf.read(filename)
+    return samplerate, data
 
 def ReadWav(filename):
     """Read a .wav file and return sampling frequency
+    Use 'scipy.io.wavfile' which doesn't normalize data.
     """
     from scipy.io import wavfile
     #Returns sample frequency and sampled data
     sampFreq, snd = wavfile.read(filename)
+    #snd = Normalize(snd)
     return sampFreq, snd
+
+def Normalize(data):
+    """Trying to normalize data between -1 and 1 like matlab audioread
+    """
+    data = np.array(data)
+    return ( 2*(data - min(data)) / (max(data) - min(data)) - 1)
+
+#def PlayWave():
+#    from wave import open as waveOpen
+#    from ossaudiodev import open as ossOpen
+#    s = waveOpen('tada.wav','rb')
+#    (nc,sw,fr,nf,comptype, compname) = s.getparams( )
+#    dsp = ossOpen('/dev/dsp','w')
+#    try:
+#      from ossaudiodev import AFMT_S16_NE
+#    except ImportError:
+#      from sys import byteorder
+#      if byteorder == "little":
+#        AFMT_S16_NE = ossaudiodev.AFMT_S16_LE
+#      else:
+#        AFMT_S16_NE = ossaudiodev.AFMT_S16_BE
+#    dsp.setparameters(AFMT_S16_NE, nc, fr)
+#    data = s.readframes(nf)
+#    s.close()
+#    dsp.write(data)
+#    dsp.close()
+
+#PlayWave()
 
 #def SinglePowerSpec(fs, data):
 #    """Find the single-sided power spectral density of a time function.
@@ -174,15 +210,35 @@ def main(source):
     source --> file name of source sound file
     """
 
+    #s = Sound()
+
+
+
+
     ####################################################################
     ### READ SOUND FILE ################################################
     ####################################################################
 
     df = pd.DataFrame() #Stores signal data
-    #Read source frequency (fs) and signal in volts
-    fs, df['V'] = ReadWav( '{}/{}'.format(datadir, source) )
+
+    ##Read source frequency (fs) and signal in volts
+    #fs, df['V'] = ReadWav( '{}/{}'.format(datadir, source) )
+
+    #Read source frequency (fs) and signal in volts normallized between -1&1
+    fs, df['V'] = ReadWavNorm( '{}/{}'.format(datadir, source) ) #Like matlab
+    #Fs, V = ReadWavNorm( '{}/{}'.format(datadir, source) ) #Like matlab
+
+    ##Normalize sound
+    ##df['V'] = df['V'] / max(abs(df['V']))
+    #print('Max of voltage, scipy:', max(df['V']))
+    #print('max normalized voltage, scipy', max(df['V'] /max(abs(df['V'])) ) )
+
+    #print('max non-normalized voltage, soundfile', max(V))
+    #print('max normalized voltage, soundfile', max(V /max(abs(V)) ) )
+
     #Convert to pascals
     df['Pa'] = df['V'] * volt2pasc
+    #df['Pa'] = df['V']
 
     ####################################################################
     ### POWER SPECTRAL DENSITY #########################################

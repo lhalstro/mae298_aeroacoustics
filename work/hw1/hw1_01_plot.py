@@ -53,9 +53,22 @@ def main():
     ### 1.1 PLOT PRESSURE WAVE #########################################
     ####################################################################
 
-    _,ax = PlotStart(None, 'Time (s)', 'Pressure (MPa)', figsize=[6, 6])
+    _,ax = PlotStart(None, 'Time (s)', 'Voltage (V)', figsize=[6, 6])
     #Hollow Marker Plot
-    ax.plot(df['time'], df['Pa'] / 10e6,
+    ax.plot(df['time'], df['V'],
+            #label=lbl, color=clr,
+            # linewidth=0,
+            marker=markers[0], markevery=500,
+            markeredgecolor=colors[0], markeredgewidth=MarkerWidth,
+            markerfacecolor="None",
+            )
+
+    savename = '{}/1_1_Voltage.{}'.format(picdir, pictype)
+    SavePlot(savename)
+
+    _,ax = PlotStart(None, 'Time (s)', 'Pressure (Pa)', figsize=[6, 6])
+    #Hollow Marker Plot
+    ax.plot(df['time'], df['Pa'],
             #label=lbl, color=clr,
             # linewidth=0,
             marker=markers[0], markevery=500,
@@ -70,7 +83,7 @@ def main():
     ### 1.2 PLOT POWER SPECTRUM DENSITY ################################
     ####################################################################
 
-    _,ax = PlotStart(None, 'Frequency (Hz)', 'Power ($G_{xx}$)', figsize=[6, 6])
+    _,ax = PlotStart(None, 'Frequency (Hz)', '$G_{xx}$ ($Pa^2$/$Hz$)', figsize=[6, 6])
     #Hollow Marker Plot
     ax.plot(powspec['freq'], powspec['Gxx'],
             #label=lbl, color=clr,
