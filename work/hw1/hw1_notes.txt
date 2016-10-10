@@ -37,6 +37,7 @@ add text boox with reference pressure to SPL plot
 #NOTES FOR REPORT
 add matlab play sound script and lplot to zip/listing
 talk about matlab normalizing in report
+"pitfalls"
 
 #SOUND READING ISSUES
 scipy does not read in normalized sound like matlab

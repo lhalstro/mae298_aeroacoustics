@@ -89,9 +89,9 @@ def main():
     ax.plot(df['time'], df['Pa'],
             #label=lbl, color=clr,
             # linewidth=0,
-            marker=markers[0], markevery=500,
-            markeredgecolor=colors[0], markeredgewidth=MarkerWidth,
-            markerfacecolor="None",
+            #marker=markers[0], markevery=500,
+            #markeredgecolor=colors[0], markeredgewidth=MarkerWidth,
+            #markerfacecolor="None",
             )
     #Plot horizontal arrow marking shock duration
     ax = PlotArrow(ax, params['ti'], params['Pi'], params['tf'], params['Pi'],
@@ -102,6 +102,8 @@ def main():
     #Put shock duration in text box
     text = '$t_{{s}}={0:.4f}s$'.format(float(params['tNwave']))
     TextBox(ax, text, x=0.51, y=0.727, alpha=0.4)
+
+    ax.set_xlim([0.2, 0.7])
 
     savename = '{}/1_1_Pressure.{}'.format(picdir, pictype)
     SavePlot(savename)
@@ -223,11 +225,11 @@ def main():
     xmin = min(powspec['freq'])
     xmax = max(powspec['freq'])
     ax.plot([xmin, xmax], [params['SPL_overall'], params['SPL_overall']],
-            label='Overall', color='black', linestyle='--')
+            label='Ovr', color='black', linestyle='--')
 
     i = 1
     #Plot Octave-Band
-    ax.plot(octv['freq'], octv['SPL'], label='oct',
+    ax.plot(octv['freq'], octv['SPL'], label='Oct',
             color=colors[i],
             marker=markers[i], markevery=1,
             markeredgecolor=colors[i], markeredgewidth=MarkerWidth,
@@ -236,7 +238,7 @@ def main():
 
     i += 1
     #Plot 1/3 Octave-Band
-    ax.plot(octv3rd['freq'], octv3rd['SPL'], label='$\\frac{1}{3}$oct',
+    ax.plot(octv3rd['freq'], octv3rd['SPL'], label='Oct$\\frac{1}{3}$',
             color=colors[i],
             marker=markers[i], markevery=1,
             markeredgecolor=colors[i], markeredgewidth=MarkerWidth,
@@ -246,13 +248,17 @@ def main():
     #i += 1
     i = 0
     #Plot Narrow-Band
-    ax.plot(powspec['freq'], powspec['SPL'], label='nar',
+    ax.plot(powspec['freq'], powspec['SPL'], label='Nar',
             color=colors[i],
             )
 
     ax.set_xscale('log')
     ax.set_xlim([xmin, xmax])
     PlotLegend(ax)
+
+    #Overall SPL text box
+    text = '$L_P={0:.2f}$'.format(float(params['SPL_overall']))
+    TextBox(ax, text, x=0.55, y=0.985, alpha=0.4)
 
     savename = '{}/2_SPLf_all.{}'.format(picdir, pictype)
     SavePlot(savename)
