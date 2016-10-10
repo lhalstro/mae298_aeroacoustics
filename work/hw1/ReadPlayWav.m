@@ -7,9 +7,10 @@ dlmwrite('Data/MatlabData.dat', y, ' ')
 %play raw sound (non-normalized)
 pobj = audioplayer(y, Fs);
 play(pobj);
-pause(1);
+pause(0.5);
 
 %audioplayer in matlab
+fs = Fs;
 fs = 44100;
 %normalize sound so you can hear peaks better
 pvolts = y / max(abs(y));

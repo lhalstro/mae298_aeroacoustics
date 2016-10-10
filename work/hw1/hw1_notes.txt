@@ -33,6 +33,11 @@ add text box with N-wave duration time to pressure wave plot
 
 add text boox with reference pressure to SPL plot
 
+
+#NOTES FOR REPORT
+add matlab play sound script and lplot to zip/listing
+talk about matlab normalizing in report
+
 #SOUND READING ISSUES
 scipy does not read in normalized sound like matlab
 scipy and soundfile return same data after normalization

@@ -34,6 +34,23 @@ markers = bigmarkers         #marker cycle
 
 MarkerWidth = 2.25
 
+def PlotArrow(ax, x1, y1, x2, y2, label, head1='<', head2='>', color='grey',
+                sz=10):
+    """Plot an arrow between two given points (currently double-headed)
+    ax --> plot axis object
+    x1,y1 --> x,y coordinates of starting point
+    x2,y2 --> x,y coordinates of ending point
+    label --> label for legend
+    head --> first and second arrowheads (e.g. '<', '>', 'v', '^')
+    color --> color of arrow
+    """
+    #Plot line connecting two points
+    ax.plot([x1, x2], [y1, y2], color=color, label=label)
+    ax.plot(x1, y1, color=color, marker=head1, markersize=sz) #1st arrow head
+    ax.plot(x2, y2, color=color, marker=head2, markersize=sz) #2nd arrow head
+    return ax
+
+
 def main():
     """input description
     """
@@ -53,6 +70,7 @@ def main():
     ### 1.1 PLOT PRESSURE WAVE #########################################
     ####################################################################
 
+    #PLOT VOLTAGE
     _,ax = PlotStart(None, 'Time (s)', 'Voltage (V)', figsize=[6, 6])
     #Hollow Marker Plot
     ax.plot(df['time'], df['V'],
@@ -62,10 +80,10 @@ def main():
             markeredgecolor=colors[0], markeredgewidth=MarkerWidth,
             markerfacecolor="None",
             )
-
     savename = '{}/1_1_Voltage.{}'.format(picdir, pictype)
     SavePlot(savename)
 
+    #PLOT PRESSURE IN PASCALS
     _,ax = PlotStart(None, 'Time (s)', 'Pressure (Pa)', figsize=[6, 6])
     #Hollow Marker Plot
     ax.plot(df['time'], df['Pa'],
@@ -75,6 +93,15 @@ def main():
             markeredgecolor=colors[0], markeredgewidth=MarkerWidth,
             markerfacecolor="None",
             )
+    #Plot horizontal arrow marking shock duration
+    ax = PlotArrow(ax, params['ti'], params['Pi'], params['tf'], params['Pi'],
+                    label='test', head1='<', head2='>', color='grey', sz=7)
+    #Plot vertical dashed line at beginning of shock
+    ax.plot([params['tf'], params['tf']], [params['Pi'], params['Pf']],
+                color='grey', linestyle='--')
+    #Put shock duration in text box
+    text = '$t_{{s}}={0:.4f}s$'.format(float(params['tNwave']))
+    TextBox(ax, text, x=0.51, y=0.727, alpha=0.4)
 
     savename = '{}/1_1_Pressure.{}'.format(picdir, pictype)
     SavePlot(savename)
@@ -84,7 +111,6 @@ def main():
     ####################################################################
 
     _,ax = PlotStart(None, 'Frequency (Hz)', '$G_{xx}$ ($Pa^2$/$Hz$)', figsize=[6, 6])
-    #Hollow Marker Plot
     ax.plot(powspec['freq'], powspec['Gxx'],
             #label=lbl, color=clr,
             # linewidth=0,
@@ -97,12 +123,25 @@ def main():
     savename = '{}/1_2_PowerSpec.{}'.format(picdir, pictype)
     SavePlot(savename)
 
+    _,ax = PlotStart(None, 'Frequency (Hz)', '$G_{xx}$ ($Pa^2$/$Hz$)', figsize=[6, 6])
+    ax.plot(powspec['freq'], powspec['Gxx'],
+            #label=lbl, color=clr,
+            # linewidth=0,
+            marker=markers[0], markevery=1,
+            markeredgecolor=colors[0], markeredgewidth=MarkerWidth,
+            markerfacecolor="None",
+            )
+    ax.set_xscale('log')
+    plt.xlim([0,10000])
+
+    savename = '{}/1_2_PowerSpecLog.{}'.format(picdir, pictype)
+    SavePlot(savename)
+
     ####################################################################
     ### 1.3 PLOT SOUND PRESSURE LEVEL ##################################
     ####################################################################
 
     _,ax = PlotStart(None, 'Time (s)', 'SPL (dB)', figsize=[6, 6])
-    #Hollow Marker Plot
     ax.plot(df['time'], df['SPL'],
             #label=lbl, color=clr,
             # linewidth=0,
@@ -115,7 +154,6 @@ def main():
     SavePlot(savename)
 
     _,ax = PlotStart(None, 'Frequency (Hz)', 'SPL (dB)', figsize=[6, 6])
-    #Hollow Marker Plot
     ax.plot(powspec['freq'], powspec['SPL'],
             #label=lbl, color=clr,
             # linewidth=0,
@@ -133,7 +171,6 @@ def main():
     ####################################################################
 
     _,ax = PlotStart(None, 'Frequency (Hz)', 'SPL (dB)', figsize=[6, 6])
-    #Hollow Marker Plot
     ax.plot(octv3rd['freq'], octv3rd['SPL'],
             #label=lbl, color=clr,
             # linewidth=0,
@@ -151,7 +188,6 @@ def main():
     ####################################################################
 
     _,ax = PlotStart(None, 'Frequency (Hz)', 'SPL (dB)', figsize=[6, 6])
-    #Hollow Marker Plot
     ax.plot(octv['freq'], octv['SPL'],
             #label=lbl, color=clr,
             # linewidth=0,

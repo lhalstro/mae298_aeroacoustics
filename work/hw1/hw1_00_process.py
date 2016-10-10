@@ -356,11 +356,15 @@ def main(source):
     ### SONIC BOOM N-WAVE DURATION #####################################
     ####################################################################
 
-    #Get times of maximum and minimum peaks of sonic boom
-    tmax = float(df[df['Pa'] == max(df['Pa'])]['time']) #max press
-    tmin = float(df[df['Pa'] == min(df['Pa'])]['time']) #min press
-    #Duration of sonic boom N-wave (time from max pressure to min pressure)
-    dt_Nwave = tmin - tmax
+    #Get shock starting and ending times and pressures
+    shocki = df[df['Pa'] == max(df['Pa'])] #Shock start
+    ti = float(shocki['time']) #start time
+    Pi = float(shocki['Pa'])   #start (max) pressure
+    shockf = df[df['Pa'] == min(df['Pa'])] #Shock end
+    tf = float(shockf['time']) #start time
+    Pf = float(shockf['Pa'])   #start (max) pressure
+    #Shockwave time duration
+    dt_Nwave = tf - ti
 
 
     ####################################################################
@@ -406,7 +410,8 @@ def main(source):
     #SAVE SINGLE PARAMETERS
     params = pd.DataFrame()
     params = params.append(pd.Series(
-        {'fs' : fs, 'tNwave' : dt_Nwave, 'SPL_overall' : Lp_overall}
+        {'fs' : fs, 'SPL_overall' : Lp_overall, 'tNwave' : dt_Nwave,
+         'ti' : ti, 'Pi' : Pi, 'tf' : tf, 'Pf' : Pf}
         ), ignore_index=True)
     params.to_csv( '{}/params.dat'.format(datadir), sep=' ', index=False)
 
