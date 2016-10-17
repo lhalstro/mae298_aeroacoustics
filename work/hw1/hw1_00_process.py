@@ -64,6 +64,16 @@ def SPLf(Gxx, T, Pref=20e-6):
     """
     return 10 * np.log10( (Gxx / T) / Pref ** 2 )
 
+def OctaveCenterFreqsGen(dx=3, n=39):
+    """NOTE: NOT USED IN THIS CODE. INSTEAD, OCTAVECENTERFREQS
+    Produce general center frequencies for octave-band spectra
+    dx --> frequency interval spacing (3 for octave, 1 for 1/3 octave)
+    n --> number of center freqs to product (starting at dx)
+    """
+    fc30 = 1000 #Preferred center freq for m=30 is 1000Hz
+    m = np.arange(1, n+1) * dx #for n center freqs, multiply 1-->n by dx
+    freqs = fc30 * 2 ** (-10 + m/3) #Formula for center freqs
+
 def OctaveBounds(fc, octv=1):
     """Get upper/lower frequency bounds for given octave band.
     fc --> current center frequency
@@ -72,15 +82,6 @@ def OctaveBounds(fc, octv=1):
     upper = 2 ** ( octv / 2) * fc
     lower = 2 ** (-octv / 2) * fc
     return upper, lower
-
-def OctaveCenterFreqsGen(dx=3, n=39):
-    """Produce general center frequencies for octave-band spectra
-    dx --> frequency interval spacing (3 for octave, 1 for 1/3 octave)
-    n --> number of center freqs to product (starting at dx)
-    """
-    fc30 = 1000 #Preferred center freq for m=30 is 1000Hz
-    m = np.arange(1, n+1) * dx #for n center freqs, multiply 1-->n by dx
-    freqs = fc30 * 2 ** (-10 + m/3) #Formula for center freqs
 
 def OctaveCenterFreqs(narrow, octv=1):
     """Calculate center frequencies (fc) for octave or 1/3 octave bands.
@@ -113,7 +114,7 @@ def OctaveLp(Lp):
     return Lp_octv
 
 def GetOctaveBand(df, octv=1):
-    """Get SPL ( Lp(fc,m) ) for octave-band center frequency.
+    """Get SPL ( Lp(fc,m) ) for octave-band center frequencies.
     Returns octave-band center frequencies and corresponding SPLs
     df --> pandas dataframe containing narrow-band frequencies and SPL
     octv --> octave-band type (octave-->1, 1/3 octave-->1/3)
@@ -182,6 +183,10 @@ def main(source):
     #COMBINE POWER SPECTRUM DATA INTO DATAFRAME
     powspec = pd.DataFrame({'freq' : freqs, 'Gxx' : Gxx})
 
+    maxima = powspec[powspec['Gxx'] == max(powspec['Gxx'])]
+    print('Maximum Power Spectrum, frequency', maxima['freq'])
+    print('Maximum Power Spectrum, power', maxima['Gxx' ])
+
     ####################################################################
     ### FIND SOUND PRESSURE LEVEL IN dB ################################
     ####################################################################
@@ -192,9 +197,13 @@ def main(source):
     powspec['SPL'] = SPLf(Gxx, T)
 
     ####################################################################
-    ### SONIC BOOM N-WAVE DURATION #####################################
+    ### SONIC BOOM N-WAVE PEAK AND DURATION ############################
     ####################################################################
 
+    #SONIC BOOM PRESSURE PEAK
+    Pmax = max(abs(df['Pa']))
+
+    #SONIC BOOM N-WAVE DURATION
     #Get shock starting and ending times and pressures
     shocki = df[df['Pa'] == max(df['Pa'])] #Shock start
     ti = float(shocki['time']) #start time
@@ -241,7 +250,8 @@ def main(source):
     #SAVE SINGLE PARAMETERS
     params = pd.DataFrame()
     params = params.append(pd.Series(
-        {'fs' : fs, 'SPL_overall' : Lp_overall, 'tNwave' : dt_Nwave,
+        {'fs' : fs, 'SPL_overall' : Lp_overall,
+         'Pmax' : Pmax, 'tNwave' : dt_Nwave,
          'ti' : ti, 'Pi' : Pi, 'tf' : tf, 'Pf' : Pf}
         ), ignore_index=True)
     params.to_csv( '{}/params.dat'.format(datadir), sep=' ', index=False)

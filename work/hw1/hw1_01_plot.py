@@ -101,9 +101,11 @@ def main():
     #Plot vertical dashed line at beginning of shock
     ax.plot([params['tf'], params['tf']], [params['Pi'], params['Pf']],
                 color='grey', linestyle='--')
-    #Put shock duration in text box
-    text = '$t_{{s}}={0:.4f}s$'.format(float(params['tNwave']))
-    TextBox(ax, text, x=0.47, y=0.85, alpha=0.4)
+    #Put maximum absolute pressure and shock duration in text box
+    text = '$P_{{max}}={:.2f}Pa$\n$t_{{Nwave}}={:.4f}s$'.format(
+                                                    float(params['Pmax']),
+                                                    float(params['tNwave']) )
+    TextBox(ax, text, x=0.39, y=0.82, alpha=0.4)
 
     ax.set_xlim([0.2, 0.7])
 

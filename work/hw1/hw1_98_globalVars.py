@@ -16,6 +16,7 @@ datadir = 'Data'    #Source and processed data storage directory
 savedir = 'Results' #
 
 picdir = 'Plots' #Plot storage directory
+pictype = 'png'      #Plot save filetype
 pictype = 'pdf'      #Plot save filetype
 
 

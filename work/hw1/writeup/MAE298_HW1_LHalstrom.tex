@@ -31,50 +31,10 @@
 \usepackage[T1]{fontenc}      %allows escaping specific charaters like '_'
 
 
-
-
-
-% % Custom colors
-% \usepackage{color}
-% \usepackage{listings}
-% \usepackage{framed}
-% \usepackage{caption}
-% \usepackage{bm}
-% \captionsetup[lstlisting]{font={small,tt}}
-
-% \definecolor{mygreen}{rgb}{0,0.6,0}
-% \definecolor{mygray}{rgb}{0.5,0.5,0.5}
-% \definecolor{mymauve}{rgb}{0.58,0,0.82}
-
-% \lstset{ %
-%   backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
-%   basicstyle=\ttfamily\footnotesize, % the size of the fonts that are used for the code
-%   breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
-%   % breaklines=true,                 % sets automatic line breaking
-%   captionpos=b,                    % sets the caption-position to bottom
-%   commentstyle=\color{mygreen},    % comment style
-%   deletekeywords={...},            % if you want to delete keywords from the given language
-%   escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
-%   extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
-%   frame=single,                    % adds a frame around the code
-%   keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
-%   columns=flexible,
-%   keywordstyle=\color{blue},       % keyword style
-%   language=Python,                 % the language of the code
-%   morekeywords={*,...},            % if you want to add more keywords to the set
-%   numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
-%   numbersep=5pt,                   % how far the line-numbers are from the code
-%   numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
-%   rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
-%   showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
-%   showstringspaces=false,          % underline spaces within strings only
-%   showtabs=false,                  % show tabs within strings adding particular underscores
-%   stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
-%   stringstyle=\color{mymauve},     % string literal style
-%   tabsize=4,                       % sets default tabsize to 2 spaces
-% }
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%HYPERLINKS
+\usepackage{hyperref}     %insert hyperlines with '\url' or '\href'
+\newcommand\linkcolor{blue} %variable to color url text
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %CODE LISTING SYNTAX COLORING
@@ -228,71 +188,166 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Introduction}
+\section{Background}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Give overview of homework and background concepts
+This assignment details the process of analyzing a recorded sound signal and computing the Sound Pressure Level (SPL) in Decibels (dB) accross the narrow, 1/3 Octave, and Octave-bands.  The source signal is a recording of a sonic boom contained in the included data file `Boom\_F1B2\_6.wav'.
+
+All computations and plotting for this project were performed using Python, and the source code is attached in the Appendix.  All of the primary data processing code is contained in the file `hw1\_00\_processing.py' and the plotting code is contained in the file `hw1\_01\_plotting.py', which is suplimented by the custom plotting package `lplot.py'.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Problem 1 -- Signal Processing}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The pressure signal input file `Boom\_F1B2\_6.wav' was read using the `PySoundFile' audio library for Python, which can be found at: \textcolor{\linkcolor}{\url{https://pypi.python.org/pypi/SoundFile/}}.  This library was chosen over other Python audio libraries (e.g. `scipy.io.wavfile') because it normalized the .wav file data between -1.0 and 1.0 identically to MATLAB's `audioread' function.  (Note: Though other libraries did not read in the same values, all libraries returned the same results when normalized by the maximum value of the data).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Read Data}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Problem 1.1 -- Sonic Boom Pressure Signal}
 
-list functions used to read data, how python/matlab compare.
+After reading the raw data from the .wav file, signal values were converted from units of Volts (V) to Pascals (Pa) using the conversion ratio obtained from Eqn~\ref{V2Pa}:
+
+\begin{equation} \label{V2Pa}
+-116Pa = 1V
+\end{equation}
+
+The resulting pressure history of the sonic boom is displayed in Fig~\ref{boom}, which demonstrates the classic ``N'' shape of the sonic boom, where there is an initial positive pressure discontinutity caused by the supersonic front of the aircraft, followed by an almost linear decrease in pressure over the surface of the aircraft until an abrupt discontinuity back to freestream pressure occurs.  This results in the observer hearing a ``double-boom'' for low-flying supersonic aircraft (at higher altitudes, the two shocks can merge by the time they reach the observer).  After the aircraft, the pressure does not immediately return to steady-state freestream flow, but experiences a slight oscillation in pressure as the remaining wake dissipates.
 
 %%\vspace{-2em}
 \begin{figure}[htb]
 \begin{center}
 \includegraphics[width=0.5\textwidth]{\picdir/1_1_Pressure.\pictype}
-\caption{Recorded sonic boom shockwave pressure time history in characteristic high-low pressure N-wave shape (Zero-pressure from recording start to initial shock)}
-\label{pic_Nwave}
+\caption{Recorded sonic boom shockwave pressure time history with peak pressure and N-wave time duration values (Zero-pressure from recording start to initial shock)}
+\label{boom}
 \end{center}
 \end{figure}
 %%\vspace{-2em}
 
+Also contained in Fig~\ref{boom} are the values for the peak sonic boom pressure perturbation:
+
+\begin{gather*}
+P_{max}=\text{max}\left(|P|\right)=\boxed{75.25Pa}
+\end{gather*}
+
+\noindent and sonic boom N-wave duration:
+
+\begin{gather*}
+t_{Nwave}=\boxed{133.9ms}
+\end{gather*}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Frequency Domain}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Problem 1.2 -- Power Spectral Density Decomposition}
 
-decompose into frequency domain with FFT
+In order to analyze the frequency-dependent nature of the recorded sonic boom, it is nessesary to break the signial into its component frequencies, for which we employ the technique of Fast-Fourer Transform (FFT).  This descrete Fourier transform algorithm transforms data from the time domain to the frequency domain, and can be called in Python from `numpy.fft'.
 
+The FFT is performed in Python according to the following pseudocode:
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Power Spectral Density Decomposition}
+\begin{gather*}
+fft = \text{np.fft.fft}(pressure)\cdot dt
+\end{gather*}
+\noindent where \emph{pressure} is the time-domain pressure signal and $dt=\dfrac{1}{f_s}$ is the time step of the discrete frequency domain, which is equal to the inverse of the sampling frequency $f_s$.
 
-power spectrum density decomposition stuff
+\noindent Next, the double-sided power spectrum $S_{xx}$ is obtained according to Eqn~\ref{Sxx}:
+
+\begin{equation} \label{Sxx}
+S_{xx} = \frac{|fft|^2}{T}
+\end{equation}
+\noindent where all operations are performed element-wise on the data series $fft$ and $T=\text{len}(fft)\cdot dt$ is the total time interval of the data series.
+
+From the double-sided power spectrum, the singe-sided power spectrum $G_{xx}$ can be acquired as twice of the first half of $S_{xx}$ (Eqn~\ref{Gxx}):
+
+\begin{equation} \label{Gxx}
+G_{xx} = 2S_{xx}[idx]
+\end{equation}
+\noindent where all operations are performed element-wise on $S_{xx}$ and $idx$ is the first half of all of the indices of $S_{xx}$.
+
+Now the the power spectral density $G_{xx}$ has been computed, the corresponding single-sided frequency spectrum can be calculated with the built in numpy function `fftfreq':
+
+\begin{align*}
+freqs &= \text{np.fft.fftfreq}(pressure{}\text{.size}, dt) \\
+freqs &= freqs[idx]
+\end{align*}
+
 
 %%\vspace{-2em}
 \begin{figure}[htb]
 \begin{center}
 \includegraphics[width=0.5\textwidth]{\picdir/1_2_PowerSpec.\pictype}
 \caption{Shockwave signal power spectral density as a function of frequency (All frequencies above 50Hz very low power)}
-\label{pic_spec}
+\label{PowSpec}
 \end{center}
 \end{figure}
 %%\vspace{-2em}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Sound Pressure Level}
-
-this is actually in the plot in the next section
-
+The resulting power spectrum $G_{xx}$ vs $freq$ is plotted for reference in Fig~\ref{PowSpec}.  From the figure, it can be seen that the most dominate frequencies occur between 1 and 50 Hz, with the maximum power spectral density of $66 Pa^2\text{/}Hz$ corresponding to $4.49Hz$, and the other significant peaks (of significantly lower magnitude) occuring around 15, 23, and 37 Hz, respectively.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Octave-Band Spectra} \label{sect_oct}
+\subsection{Problem 1.3 -- Sound Pressure Level}
+
+With the power spectrum density function calculated, it is meaninful to compute the Sound Pressure Level (SPL) in dB.  The formula for descrete SPL as a function of freqency is given in Eqn~\ref{SPL}, which demonstrates that SPL is a logarithmic ratio of the signal\textquotesingle s pressure distrubance and a reference pressure $P_{ref}=20\mu Pa$.
+
+\begin{equation} \label{SPL}
+SPL(f) = 10\log_{10}\left( \dfrac{G_{xx} / T}{P_{ref}^2} \right)
+\end{equation}
+
+\noindent SPL of the narrow-band frequencies is plotted with the octave-band frequencies in Fig~\ref{Bands} in Section~\ref{sect_oct}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Problem 2 -- Octave-Band Spectra} \label{sect_oct}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In aeroacoustic analysis, it is common for recorded data sets to contain massive amounts of data that can be redundant and combersome to process.  To ease this burden, originally sampled narrow-band frequency spectra can be binned into fewer, pre-selected, descrete sets of freqencies called the Third (1/3) Octave and Octave Bands.
+
+This binning process is accomplished by summing the narrow-band frequencies over intervals defined by specific center frequencies $f_c$ of the octave-band.  Center frequencies can be chosen from a pre-selected ``preferred'' set of ``nicer'' numbers, or they can be calculated according to Eqn~\ref{CenterFreqs}, which does not produce the ``nice'' numbers.
+
+\begin{equation} \label{CenterFreqs}
+f_{c,m} = f_{c,30}\cdot 2^{-10 + \frac{m}{3}}
+\end{equation}
+\noindent where $f_{c,30}=1000Hz$ is the center frequency corresponding to $m=30$, and $m=1,2,3,...$ for 1/3 octave-band and $m=3,6,9,...$ for octave-band.
+
+In the data processing script for this analysis, center frequencies are calculated specifically for the narrow-band input.  The function `OctaveCenterFreqs' will loop through $m$ in intervals appropriate to the given octave-band choice, but only center frequencies whose lower $f_l$ and upper $f_u$ band limits are contained within the original data set.  This ensures that no sum will take place over an incomplete band.  Upper and lower band limits for a given center frequencies are calculated according to Eqn~\ref{BandLimits}.
+
+\begin{equation} \label{BandLimits}
+\begin{split}
+f_u &= 2^{\frac{octv}{2}} \cdot f_c \\
+f_l &= 2^{-\frac{octv}{2}} \cdot f_c
+\end{split}
+\end{equation}
+\noindent where $octv=\frac{1}{3}$ for the 1/3 octave-band and $octv=1$ for the octave-band.
+
+
+results now, discuss/derive below
 
 %%\vspace{-2em}
 \begin{figure}[htb]
 \begin{center}
 \includegraphics[width=0.5\textwidth]{\picdir/2_SPLF_all.\pictype}
 \caption{Shockwave signal narrow-band, $\frac{1}{3}$ octave-band, and octave-band, with overall Sound Pressure Level reported in upper right}
-\label{pic_oct}
+\label{Bands}
 \end{center}
 \end{figure}
 %%\vspace{-2em}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Problem 2.1 -- 1/3 Octave Bands}
+
+specifics on 1/3
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Problem 2.2 -- Octave Bands}
+
+specifics on octave
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Problem 2.3 -- Overall Sound Pressure Level}
+
+overall
+
 
 
 
@@ -333,44 +388,15 @@ conclude
 \renewcommand\scriptname{hw1_00_process.py}
 \section*{Appendix A: Data Processing Script}
 \begin{center}
-
-% \lstinputlisting[caption=text, language=Python]{../\scriptname}
-
-
-
 \mylisting{../\scriptname}{0}{10000}
 % \vspace{-0.2cm}
 \captionof{lstlisting}{\emph{\scriptname} - Performs all primary data processing such as pressure signal input, power spectral density decomposition, and octave-band conversion and saves data to text files}
-
-
-
-
-% \newboxarray{mylisting}
-%   \tcbinputlisting{
-%     listing file=../\scriptname,
-%     colback=\backclr,
-%     listing only,
-%     hbox,
-%     nobeforeafter,enhanced,
-%     size=small,
-%     store to box array=mylisting,
-%     listing options={
-%                       style=mystyle,            %use custom style
-%                     }
-%   }
-
-
-
-
-
-
-
 \end{center}
 
 \clearpage
 
 % \renewcommand\scriptname{hw1_99_wrapper.py}
-% \section*{Appendix A: Data Processing/Plotting Wrapper Script}
+% \section*{Appendix C: Data Processing/Plotting Wrapper Script}
 % \begin{center}
 % \mylisting{../\scriptname}{0}{10000}
 % % \vspace{-0.2cm}
