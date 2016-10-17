@@ -3,7 +3,7 @@ Logan Halstrom
 MAE 298 AEROACOUSTICS
 HOMEWORK 1 - SIGNAL PROCESSING
 CREATED: 04 OCT 2016
-MODIFIY: 04 OCT 2016
+MODIFIY: 17 OCT 2016
 
 DESCRIPTION: Plot processed signal of sonic boom.
 narrow-band spectrum
@@ -103,7 +103,7 @@ def main():
                 color='grey', linestyle='--')
     #Put shock duration in text box
     text = '$t_{{s}}={0:.4f}s$'.format(float(params['tNwave']))
-    TextBox(ax, text, x=0.51, y=0.727, alpha=0.4)
+    TextBox(ax, text, x=0.47, y=0.85, alpha=0.4)
 
     ax.set_xlim([0.2, 0.7])
 
@@ -116,8 +116,6 @@ def main():
 
     _,ax = PlotStart(None, 'Frequency (Hz)', '$G_{xx}$ ($Pa^2$/$Hz$)', figsize=[6, 6])
     ax.plot(powspec['freq'], powspec['Gxx'],
-            #label=lbl, color=clr,
-            # linewidth=0,
             marker=markers[0], markevery=1,
             markeredgecolor=colors[0], markeredgewidth=MarkerWidth,
             markerfacecolor="None",
@@ -129,8 +127,6 @@ def main():
 
     _,ax = PlotStart(None, 'Frequency (Hz)', '$G_{xx}$ ($Pa^2$/$Hz$)', figsize=[6, 6])
     ax.plot(powspec['freq'], powspec['Gxx'],
-            #label=lbl, color=clr,
-            # linewidth=0,
             marker=markers[0], markevery=1,
             markeredgecolor=colors[0], markeredgewidth=MarkerWidth,
             markerfacecolor="None",
@@ -147,8 +143,6 @@ def main():
 
     _,ax = PlotStart(None, 'Time (s)', 'SPL (dB)', figsize=[6, 6])
     ax.plot(df['time'], df['SPL'],
-            #label=lbl, color=clr,
-            # linewidth=0,
             marker=markers[0], markevery=500,
             markeredgecolor=colors[0], markeredgewidth=MarkerWidth,
             markerfacecolor="None",
@@ -159,8 +153,6 @@ def main():
 
     _,ax = PlotStart(None, 'Frequency (Hz)', 'SPL (dB)', figsize=[6, 6])
     ax.plot(powspec['freq'], powspec['SPL'],
-            #label=lbl, color=clr,
-            # linewidth=0,
             marker=markers[0], markevery=500,
             markeredgecolor=colors[0], markeredgewidth=MarkerWidth,
             markerfacecolor="None",
@@ -176,8 +168,6 @@ def main():
 
     _,ax = PlotStart(None, 'Frequency (Hz)', 'SPL (dB)', figsize=[6, 6])
     ax.plot(octv3rd['freq'], octv3rd['SPL'],
-            #label=lbl, color=clr,
-            # linewidth=0,
             marker=markers[0], markevery=500,
             markeredgecolor=colors[0], markeredgewidth=MarkerWidth,
             markerfacecolor="None",
@@ -193,8 +183,6 @@ def main():
 
     _,ax = PlotStart(None, 'Frequency (Hz)', 'SPL (dB)', figsize=[6, 6])
     ax.plot(octv['freq'], octv['SPL'],
-            #label=lbl, color=clr,
-            # linewidth=0,
             marker=markers[0], markevery=500,
             markeredgecolor=colors[0], markeredgewidth=MarkerWidth,
             markerfacecolor="None",
@@ -209,19 +197,6 @@ def main():
     ####################################################################
 
     _,ax = PlotStart(None, 'Frequency (Hz)', 'SPL (dB)', figsize=[6, 6])
-
-    #dats = [powspec, octv3rd, octv]
-    #labels = ['narrow', 'octave', '$\\frac{1}{3}$octave']
-    #mkevery = [25, 1, 1]
-
-    #for dat, lbl, clr, mkr, mkev in zip(dats, labels, colors, markers, mkevery):
-    #    ax.plot(dat['freq'], dat['SPL'], label=lbl,
-    #            #color=clr,
-    #            # linewidth=0,
-    #            marker=mkr, markevery=mkev,
-    #            markeredgecolor=clr, markeredgewidth=MarkerWidth,
-    #            markerfacecolor="None",
-    #            )
 
     #Plot Overall SPL as Horizontal Line
     xmin = min(powspec['freq'])
@@ -260,7 +235,7 @@ def main():
 
     #Overall SPL text box
     text = '$L_P={0:.2f}$'.format(float(params['SPL_overall']))
-    TextBox(ax, text, x=0.55, y=0.985, alpha=0.4)
+    TextBox(ax, text, x=0.55, y=0.94, alpha=0.4)
 
     savename = '{}/2_SPLf_all.{}'.format(picdir, pictype)
     SavePlot(savename)

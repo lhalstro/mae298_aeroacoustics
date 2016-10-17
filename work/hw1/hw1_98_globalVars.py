@@ -3,7 +3,7 @@ Logan Halstrom
 MAE 298 AEROACOUSTICS
 HOMEWORK 1 - SIGNAL PROCESSING
 CREATED: 04 OCT 2016
-MODIFIY: 04 OCT 2016
+MODIFIY: 17 OCT 2016
 
 DESCRIPTION: Provide global variables for all scripts including wrapper.
 """
@@ -16,7 +16,7 @@ datadir = 'Data'    #Source and processed data storage directory
 savedir = 'Results' #
 
 picdir = 'Plots' #Plot storage directory
-pictype = 'png'      #Plot save filetype
+pictype = 'pdf'      #Plot save filetype
 
 
 #CONVERSIONS

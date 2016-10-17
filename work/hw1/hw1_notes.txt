@@ -31,16 +31,19 @@ why mult by 2 gxx
 is splf right?
 
 #ADD TO CODE:
-Add atmospheric pressure isobar to pressure N-wave plot
 add text box with N-wave duration time to pressure wave plot
-
-add text boox with reference pressure to SPL plot
+add text box with reference pressure to SPL plot
 
 
 #NOTES FOR REPORT
 add matlab play sound script and lplot to zip/listing
 talk about matlab normalizing in report
 "pitfalls"
+include octave data tables in appendix
+give reference pressure, voltage conversion
+use freqs over 10Hz only for overall Lp
+include lplot for this one only
+pdf plots
 
 #SOUND READING ISSUES
 scipy does not read in normalized sound like matlab
