@@ -26,50 +26,183 @@
             \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
 %\usepackage{multicol}
 
+\usepackage{caption}          %caption graphics ('\captionof')
+\usepackage{framed}           %allows shaded text
+\usepackage[T1]{fontenc}      %allows escaping specific charaters like '_'
 
-% Custom colors
-\usepackage{color}
-\usepackage{listings}
-\usepackage{framed}
-\usepackage{caption}
+
+
+
+
+% % Custom colors
+% \usepackage{color}
+% \usepackage{listings}
+% \usepackage{framed}
+% \usepackage{caption}
+% \usepackage{bm}
+% \captionsetup[lstlisting]{font={small,tt}}
+
+% \definecolor{mygreen}{rgb}{0,0.6,0}
+% \definecolor{mygray}{rgb}{0.5,0.5,0.5}
+% \definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+% \lstset{ %
+%   backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+%   basicstyle=\ttfamily\footnotesize, % the size of the fonts that are used for the code
+%   breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+%   % breaklines=true,                 % sets automatic line breaking
+%   captionpos=b,                    % sets the caption-position to bottom
+%   commentstyle=\color{mygreen},    % comment style
+%   deletekeywords={...},            % if you want to delete keywords from the given language
+%   escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+%   extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+%   frame=single,                    % adds a frame around the code
+%   keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+%   columns=flexible,
+%   keywordstyle=\color{blue},       % keyword style
+%   language=Python,                 % the language of the code
+%   morekeywords={*,...},            % if you want to add more keywords to the set
+%   numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+%   numbersep=5pt,                   % how far the line-numbers are from the code
+%   numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+%   rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+%   showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+%   showstringspaces=false,          % underline spaces within strings only
+%   showtabs=false,                  % show tabs within strings adding particular underscores
+%   stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+%   stringstyle=\color{mymauve},     % string literal style
+%   tabsize=4,                       % sets default tabsize to 2 spaces
+% }
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%CODE LISTING SYNTAX COLORING
+\usepackage{color}     %make custom colors for syntax coloring
+\usepackage{listings}  %allows code listings
+\usepackage{textcomp}  %allows apostrophes to be straight (unidirectional)
+% \usepackage{framed}
+% \usepackage{caption}
 \usepackage{bm}
-\captionsetup[lstlisting]{font={small,tt}}
+\usepackage{tcolorbox}        %use for code listing color definitions
+\tcbuselibrary{listings}      %allow color defenitions in code listings
+\tcbuselibrary{breakable}     %allow tccolorboxes across page breaks
+\tcbuselibrary{most}     %allow tccolorboxes across page breaks
 
+\captionsetup[lstlisting]{font={small,tt}} %setup caption style
+
+%Custom Colors
 \definecolor{mygreen}{rgb}{0,0.6,0}
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
 \definecolor{mymauve}{rgb}{0.58,0,0.82}
 
-\lstset{ %
-  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
-  basicstyle=\ttfamily\footnotesize, % the size of the fonts that are used for the code
+\definecolor{sublimeblack}{HTML}{272822}
+\definecolor{sublimered}{HTML}{F92672}
+\definecolor{sublimeblue}{HTML}{66D9EF}
+\definecolor{sublimeyellow}{HTML}{E6DB74}
+\definecolor{sublimegrey}{HTML}{75715E}
+\definecolor{sublimegreen}{HTML}{66CC33}
+\definecolor{sublimeorange}{HTML}{FD971F}
+\definecolor{sublimepurple}{HTML}{AE81FF}
+
+
+%White or Black background toggle
+\newcommand\whiteback{0}
+\ifnum\whiteback=1%
+  %White Background
+  \newcommand\backclr{white}
+  \newcommand\txtclr{\color{black}}
+  \newcommand\txtupclr{black} %same as text color, used elsewhere
+  \newcommand\comclr{\color{sublimegrey}}
+  % \newcommand\comclr{\color{mygreen}}
+  \newcommand\keyclr{\color{sublimeblue}}
+  % \newcommand\keyclr{\color{blue}}
+  \newcommand\ndkeyclr{\color{sublimered}}
+  \newcommand\strclr{\color{mygreen}}
+  % \newcommand\strclr{\color{sublimeyellow}}
+  \newcommand\frameon{single} %single-frame box around code
+
+\else
+  %Black Background (like SublimeText)
+  \newcommand\backclr{sublimeblack}
+  \newcommand\txtclr{\color{white}} %text color
+  \newcommand\txtupclr{white} %same as text color, used elsewhere
+  \newcommand\comclr{\color{sublimegrey}}
+  \newcommand\keyclr{\color{sublimeblue}}
+  \newcommand\ndkeyclr{\color{sublimered}}
+  \newcommand\strclr{\color{sublimeyellow}}
+  \newcommand\frameon{false} %no frame for black background
+\fi
+
+
+%Listing Style
+% \newcommand\lstfontsize{\scriptsize}
+\newcommand\lstfontsize{\small}
+\lstdefinestyle{mystyle}{%
+  % backgroundcolor=\backclr,   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\ttfamily\txtclr\lstfontsize, % the SIZE OF THE FONTS that are used for the code
   breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
   % breaklines=true,                 % sets automatic line breaking
   captionpos=b,                    % sets the caption-position to bottom
-  commentstyle=\color{mygreen},    % comment style
+  commentstyle=\comclr,            % comment color
   deletekeywords={...},            % if you want to delete keywords from the given language
   escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
   extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
-  frame=single,                    % adds a frame around the code
+  frame=\frameon,                  % adds a frame around the code
   keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
   columns=flexible,
-  keywordstyle=\color{blue},       % keyword style
+  otherkeywords={zip,enumerate,True,False,None,...},  %add words to be highlighted
+  keywordstyle=\keyclr,            % keyword (e.g. 'print') color
   language=Python,                 % the language of the code
-  morekeywords={*,...},            % if you want to add more keywords to the set
+  upquote=true,                    % make apostrophes straight (unidirectional)
+  alsoletter={<>=-+*/!},            % to avoid coloring operators when they're not
+  ndkeywords={=,+,-,*,**,/,+=,*=,-=,/=,<=,>=,==,!=,<,>,... },  % operator keywords
+  ndkeywordstyle=\ndkeyclr,         % style of operator keywords
   numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
   numbersep=5pt,                   % how far the line-numbers are from the code
-  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  numberstyle=\tiny\color{mygray}, % line-number style: size, color
   rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
   showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
   showstringspaces=false,          % underline spaces within strings only
   showtabs=false,                  % show tabs within strings adding particular underscores
   stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
-  stringstyle=\color{mymauve},     % string literal style
-  tabsize=4,                       % sets default tabsize to 2 spaces
+  stringstyle=\strclr,             % string color
+  tabsize=4,                       % sets default tabsize
+}
+
+
+%Function that calls listing of specific file with custom coloring
+  %first input is filename to list
+  %next two inputs are start and end line numbers
+    %(use 0 and large number for all lines)
+\newcommand\mylisting[3]{
+  \tcbinputlisting{
+        listing file=#1,
+        breakable,
+        nobeforeafter,
+        arc=0pt,
+        top=0mm,
+        bottom=0mm,
+        left=0mm,
+        right=0mm,
+        boxrule=0pt,
+        colback=\backclr, %background color (continue accross page breaks)
+        colupper=\txtupclr, %basic text color (continue accross page breaks)
+        listing only,
+        listing options={
+                            style=mystyle,            %use custom style
+                            firstline=#2,lastline=#3, %lines of code to use
+                            firstnumber=#2,           %same numbering as script
+                        },
+        % hbox %Turning this on prevents page breaks
+      }
 }
 
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% MAIN DOCUMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \title{MAE 298 -- Homework 1\\Computation of Sound Pressure Level\\and Octave Band Spectrum}
 
@@ -182,18 +315,71 @@ conclude
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%APPENDIX (CODE LISTING)
+
 % \clearpage
-\onecolumn
+\onecolumn      %change to single column
 \appendix       %%% starting appendix
 
-% \section*{Appendix A: Parallel, Multi-Block Grid Wrapper Code}
-% \lstinputlisting[caption=Wrapper program that performs domain decomposition on a single processor and then independently reads in solution for solver, language=Fortran]{../main.f90}
+%SETUP
+\newcommand\scriptname{dummy}      %init code name variable
+\captionsetup{width=0.8\linewidth} %set caption text width
+
+\catcode`\_=12 %ESCAPE ALL UNDERSCORES IN TEXT AUTOMATICALLY*******************
+
+%LISTINGS
+
+\renewcommand\scriptname{hw1_00_process.py}
+\section*{Appendix A: Data Processing Script}
+\begin{center}
+
+% \lstinputlisting[caption=text, language=Python]{../\scriptname}
+
+
+
+\mylisting{../\scriptname}{0}{10000}
+% \vspace{-0.2cm}
+\captionof{lstlisting}{\emph{\scriptname} - Performs all primary data processing such as pressure signal input, power spectral density decomposition, and octave-band conversion and saves data to text files}
+
+
+
+
+% \newboxarray{mylisting}
+%   \tcbinputlisting{
+%     listing file=../\scriptname,
+%     colback=\backclr,
+%     listing only,
+%     hbox,
+%     nobeforeafter,enhanced,
+%     size=small,
+%     store to box array=mylisting,
+%     listing options={
+%                       style=mystyle,            %use custom style
+%                     }
+%   }
+
+
+
+
+
+
+
+\end{center}
+
+\clearpage
+
+% \renewcommand\scriptname{hw1_99_wrapper.py}
+% \section*{Appendix A: Data Processing/Plotting Wrapper Script}
+% \begin{center}
+% \mylisting{../\scriptname}{0}{10000}
+% % \vspace{-0.2cm}
+% \captionof{lstlisting}{\emph{\scriptname} - Wrapper program that runs data processing and plotting scripts simultaneously}
+% \end{center}
 
 % \clearpage
 
-% \section*{Appendix B: Parallel, Multi-Block Grid Solver Code}
-% \lstinputlisting[caption=Grid decomposition and solution processess are organized in this code, language=Fortran]{../subroutines.f90}
+
 
 % \section*{Appendix C: Parallel, Multi-Block Grid Decomposition Code}
 % \lstinputlisting[caption=Grids are decomposed into blocks and mapped onto NPROCS processors and information pertaining to neighbors is stored using the GRIDMOD module, language=Fortran]{../modules.f90}
