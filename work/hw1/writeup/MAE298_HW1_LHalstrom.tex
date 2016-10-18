@@ -318,14 +318,22 @@ f_l &= 2^{-\frac{octv}{2}} \cdot f_c
 \end{equation}
 \noindent where $octv=\frac{1}{3}$ for the 1/3 octave-band and $octv=1$ for the octave-band.
 
+Once the center frequencies and associated band limits have been calculated, the sum in Eqn~\ref{OctaveLp} must be performed for each band to determine the octave-band SPL associated with each center frequency.  To calculate the 1/3 or full octave-bands from the narrow-band, simply select the center frequency bands for the desired octave and apply them in Eqn~\ref{OctaveLp}.
 
-results now, discuss/derive below
+\begin{equation} \label{OctaveLp}
+Lp(f_c) = 10\log_{10}\left( \sum_{f=f_{l,c}}^{f_{u,c}} 10^{\frac{Lp(f)}{10}} \right)
+\end{equation}
+\noindent where $f_{l,c},\,f_{u,c}$ are the bounds corresponding to the given center frequency $f_c$.
+
+Finally, it can be beneficial to summarize the frequency spectrum with a single representative value called the Overall Sound Pressure Level $SPL_{ovr}$.  This parameter is calculated in the same manner as the 1/3 and full octave-band SPL, but the sum is taken over the entire data set, rather than in bins.  It is also convention not to include SPL values corresponding to less than $10Hz$, so these are ommitted in this analysis.
+
+The results for all parts of Problem 2 are summarized below in Fig~\ref{Bands}, and they will be individually discussed in the following sections.
 
 %%\vspace{-2em}
 \begin{figure}[htb]
 \begin{center}
 \includegraphics[width=0.5\textwidth]{\picdir/2_SPLF_all.\pictype}
-\caption{Shockwave signal narrow-band, $\frac{1}{3}$ octave-band, and octave-band, with overall Sound Pressure Level reported in upper right}
+\caption{Shockwave signal narrow-band (Nar), 1/3 octave-band (Oct$\frac{1}{3}$), and octave-band (Oct), with overall Sound Pressure Level (Ovr) reported in upper right ($L_p$)}
 \label{Bands}
 \end{center}
 \end{figure}
@@ -335,18 +343,20 @@ results now, discuss/derive below
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Problem 2.1 -- 1/3 Octave Bands}
 
-specifics on 1/3
+Results for the 1/3 octave-band are plotted as a green line with diamond markers in Fig~\ref{Bands} and are also tabulated in Appendix A.  Compared to the narrow-band SPL (blue line), it is apparent that the binned values of the 1/3 octave-band are generally greater in magnitude than their narrow-band counterparts.  This is because the octave band is calculated as a binned sum over bands of the narrow-band and therefore \emph{must} be greater in magnitude.
+
+The 1/3 octave-band plot follows the same trends as that of the narrow-band, but with many fewer points (43 vs. 32768, to be exact).  This demonstrates the power of using the octave bands, namely in that the general trends of the frequency spectrum can be accurately with a very few amount of points.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Problem 2.2 -- Octave Bands}
 
-specifics on octave
+Results for the octave-band are plotted as a purple line with triangle markers in Fig~\ref{Bands} and are also tabulated in Appendix A. Trends are similar to those of the 1/3 octave-band, but are slightly greater in magnitude since the summing bands are wider.  Thus, the octave-band trends are less accurate at modeling the narrow-band spectrum than the 1/3 octave-band, with the advantage of having even fewer points (14 vs. 43 vs. 32768 for the octave, 1/3 octave, and narrow-bands, respectively).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Problem 2.3 -- Overall Sound Pressure Level}
 
-overall
+Finally, the overall SPL of the sonic boom signal was found to be $\boxed{SPL_{ovr}=111.33dB}$, and is represented in Fig~\ref{Bands} as a dashed, black line.  This value is generally greater in magnitude than the majority of the points in any of the spectra, especially at high frequency.  Each of the narrow, 1/3, and octave-bands peak at a higher value than $SPL_{ovr}$, however, because $SPL_{ovr}$ does not include information for frequencies below $10Hz$.
 
 
 
@@ -355,7 +365,7 @@ overall
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion}
 
-conclude
+In summary, this analysis has demonstrated basic signal processing techniques required to analyze aeroacoustical data.  Reading raw pressure time histories and transformation into the descrete frequency domain was demonstrated in Problem 1, and conversion into the octave-bands and overall SPL was performed in Problem 2.  These techniques will be required for future, more advanced aeroacoustic analyses.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \section{References}

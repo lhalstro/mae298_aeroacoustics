@@ -184,8 +184,8 @@ def main(source):
     powspec = pd.DataFrame({'freq' : freqs, 'Gxx' : Gxx})
 
     maxima = powspec[powspec['Gxx'] == max(powspec['Gxx'])]
-    print('Maximum Power Spectrum, frequency', maxima['freq'])
-    print('Maximum Power Spectrum, power', maxima['Gxx' ])
+    print('\nMaximum Power Spectrum, frequency:t', float(maxima['freq']))
+    print(  'Maximum Power Spectrum, power:',     float(maxima['Gxx' ]))
 
     ####################################################################
     ### FIND SOUND PRESSURE LEVEL IN dB ################################
@@ -231,6 +231,10 @@ def main(source):
     #Sum over either octave or 1/3 octave bands (identical)
     #but exclude freqencies below 10Hz
     Lp_overall = OctaveLp(octv[octv['freq'] >= 10.0]['SPL'])
+
+    print('\nNum. of Points, Narrow-band:'    , len(df))
+    print(  'Num. of Points, 1/3 Octave-band:', len(octv3rd))
+    print(  'Num. of Points, Octave-band:'    , len(octv))
 
     ####################################################################
     ### SAVE DATA ######################################################
