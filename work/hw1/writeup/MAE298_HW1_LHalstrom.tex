@@ -181,7 +181,7 @@
 \maketitle
 
 
-\newcommand\pictype{png}  %set filetype of images to read in
+\newcommand\pictype{pdf}  %set filetype of images to read in
 \newcommand\picdir{../Plots} %directory images are located in
 
 
@@ -198,48 +198,53 @@ All computations and plotting for this project were performed using Python, and 
 \section{Problem 1 -- Signal Processing}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The pressure signal input file `Boom\_F1B2\_6.wav' was read using the `PySoundFile' audio library for Python, which can be found at: \textcolor{\linkcolor}{\url{https://pypi.python.org/pypi/SoundFile/}}.  This library was chosen over other Python audio libraries (e.g. `scipy.io.wavfile') because it normalized the .wav file data between -1.0 and 1.0 identically to MATLAB's `audioread' function.  (Note: Though other libraries did not read in the same values, all libraries returned the same results when normalized by the maximum value of the data).
+The pressure signal input file `Boom\_F1B2\_6.wav' was read using the `PySoundFile' audio library for Python, which can be found at: \textcolor{\linkcolor}{\url{https://pypi.python.org/pypi/SoundFile/}}.  This library was chosen over other Python audio libraries (e.g. `scipy.io.wavfile') because it normalized the .wav file data between -1.0 and 1.0 identically to MATLAB's `audioread' function.  (Note: Though other libraries did not read in identical values, all libraries returned the same results when normalized by the maximum absolute value of the data).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Problem 1.1 -- Sonic Boom Pressure Signal}
 
-After reading the raw data from the .wav file, signal values were converted from units of Volts (V) to Pascals (Pa) using the conversion ratio obtained from Eqn~\ref{V2Pa}:
+After reading the raw data from the .wav file, signal values were converted from units of Volts (V) to Pascals (Pa) using the conversion ratio contained in Eqn~\ref{V2Pa}:
 
 \begin{equation} \label{V2Pa}
 -116Pa = 1V
 \end{equation}
 
-The resulting pressure history of the sonic boom is displayed in Fig~\ref{boom}, which demonstrates the classic ``N'' shape of the sonic boom, where there is an initial positive pressure discontinuity caused by the supersonic front of the aircraft, followed by an almost linear decrease in pressure over the surface of the aircraft until an abrupt discontinuity back to freestream pressure occurs.  This results in the observer hearing a ``double-boom'' for low-flying supersonic aircraft (at higher altitudes, the two shocks can merge by the time they reach the observer).  After the aircraft, the pressure does not immediately return to steady-state freestream flow, but experiences a slight oscillation in pressure as the remaining wake dissipates.
+The resulting pressure history is displayed in Fig~\ref{boom}, which demonstrates the classic ``N'' shape of the sonic boom, where there is an initial positive pressure discontinuity caused by the supersonic front of the aircraft, followed by an almost linear decrease in pressure over the surface of the aircraft until an abrupt discontinuity back to freestream pressure occurs at the rear of the aircraft.  This results in the observer hearing a ``double-boom'' for low-flying, supersonic aircraft (at higher altitudes, the two shocks can merge by the time they reach the observer, resulting in a single ``boom'').  Aft of the aircraft, the pressure does not immediately return to steady-state freestream flow, but experiences a slight oscillation in pressure as the remaining wake dissipates.
 
-%%\vspace{-2em}
-\begin{figure}[htb]
+\vspace{-0.25em}
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=0.5\textwidth]{\picdir/1_1_Pressure.\pictype}
-\caption{Recorded sonic boom shockwave pressure time history with peak pressure and N-wave time duration values (Zero-pressure from recording start to initial shock)}
+\caption{Recorded sonic boom shockwave pressure time history with peak pressure $P_{max}$ and N-wave time duration $t_{Nwave}$ values (Zero-pressure from recording start to initial shock)}
 \label{boom}
 \end{center}
 \end{figure}
-%%\vspace{-2em}
+\vspace{-2em}
 
+\clearpage
 Also contained in Fig~\ref{boom} are the values for the peak sonic boom pressure perturbation:
 
+\vspace{-2em}
 \begin{gather*}
 P_{max}=\text{max}\left(|P|\right)=\boxed{75.25Pa}
 \end{gather*}
+\vspace{-2em}
 
 \noindent and sonic boom N-wave duration:
 
+\vspace{-2em}
 \begin{gather*}
 t_{Nwave}=\boxed{133.9ms}
 \end{gather*}
+\vspace{-2em}
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Problem 1.2 -- Power Spectral Density Decomposition}
 
-In order to analyze the frequency-dependent nature of the recorded sonic boom, it is necesary to break the signal into its component frequencies, for which we employ the technique of Fast-Fourier Transform (FFT).  This discrete Fourier transform algorithm transforms data from the time domain to the frequency domain, and can be called in Python from `numpy.fft'.
+In order to analyze the frequency-dependent nature of the recorded sonic boom, it is necesary to break the signal into its component frequencies, for which we employ the technique of Fast-Fourier Transform (FFT).  This discrete Fourier transform algorithm transforms data from the time domain into the frequency domain, and can be called in Python using `numpy.fft'.
 
 The FFT is performed in Python according to the following pseudocode:
 
@@ -262,7 +267,7 @@ G_{xx} = 2S_{xx}[idx]
 \end{equation}
 \noindent where all operations are performed element-wise on $S_{xx}$ and $idx$ is the first half of all of the indices of $S_{xx}$.
 
-Now the power spectral density $G_{xx}$ has been computed, the corresponding single-sided frequency spectrum can be calculated with the built in numpy function `fftfreq':
+Now that the power spectral density $G_{xx}$ has been computed, the corresponding single-sided frequency spectrum can be calculated with the built in numpy function `fftfreq':
 
 \begin{align*}
 freqs &= \text{np.fft.fftfreq}(pressure{}\text{.size}, dt) \\
@@ -274,7 +279,7 @@ freqs &= freqs[idx]
 \begin{figure}[htb]
 \begin{center}
 \includegraphics[width=0.5\textwidth]{\picdir/1_2_PowerSpec.\pictype}
-\caption{Shockwave signal power spectral density as a function of frequency (All frequencies above 50Hz very low power)}
+\caption{Shockwave signal power spectral density as a function of frequency (All frequencies above 50Hz are very low power)}
 \label{PowSpec}
 \end{center}
 \end{figure}
@@ -288,10 +293,10 @@ The resulting power spectrum $G_{xx}$ vs $freq$ is plotted for reference in Fig~
 With the power spectrum density function calculated, it is meaningful to compute the Sound Pressure Level (SPL) in dB.  The formula for discrete SPL as a function of frequency is given in Eqn~\ref{SPL}, which demonstrates that SPL is a logarithmic ratio of the signal\textquotesingle s pressure disturbance and a reference pressure $P_{ref}=20\mu Pa$.
 
 \begin{equation} \label{SPL}
-SPL(f) = 10\log_{10}\left( \dfrac{G_{xx} / T}{P_{ref}^2} \right)
+SPL(f) = 10\log_{10}\left( \dfrac{G_{xx}(f) / T}{P_{ref}^2} \right)
 \end{equation}
 
-\noindent SPL of the narrow-band frequencies is plotted with the octave-band frequencies in Fig~\ref{Bands} in Section~\ref{sect_oct}
+SPL of the narrow-band frequencies is plotted with the octave-band frequencies in Fig~\ref{Bands} in Section~\ref{sect_oct}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -307,7 +312,7 @@ f_{c,m} = f_{c,30}\cdot 2^{-10 + \frac{m}{3}}
 \end{equation}
 \noindent where $f_{c,30}=1000Hz$ is the center frequency corresponding to $m=30$, and $m=1,2,3,...$ for 1/3 octave-band and $m=3,6,9,...$ for octave-band.
 
-In the data processing script for this analysis, center frequencies are calculated specifically for the narrow-band input.  The function `OctaveCenterFreqs' will loop through $m$ in intervals appropriate to the given octave-band choice, but only center frequencies whose lower $f_l$ and upper $f_u$ band limits are contained within the original data set.  This ensures that no sum will take place over an incomplete band.  Upper and lower band limits for a given center frequencies are calculated according to Eqn~\ref{BandLimits}.
+In the data processing script for this analysis, center frequencies are calculated specifically to match the narrow-band input.  The function `OctaveCenterFreqs' will loop through $m$ in intervals appropriate to the given octave-band choice, but only return center frequencies whose lower $f_l$ and upper $f_u$ band limits are contained within the original data set.  This ensures that no sum will take place over an incomplete band.  Upper and lower band limits for a given center frequencies are calculated according to Eqn~\ref{BandLimits}.
 
 \begin{equation} \label{BandLimits}
 \begin{split}
@@ -322,7 +327,7 @@ Once the center frequencies and associated band limits have been calculated, the
 \begin{equation} \label{OctaveLp}
 Lp(f_c) = 10\log_{10}\left( \sum_{f=f_{l,c}}^{f_{u,c}} 10^{\frac{Lp(f)}{10}} \right)
 \end{equation}
-\noindent where $f_{l,c},\,f_{u,c}$ are the bounds corresponding to the given center frequency $f_c$.
+\noindent where $f_{l,c},\,f_{u,c}$ are the band limits corresponding to the given center frequency $f_c$.
 
 Finally, it can be beneficial to summarize the frequency spectrum with a single representative value called the Overall Sound Pressure Level $SPL_{ovr}$.  This parameter is calculated in the same manner as the 1/3 and full octave-band SPL, but the sum is taken over the entire data set, rather than in bins.  It is also convention not to include SPL values corresponding to less than $10Hz$, so these are omitted in this analysis.
 
@@ -344,18 +349,19 @@ The results for all parts of Problem 2 are summarized below in Fig~\ref{Bands}, 
 
 Results for the 1/3 octave-band are plotted as a green line with diamond markers in Fig~\ref{Bands} and are also tabulated in Appendix A.  Compared to the narrow-band SPL (blue line), it is apparent that the binned values of the 1/3 octave-band are generally greater in magnitude than their narrow-band counterparts.  This is because the octave band is calculated as a binned sum over bands of the narrow-band and therefore \emph{must} be greater in magnitude.
 
-The 1/3 octave-band plot follows the same trends as that of the narrow-band, but with many fewer points (43 vs. 32768, to be exact).  This demonstrates the power of using the octave bands, namely in that the general trends of the frequency spectrum can be accurately with a very few amount of points.
+The 1/3 octave-band plot follows the same general trends as that of the narrow-band, but with much fewer points (43 vs. 32768, to be exact).  This demonstrates the power of using the octave bands; namely in that the general trends of the frequency spectrum can be generally represented with a very small data set.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Problem 2.2 -- Octave Bands}
 
-Results for the octave-band are plotted as a purple line with triangle markers in Fig~\ref{Bands} and are also tabulated in Appendix A. Trends are similar to those of the 1/3 octave-band, but are slightly greater in magnitude since the summing bands are wider.  Thus, the octave-band trends are less accurate at modeling the narrow-band spectrum than the 1/3 octave-band, with the advantage of having even fewer points (14 vs. 43 vs. 32768 for the octave, 1/3 octave, and narrow-bands, respectively).
+Results for the octave-band are plotted as a purple line with triangle markers in Fig~\ref{Bands} and are also tabulated in Appendix A. Trends are similar to those of the 1/3 octave-band, but are slightly greater in magnitude since the summing bands are wider.  Thus, the octave-band trends are less accurate at modeling the narrow-band spectrum than the 1/3 octave-band, but with the advantage of having even fewer points (14 vs. 43 vs. 32768 for the octave, 1/3 octave, and narrow-bands, respectively).
 
+\clearpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Problem 2.3 -- Overall Sound Pressure Level}
 
-Finally, the overall SPL of the sonic boom signal was found to be $\boxed{SPL_{ovr}=111.33dB}$, and is represented in Fig~\ref{Bands} as a dashed, black line.  This value is generally greater in magnitude than the majority of the points in any of the spectra, especially at high frequency.  Each of the narrow, 1/3, and octave-bands peak at a higher value than $SPL_{ovr}$, however, because $SPL_{ovr}$ does not include information for frequencies below $10Hz$.
+Finally, the overall SPL of the sonic boom signal was found to be $\boxed{SPL_{ovr}=111.33dB}$, and is represented in Fig~\ref{Bands} as a dashed, black line.  This value is generally greater in magnitude than the majority of the points in all of the spectra, especially at high frequencies.  Each of the narrow, 1/3, and octave-bands peak at a higher value than $SPL_{ovr}$, however, because $SPL_{ovr}$ does not include information for frequencies below $10Hz$.
 
 
 
