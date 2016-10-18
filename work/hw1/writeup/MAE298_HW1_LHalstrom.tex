@@ -12,7 +12,6 @@
 %
 %% The default is oneside, onecolumn, 10pt, final
 
-
 \usepackage{epsfig} %% for loading postscript figures
 \usepackage{listings}
 \usepackage{amsmath}
@@ -211,7 +210,7 @@ After reading the raw data from the .wav file, signal values were converted from
 -116Pa = 1V
 \end{equation}
 
-The resulting pressure history of the sonic boom is displayed in Fig~\ref{boom}, which demonstrates the classic ``N'' shape of the sonic boom, where there is an initial positive pressure discontinutity caused by the supersonic front of the aircraft, followed by an almost linear decrease in pressure over the surface of the aircraft until an abrupt discontinuity back to freestream pressure occurs.  This results in the observer hearing a ``double-boom'' for low-flying supersonic aircraft (at higher altitudes, the two shocks can merge by the time they reach the observer).  After the aircraft, the pressure does not immediately return to steady-state freestream flow, but experiences a slight oscillation in pressure as the remaining wake dissipates.
+The resulting pressure history of the sonic boom is displayed in Fig~\ref{boom}, which demonstrates the classic ``N'' shape of the sonic boom, where there is an initial positive pressure discontinuity caused by the supersonic front of the aircraft, followed by an almost linear decrease in pressure over the surface of the aircraft until an abrupt discontinuity back to freestream pressure occurs.  This results in the observer hearing a ``double-boom'' for low-flying supersonic aircraft (at higher altitudes, the two shocks can merge by the time they reach the observer).  After the aircraft, the pressure does not immediately return to steady-state freestream flow, but experiences a slight oscillation in pressure as the remaining wake dissipates.
 
 %%\vspace{-2em}
 \begin{figure}[htb]
@@ -240,7 +239,7 @@ t_{Nwave}=\boxed{133.9ms}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Problem 1.2 -- Power Spectral Density Decomposition}
 
-In order to analyze the frequency-dependent nature of the recorded sonic boom, it is nessesary to break the signial into its component frequencies, for which we employ the technique of Fast-Fourer Transform (FFT).  This descrete Fourier transform algorithm transforms data from the time domain to the frequency domain, and can be called in Python from `numpy.fft'.
+In order to analyze the frequency-dependent nature of the recorded sonic boom, it is necesary to break the signal into its component frequencies, for which we employ the technique of Fast-Fourier Transform (FFT).  This discrete Fourier transform algorithm transforms data from the time domain to the frequency domain, and can be called in Python from `numpy.fft'.
 
 The FFT is performed in Python according to the following pseudocode:
 
@@ -263,7 +262,7 @@ G_{xx} = 2S_{xx}[idx]
 \end{equation}
 \noindent where all operations are performed element-wise on $S_{xx}$ and $idx$ is the first half of all of the indices of $S_{xx}$.
 
-Now the the power spectral density $G_{xx}$ has been computed, the corresponding single-sided frequency spectrum can be calculated with the built in numpy function `fftfreq':
+Now the power spectral density $G_{xx}$ has been computed, the corresponding single-sided frequency spectrum can be calculated with the built in numpy function `fftfreq':
 
 \begin{align*}
 freqs &= \text{np.fft.fftfreq}(pressure{}\text{.size}, dt) \\
@@ -281,12 +280,12 @@ freqs &= freqs[idx]
 \end{figure}
 %%\vspace{-2em}
 
-The resulting power spectrum $G_{xx}$ vs $freq$ is plotted for reference in Fig~\ref{PowSpec}.  From the figure, it can be seen that the most dominate frequencies occur between 1 and 50 Hz, with the maximum power spectral density of $66 Pa^2\text{/}Hz$ corresponding to $4.49Hz$, and the other significant peaks (of significantly lower magnitude) occuring around 15, 23, and 37 Hz, respectively.
+The resulting power spectrum $G_{xx}$ vs $freq$ is plotted for reference in Fig~\ref{PowSpec}.  From the figure, it can be seen that the most dominate frequencies occur between 1 and 50 Hz, with the maximum power spectral density of $66 Pa^2\text{/}Hz$ corresponding to $4.49Hz$, and the other significant peaks (of significantly lower magnitude) occurring around 15, 23, and 37 Hz, respectively.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Problem 1.3 -- Sound Pressure Level}
 
-With the power spectrum density function calculated, it is meaninful to compute the Sound Pressure Level (SPL) in dB.  The formula for descrete SPL as a function of freqency is given in Eqn~\ref{SPL}, which demonstrates that SPL is a logarithmic ratio of the signal\textquotesingle s pressure distrubance and a reference pressure $P_{ref}=20\mu Pa$.
+With the power spectrum density function calculated, it is meaningful to compute the Sound Pressure Level (SPL) in dB.  The formula for discrete SPL as a function of frequency is given in Eqn~\ref{SPL}, which demonstrates that SPL is a logarithmic ratio of the signal\textquotesingle s pressure disturbance and a reference pressure $P_{ref}=20\mu Pa$.
 
 \begin{equation} \label{SPL}
 SPL(f) = 10\log_{10}\left( \dfrac{G_{xx} / T}{P_{ref}^2} \right)
@@ -299,7 +298,7 @@ SPL(f) = 10\log_{10}\left( \dfrac{G_{xx} / T}{P_{ref}^2} \right)
 \section{Problem 2 -- Octave-Band Spectra} \label{sect_oct}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In aeroacoustic analysis, it is common for recorded data sets to contain massive amounts of data that can be redundant and combersome to process.  To ease this burden, originally sampled narrow-band frequency spectra can be binned into fewer, pre-selected, descrete sets of freqencies called the Third (1/3) Octave and Octave Bands.
+In aeroacoustic analysis, it is common for recorded data sets to contain massive amounts of data that can be redundant and combersome to process.  To ease this burden, originally sampled narrow-band frequency spectra can be binned into fewer, pre-selected, discrete sets of frequencies called the Third (1/3) Octave and Octave Bands.
 
 This binning process is accomplished by summing the narrow-band frequencies over intervals defined by specific center frequencies $f_c$ of the octave-band.  Center frequencies can be chosen from a pre-selected ``preferred'' set of ``nicer'' numbers, or they can be calculated according to Eqn~\ref{CenterFreqs}, which does not produce the ``nice'' numbers.
 
@@ -325,7 +324,7 @@ Lp(f_c) = 10\log_{10}\left( \sum_{f=f_{l,c}}^{f_{u,c}} 10^{\frac{Lp(f)}{10}} \ri
 \end{equation}
 \noindent where $f_{l,c},\,f_{u,c}$ are the bounds corresponding to the given center frequency $f_c$.
 
-Finally, it can be beneficial to summarize the frequency spectrum with a single representative value called the Overall Sound Pressure Level $SPL_{ovr}$.  This parameter is calculated in the same manner as the 1/3 and full octave-band SPL, but the sum is taken over the entire data set, rather than in bins.  It is also convention not to include SPL values corresponding to less than $10Hz$, so these are ommitted in this analysis.
+Finally, it can be beneficial to summarize the frequency spectrum with a single representative value called the Overall Sound Pressure Level $SPL_{ovr}$.  This parameter is calculated in the same manner as the 1/3 and full octave-band SPL, but the sum is taken over the entire data set, rather than in bins.  It is also convention not to include SPL values corresponding to less than $10Hz$, so these are omitted in this analysis.
 
 The results for all parts of Problem 2 are summarized below in Fig~\ref{Bands}, and they will be individually discussed in the following sections.
 
@@ -365,7 +364,25 @@ Finally, the overall SPL of the sonic boom signal was found to be $\boxed{SPL_{o
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion}
 
-In summary, this analysis has demonstrated basic signal processing techniques required to analyze aeroacoustical data.  Reading raw pressure time histories and transformation into the descrete frequency domain was demonstrated in Problem 1, and conversion into the octave-bands and overall SPL was performed in Problem 2.  These techniques will be required for future, more advanced aeroacoustic analyses.
+In summary, this analysis has demonstrated basic signal processing techniques required to analyze aeroacoustical data.  Reading raw pressure time histories and transformation into the discrete frequency domain was demonstrated in Problem 1, and conversion into the octave-bands and overall SPL was performed in Problem 2.  These techniques will be required for future, more advanced aeroacoustic analyses.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Appendix A: Octave-Band Data}
+
+\lstinputlisting[language={}]{../Data/octv.dat}
+\captionof{table}{\emph{octv.dat} - Octave-band center frequencies and sound pressure levels (space-separated)}
+
+\vfill %push next table to next column
+
+\lstinputlisting[language={}]{../Data/octv3rd.dat}
+\captionof{table}{\emph{octv3rd.dat} - 1/3 Octave-band center frequencies and sound pressure levels (space-separated)}
+
+
+
+
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \section{References}
@@ -389,43 +406,88 @@ In summary, this analysis has demonstrated basic signal processing techniques re
 
 %SETUP
 \newcommand\scriptname{dummy}      %init code name variable
-\captionsetup{width=0.8\linewidth} %set caption text width
+% \captionsetup{width=0.8\linewidth} %set caption text width
 
 \catcode`\_=12 %ESCAPE ALL UNDERSCORES IN TEXT AUTOMATICALLY*******************
 
 %LISTINGS
 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \twocolumn
+% \section*{Appendix A: Octave-Band Data}
+
+% \lstinputlisting[language={}]{../Data/octv3rd.dat}
+% \captionof{table}{\emph{octv3rd.dat} - 1/3 Octave-band center frequencies and sound pressure levels (space-separated)}
+
+% \vfill %push next table to next column
+
+% \lstinputlisting[language={}]{../Data/octv.dat}
+% \captionof{table}{\emph{octv.dat} - Octave-band center frequencies and sound pressure levels (space-separated)}
+
+% \onecolumn
+% \clearpage
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Appendix B: Data Processing Script}
 \renewcommand\scriptname{hw1_00_process.py}
-\section*{Appendix A: Data Processing Script}
 \begin{center}
 \mylisting{../\scriptname}{0}{10000}
 % \vspace{-0.2cm}
 \captionof{lstlisting}{\emph{\scriptname} - Performs all primary data processing such as pressure signal input, power spectral density decomposition, and octave-band conversion and saves data to text files}
 \end{center}
 
-\clearpage
+% \clearpage
 
-% \renewcommand\scriptname{hw1_99_wrapper.py}
-% \section*{Appendix C: Data Processing/Plotting Wrapper Script}
-% \begin{center}
-% \mylisting{../\scriptname}{0}{10000}
-% % \vspace{-0.2cm}
-% \captionof{lstlisting}{\emph{\scriptname} - Wrapper program that runs data processing and plotting scripts simultaneously}
-% \end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Appendix C: Data Plotting Script}
+\renewcommand\scriptname{hw1_01_plot.py}
+\begin{center}
+\mylisting{../\scriptname}{0}{10000}
+% \vspace{-0.2cm}
+\captionof{lstlisting}{\emph{\scriptname} - Performs all plotting associated with the project (refer to Appendix F for supplemental custom plotting package `lplot.py')}
+\end{center}
 
 % \clearpage
 
 
 
-% \section*{Appendix C: Parallel, Multi-Block Grid Decomposition Code}
-% \lstinputlisting[caption=Grids are decomposed into blocks and mapped onto NPROCS processors and information pertaining to neighbors is stored using the GRIDMOD module, language=Fortran]{../modules.f90}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Appendix D: Data Processing/Plotting Wrapper Script}
+\renewcommand\scriptname{hw1_99_wrapper.py}
+\begin{center}
+\mylisting{../\scriptname}{0}{10000}
+% \vspace{-0.2cm}
+\captionof{lstlisting}{\emph{\scriptname} - Wrapper program that runs data processing and plotting scripts simultaneously}
+\end{center}
 
 % \clearpage
 
-% \section*{Appendix D: Multi-Block Plot3D Reader-Writer}
-% \lstinputlisting[caption=Code for saving formatted multiblock PLOT3D solution files and reading restart files, language=Fortran]{../inout.f90}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Appendix E: Global Variables}
+\renewcommand\scriptname{hw1_98_globalVars.py}
+\begin{center}
+\mylisting{../\scriptname}{0}{10000}
+% \vspace{-0.2cm}
+\captionof{lstlisting}{\emph{\scriptname} - Container for global variables such as conversion factors, default file types and locations, etc.}
+\end{center}
 
 % \clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Appendix F: Custom Plotting Library}
+\renewcommand\scriptname{lplot.py}
+\begin{center}
+\mylisting{\string~/lib/python/\scriptname}{0}{10000}
+% \vspace{-0.2cm}
+\captionof{lstlisting}{\emph{\scriptname} - Custom plotting library developed by Logan Halstrom providing default plotting parameters and enhanced plotting functions}
+\end{center}
+
+
+
+
 
 
 
