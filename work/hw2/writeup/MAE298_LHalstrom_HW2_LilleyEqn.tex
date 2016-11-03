@@ -29,7 +29,7 @@
 
 
 
-  \title{MAE 298 -- Homework \#2 \\ Lilley's Equation Solution and Application to Jet Noise}
+  \title{MAE 298 Aeroacoustics -- Homework \#2 \\ Lilley's Equation Solution and Application to Jet Noise}
 
 \author{
   Logan D. Halstrom \\
@@ -65,49 +65,31 @@ Abstract about homework
 
 \begin{tabbing}
   XXX \= \kill% this line sets tab stop
-  $\theta_{max}$      \> Maxumum angle of pendulum oscillation \\
-  $f$                 \> Frequency of pendulum oscillation \\
-  $V_{\infty}$        \> Freestream velocity \\
-  $V_{T}$             \> Tangential velocity \\
-  $V_{eff}$           \> Effective velocity \\
-  $\alpha_{G}$        \> Global (inertial) angle of attack \\
-  $\alpha_{eff}$      \> Effective angle of attack \\
-  $\theta$            \> Pitch angle \\
-  $\phi$              \> Aerodynamic clock angle \\
-  $\dot{\theta}$      \> Pitch rate \\
-  $\alpha_{T}$        \> Total angle of attack \\
-  $\dot{\alpha}_{T}$  \> Total angle of attack rate \\
-  $C_X$         \> Inertial frame $X_i$ axis force coefficient \\
-  $C_Z$         \> Inertial frame $Z_i$ axis force coefficient \\
-  $C_A$         \> Body frame $X_b$ axis force coefficient \\
-  $C_Y$         \> Body frame $Y_b$ axis force coefficient \\
-  $C_N$         \> Body frame $Z_b$ axis force coefficient \\
-  $C_{N,m}$         \> Missile frame $Z_b$ axis force coefficient \\
+  $R_j$               \> Axisymmetric jet radius \\
+  $W_j$               \> Jet exit mean velocity \\
+  $\overline{\rho_j}$ \> Jet exit mean density \\
+  $W_0$               \> Ambient mean velocity \\
+  $\overline{\rho_0}$ \> Ambient mean density \\
+  $W(r)$              \> Radial distribution of axial velocity \\
+  $\overline{a^2}(r)$ \> Radial distribution of speed of sound squared\\
+  $p'$                \> Perturbation pressure \\
 
-  $m_a$               \> Apparent mass of air within parachute \\
 
-  $\rho_{\infty}$     \> Freestream density \\
-  $L_{ref}$           \> Reference length (parachute diameter\\
-  % $A_{ref}$           \> Reference area \\
-  $R$                 \> Radius of parachute oscillation \\
+\end{tabbing}
 
-  $MPCV$ \\
-  $CPAS$ \\
-  $NFAC$ \\
-  $EDU$ \\
-  $WTT$ \\
-  $FFT$ \\
-  $DCF$ \\
-
- \end{tabbing}
-
- \end{multicols}
+\end{multicols}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Simple Pendulum} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Background} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The oscillating Orion parachute is a complex system involving induced aerodyanmic forces, inertial responses, and, in some simulations, prescribed, motion-governing forces.  Before delving into these intracacies, it is beneficial to first discuss the simplified problem of a gravetational pendulum (i.e. a mass on a string).
+Lilley's equation for a parallel axisymmetric flow
+
+\begin{equation} \label{Lilley}
+\left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right)^3 p'
+- \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) \left( \overline{a^2} \nabla^2p' \right)
+- \dfrac{d \overline{a^2}}{dr} \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) \dfrac{dp'}{dr}
+\end{equation}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
