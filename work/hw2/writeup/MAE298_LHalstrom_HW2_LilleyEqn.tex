@@ -1,0 +1,464 @@
+
+\typeout{}\typeout{If latex fails to find aiaa-tc, read the README file!}
+%
+
+
+\documentclass[]{aiaa-tc}% insert '[draft]' option to show overfull boxes
+
+
+\usepackage{amsmath}          % for formula writing (i.e. 'split', etc)
+\usepackage{rotate}           %rotate/mirror images
+\usepackage{cancel}           %draw lines through math to show "goes to zero"
+\usepackage{xfrac}            %allows slated and side fractions
+\usepackage{subcaption}       %allows captioning individual subfigures
+\usepackage{multicol}         %enable environment with multiple columns
+\usepackage[mode=buildnew]{standalone}% requires -shell-escape
+  % compile with `pdflatex -shell-escape main` or `xelatex  -shell-escape main`
+
+
+\usepackage{tikz}             %for creating vector graphics diagrams
+\usetikzlibrary{backgrounds}  %put backgrounds behind tikz figures
+\usetikzlibrary{calc}         %perform calculations within $$
+\usetikzlibrary{positioning}  %position tikz elements using "right of, etc"
+\usetikzlibrary{angles}       %label angles between lines with arcs
+\usetikzlibrary{quotes}       %Put angle label in quotes
+\usetikzlibrary{patterns}     %Patterns to fill shapes with
+
+
+
+
+
+
+  \title{MAE 298 -- Homework \#2 \\ Lilley's Equation Solution and Application to Jet Noise}
+
+\author{
+  Logan D. Halstrom \\
+  {\normalsize\itshape Graduate Student} \\
+  {\normalsize\itshape Department of Mechanical and Aerospace Engineering} \\
+  {\normalsize\itshape University of California, Davis, CA 95616}
+       }
+
+
+ % Define commands to assure consistent treatment throughout document
+ \newcommand{\eqnref}[1]{(\ref{#1})}
+ \newcommand{\class}[1]{\texttt{#1}}
+ \newcommand{\package}[1]{\texttt{#1}}
+ \newcommand{\file}[1]{\texttt{#1}}
+ \newcommand{\BibTeX}{\textsc{Bib}\TeX}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{abstract}
+
+Abstract about homework
+
+\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Nomenclature}
+
+\begin{multicols}{2}
+
+\begin{tabbing}
+  XXX \= \kill% this line sets tab stop
+  $\theta_{max}$      \> Maxumum angle of pendulum oscillation \\
+  $f$                 \> Frequency of pendulum oscillation \\
+  $V_{\infty}$        \> Freestream velocity \\
+  $V_{T}$             \> Tangential velocity \\
+  $V_{eff}$           \> Effective velocity \\
+  $\alpha_{G}$        \> Global (inertial) angle of attack \\
+  $\alpha_{eff}$      \> Effective angle of attack \\
+  $\theta$            \> Pitch angle \\
+  $\phi$              \> Aerodynamic clock angle \\
+  $\dot{\theta}$      \> Pitch rate \\
+  $\alpha_{T}$        \> Total angle of attack \\
+  $\dot{\alpha}_{T}$  \> Total angle of attack rate \\
+  $C_X$         \> Inertial frame $X_i$ axis force coefficient \\
+  $C_Z$         \> Inertial frame $Z_i$ axis force coefficient \\
+  $C_A$         \> Body frame $X_b$ axis force coefficient \\
+  $C_Y$         \> Body frame $Y_b$ axis force coefficient \\
+  $C_N$         \> Body frame $Z_b$ axis force coefficient \\
+  $C_{N,m}$         \> Missile frame $Z_b$ axis force coefficient \\
+
+  $m_a$               \> Apparent mass of air within parachute \\
+
+  $\rho_{\infty}$     \> Freestream density \\
+  $L_{ref}$           \> Reference length (parachute diameter\\
+  % $A_{ref}$           \> Reference area \\
+  $R$                 \> Radius of parachute oscillation \\
+
+  $MPCV$ \\
+  $CPAS$ \\
+  $NFAC$ \\
+  $EDU$ \\
+  $WTT$ \\
+  $FFT$ \\
+  $DCF$ \\
+
+ \end{tabbing}
+
+ \end{multicols}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Simple Pendulum} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The oscillating Orion parachute is a complex system involving induced aerodyanmic forces, inertial responses, and, in some simulations, prescribed, motion-governing forces.  Before delving into these intracacies, it is beneficial to first discuss the simplified problem of a gravetational pendulum (i.e. a mass on a string).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Free Body Diagram}
+
+In this example, a mass is held against gravity by a string attached to a roof.  Some initial displacement from the neutral vertial position causes this system to exhibit simple pendulum motion due to the resulting force balance demonstrated in the free body diagram.
+
+% \newcommand\inertial{0}
+% \begin{figure}[htb]
+% \begin{center}
+% \includestandalone[width=.25\textwidth]{Diagram_SimplePendulum_FBD}
+% \caption{Simple, gravitational pendulum }
+% \label{gravpend}
+% \end{center}
+% \end{figure}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Process Raw OVERFLOW Data} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Before the calculation of dynamic parameters, the raw run condition and force data output by the OVERFLOW CFD solver must be processed.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Read Case Data}
+
+Parameters pertaining to the run conditions are aquired by processing the output of the ``'qinfo'' script, which provides Mach number $M$, Reynold''s number $Re$, freestream specific heat ratio $\gamma$, freestream static temperature $T_{\infty}$, freestream density $\rho_{\infty}$, freestream dynamic pressure $q_{\infty}$, OVERFLOW angle of attack $\alpha_{OVR}$, and OVERFLOW sideslip angle $\beta_{OVR}$, among other parameters.  Freestream parameters are converted into the grid reference unit of inches.
+
+Parameters for simple pendulum oscillations including maximum amplitude $\theta_{max}$ and oscillation frequency $f$ are read from the case''s ``Scenario.xml'' file.  $\alpha_{OVR}$ is converted from the capsule reference frame to the parachute reference frame according to Eqn.~\ref{alphaG}.
+
+\begin{equation}
+\begin{split}
+\alpha_G = 180^o - \alpha_{OVR}
+\end{split}
+\label{alphaG}
+\end{equation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Condition Raw Data}
+
+Raw OVERFLOW data must also be conditioned before aerodynamic calculations are performed.  All force data is read from ``aero.chute'' which is produced by the ``overlst -p'' function call.  Raw data is first trimmed of any duplicates.  Force and moment coefficients are then corrected for actual reference parameters as show in Eqn. ~\ref{refparams} that may be different than those contained in ``mixsur.i'', which is used as input for surface integration during OVERFLOW solver iterations.
+
+\begin{equation}
+\begin{split}
+C_{F} =& C_{F,OVR} \frac{A_{ref,old}}{A_{ref,new}} \\
+C_{M} =& C_{M,OVR} \frac{A_{ref,old}}{A_{ref,new}} \frac{l_{ref,old}}{l_{ref,new}}
+\end{split}
+\label{refparams}
+\end{equation}
+
+Cases that are run with a half-body geometry symmetric about the y-axis are then corrected for symmetry effects.  Forces and moments that are expected to be non-zero must be doubled, to account for half of the geometry missing, and forces that are expected to be zero due to geometry symmetry must be forced to zero.
+
+\begin{equation}
+\begin{split}
+C_{X} =& 2 \cdot C_{X,OVR} \\
+C_{Y} =& 0           \\
+C_{Z} =& 2 \cdot C_{Z,OVR} \\
+C_{l} =& 0           \\
+C_{m} =& 2 \cdot C_{m,OVR} \\
+C_{n} =& 0           \\
+\end{split}
+\label{refparams}
+\end{equation}
+
+Because these simulations are time accurate and have relative mesh motion ($DYNMCS=.T.$), it is neccessary to caclulate the simulation time from the iteration history.  Non-dimensional simulation time can be calculated can be calculated by multiplying the iteration number $Iter$ subtracted by the iteration where grid motion began $i_{start}$ by the non-dimensional time step $DTPHYS$, as shown in Eqn.~\ref{time}.  Dimensional time in seconds can then be calculated by multiplying by the reference length of one inch and dividing by the reference velocity, which is equal to the freestream velocity $V_{\infty}$.
+
+\begin{equation}
+\begin{gathered}
+t_{non} = (Iter - i_{start}) \cdot DTPHYS \\
+t = \left(\frac{L_{ref}}{V_{ref}}\right) t_{non}
+\end{gathered}
+\label{time}
+\end{equation}
+
+
+% %CHUTE DIAGRAM (SOURCED FROM STANDALONE TEX)
+% \begin{figure}[htb]
+% \begin{center}
+% \includestandalone[width=.9\textwidth]{Diagram_Chute}
+% \caption{Parachute intertial and body coordinate systems depicting directions of attitude angles (all velocities are relative) }
+% \label{chutediagram}
+% \end{center}
+% \end{figure}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Process Dynamic Parameters} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+With OVERFLOW outputs corrected and brought into the time domain, actual aerodynamic properties can now be calculated.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Prescribed Motion Dynamics}
+
+First, attitude angles and rates are calculated according to the prescribed motion equation contained in ``Scenario.xml''.  For these simulations, where oscillations are contained within the y-plane, the only attitude parameters to calculate are those pertaining to pitching motion $\theta$ and aerodynamic clock angle $\phi$.  $\theta$ and the associated rates can be calculated based on the simulation time for the simple, harmonic pendulum according to Eqn.~\ref{pendulumeqn} and for the Wind Tunnel Test (WTT) Track case according to Eqn.~\ref{fft}.  The simple pendulum is constrained to simple, harmonic motion defined by a frequency and an amplitude, while the WTT Track case is designed to approximate the motion of the parachute wind tunnel test and is derived using a Fast Fourier Transform (FFT).
+
+\begin{equation} \label{pendulumeqn}
+\begin{gathered}
+\omega =  2\pi f \\
+\theta(t) = \theta_{max} \cdot \sin(\omega t) \\
+\dot{\theta}(t) = \theta_{max} \cdot  \omega \cdot \cos(\omega t) \\
+\ddot{\theta}(t) = -\theta_{max} \cdot  \omega^2 \cdot \sin(\omega t) \\
+\end{gathered}
+\end{equation}
+
+\noindent where $\dot{\theta}$ is the pitch rate of the parachute, $\theta_{max}$ is the maximum angular amplitude of the oscillation, $f$ is the frequency of the oscillation in Hertz, and $t$ is the simulation time.
+
+\begin{equation}
+\begin{gathered}
+\omega_1 = 2\pi(0.186246),\,\,\omega_2 = 2\pi(0.200573) \\
+A_1 = 0.011695,\,A_2 = 4.268271,\,\,A_3 = 1.001533,\,A_4 = 4.983758 \\
+\theta(t) =        - A_1 \sin(\omega_1 t)
+                   - A_2 \cos(\omega_1 t)
+                   + A_3 \sin(\omega_2 t)
+                   + A_4 \cos(\omega_2 t) \\
+\dot{\theta}(t) =  - A_1 \omega_1 \cos(\omega_1 t)
+                   + A_2 \omega_1 \sin(\omega_1 t)
+                   + A_3 \omega_2 \cos(\omega_2 t)
+                   - A_4 \omega_2 \sin(\omega_2 t) \\
+\ddot{\theta}(t) =   A_1 \omega_1^2 \sin(\omega_1 t)
+                   + A_2 \omega_1^2 \cos(\omega_1 t)
+                   - A_3 \omega_2^2 \sin(\omega_2 t)
+                   - A_4 \omega_2^2 \cos(\omega_2 t) \\
+\end{gathered}
+\label{fft}
+\end{equation}
+
+\noindent where $\omega$ are the natural frequencies of the oscillation and $A$ are the associated Fourier coefficients.
+
+The rotational (tangential) velocity of the parachute $V_T$ is calculated from the rate of pitching motion $\dot{\theta}$ and the fixed rotational radius $R=2714.61 in$, as depicted in Eqn.~\ref{Vt}.  $V_T$ is in the normal body direction ($Z_b$-axis) and will always have the same sign as the pitching motion.  Eqn.~\ref{Vt} produces the tangential velocity of the actual parachute, so this value will be negated to produce the relative wind velocity in the tangential direction, which is demonstrated in Fig.~\ref{chutediagram}.  (Derivation of the tangential velocity can be found later on in Eqn.~\ref{derV}).
+
+\begin{equation} \label{Vt}
+\begin{gathered}
+V_T = R \dot{\theta}
+\end{gathered}
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Aerodynamic Parameters}
+
+With all of the velocities and angular rates calculated, actual aerodynamic parameters such as effective velocity $V_{eff}$ and effective angle of attack $\alpha_{eff}$ can be determined.  Referencing Fig.~\ref{chutediagram}, it can be seen that the angle $V_{\infty}$ makes with the body axis $X_b$ of the parachute at any given time is equivalent to $\alpha_G - \theta$.  Thus, the resulting relative air velocity components in the body frame axes are computed according to Eqn.~\ref{Vair}.
+
+\begin{equation} \label{Vair}
+\begin{gathered}
+V_{X_b,rel} = -V_{\infty}\cos(\alpha_G - \theta) \\
+V_{Z_b,rel} = V_{\infty}\sin(\alpha_G - \theta) - V_T
+\end{gathered}
+\end{equation}
+
+\noindent where velocity components are of the air surrounding the parachute and are in the opposite respective directions of the actual motion of the parachute.
+
+From the component velocities, the effective relative velocity of the parachute $V_{eff}$ can be calculated as the magnitude as in Eqn.~\ref{Veff}.
+
+
+% \newcommand\Vxb{V_{\infty}\cos(\alpha_G-\theta)}
+% \newcommand\Vzb{V_{\infty}\sin(\alpha_G-\theta) - V_T}
+\newcommand\Vxb{V_{X_b,rel}}
+\newcommand\Vzb{V_{Z_b,rel}}
+
+\begin{equation} \label{Veff}
+V_{eff} = \sqrt{\left[\Vxb      \right]^2
+              + \left[\Vzb \right]^2}
+\end{equation}
+
+The effective angle of attack is calculated from the ratio of the body velocity components.
+
+\begin{equation} \label{Aeff}
+\alpha_{eff} = \tan^{-1} \left[ \frac{\Vzb}{-\Vxb} \right]
+\end{equation}
+
+\noindent where $V_{X_b,rel}$ is negated due to the direction of the $X_b$-axis to maintain consistency with the definition of angle of attack.
+
+For a better comparison with the wind tunnel test, angle of attack is also calculated in the total frame, as seen in Eqn.~\ref{alphaT}.
+
+\begin{equation} \label{alphaT}
+ \alpha_{T} = \cos^{-1} \left[ \frac{\Vxb}{V_{eff}} \right]
+\end{equation}
+
+\noindent Because there is no side-slip in the CFD model, $\alpha_T$ is effectively the absolute value of $\alpha$ in these simulations.
+
+Aerodynamic rates ($\dot{\alpha},\,\dot{\alpha}_T$) are calculated from the $\alpha,\,\alpha_T$ data series using numerical differencing, and is shown in Eqn.~\ref{diff}.
+
+\begin{equation} \label{diff}
+ \dot{\alpha}_{T,i} = \frac{\alpha_{T,i+1} - \alpha_{T,i-1}}{2\Delta t}
+\end{equation}
+
+\noindent Central differencing is used to calculate all middle derivatives, while forward and backward differencing are used to calculate the first and last derivatives in the time series, respectively.
+
+To more closely compare to the wind tunnel test, $\dot{\alpha}_T$ is non-dimmensionalized according to Eqn.~\ref{alphaTdot_non} by a reference length equal to the parachute skirt radius and the effective velocity $V_{eff}$ of the parachute at the given instant in time.
+
+\begin{equation} \label{alphaTdot_non}
+ \dot{\alpha}_{T,non} = \frac{|\dot{\alpha}_T| l_{ref}}{2V_{eff}}
+\end{equation}
+
+Finally, the aerodynamic clock angle $\phi$, which is defined in Eqn.~\ref{phi}, must be calculated to allow coordinate rotations into the missile frame.
+
+\begin{equation} \label{phi}
+\phi=\tan^{-1}(\frac{-V_{Y_b,rel}}{V_{Z_b,rel}})
+\end{equation}
+
+\noindent Though $V_{Y_b,rel}$ is always zero for the in-plane oscillations of the CFD simulations (as will $C_Y$), the changing sign of $V_{Z_b,rel}$ makes it such that $\phi$ will be either $0$ or $2\pi$, making the missile rotation matrix in Eqn.~\ref{missilerotation} in Section~\ref{rotations} either the identity or negative identity matrix.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Force and Moment Coefficient Rotations} \label{rotations}
+
+Because the body and missile coordinate systems will be used to compare CFD results to the WTT, a series of coordinate frame rotations are required to transform OVERFLOW $C_X,\,C_Z$ to $C_A,\,C_{N,m}$.  However, all coeffiicents must first be corrected for inaccurate non-dimensionalization by the freestream dynamic pressure.  Because OVERFLOW does not bookkeep the relative velocity of the grids during the simulation, all coefficients are non-dimensionalized simply by the freestream dynamic pressure $q_{\infty}$ though they should actually be non-dimensionalized by the dynamic pressure of the flow in the frame of the actual parachute, defined in Eqn.~\ref{qbar}.
+
+\begin{equation} \label{qbar}
+  q=\sfrac{1}{2}\rho V_{eff}^2
+\end{equation}
+
+\noindent Assuming incompressible flow ($\rho = \rho_{\infty}$), this correction can be expressed simply as the ratio of the squares of the freestream and effective velocities, as derived in Eqn.~\ref{qcorr}.
+
+\begin{equation} \label{qcorr}
+\begin{gathered}
+  C_F = \frac{F}{q} = \frac{F}{q_{\infty}} \cdot \frac{q_{\infty}}{q}
+      = C_{F,OVR} \cdot \frac{q_{\infty}}{q} \\
+  \frac{q_{\infty}}{q} = \frac{\frac{1}{2}\rho_{\infty} V_{\infty}^2}
+                              {\frac{1}{2}\rho_{\infty} V_{eff}^2}
+                =\left(\frac{V_{\infty}}{V_{eff}}\right)^2
+\end{gathered}
+\end{equation}
+
+After the non-dimensionalization correction, forces can then be rotated first from the inertial frame to the body frame, and then from the body frame into the missile frame
+
+The rotation into the body frame shown in Fig.~\ref{rotationdiagram} and derived in Eqn.~\ref{bodyrotation} is a simple, 2D rotation about the pitch axis for the CFD cases, as the yaw angle is always zero.
+
+\begin{equation} \label{bodyrotation}
+\begin{split}
+  \begin{bmatrix}
+  {C_A} \\
+  {C_N}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+  {\cos\theta} & {-\sin\theta} \\
+  {\sin\theta} & { \cos\theta}
+  \end{bmatrix}
+  \begin{bmatrix}
+  {C_X} \\
+  {C_Z}
+  \end{bmatrix} \\
+\end{split}
+\end{equation}
+
+\noindent The missile frame rotation in Eqn~\ref{missilerotation}, as previously explained, manifests as either the identity or negative identity matrix, effectively causing a discontinuity in the normal force coefficient $C_N$.
+
+\begin{equation} \label{missilerotation}
+\begin{split}
+  \begin{bmatrix}
+  {C_{Y,m}} \\
+  {C_{N,m}}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+  {\cos\phi} & {-\sin\phi} \\
+  {\sin\phi} & { \cos\phi}
+  \end{bmatrix}
+  \begin{bmatrix}
+  {C_Y} \\
+  {C_N}
+  \end{bmatrix}
+\end{split}
+\end{equation}
+
+
+% %CHUTE DIAGRAM (SOURCED FROM STANDALONE TEX)
+% \begin{figure}[htb] \label{rotationdiagram}
+% \begin{center}
+% \includestandalone[width=.25\textwidth]{Diagram_Rotation}
+% \caption{Body frame transformation diagram depicting a rotation about the $Y_i$ axis}
+% \end{center}
+% \end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Apparent Mass Adjustment} \label{appmass} %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+To maintain consistency with the wind tunnel test, an apparent mass adjustment is applied the body forces to account for the displacement of the air trapped within the parachute as it pitches.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Apparent Force}
+
+The apparent mass of the trapped air $m_a$ is calculated as the mass of the air within a hemisphere of diameter $L_{ref}$ multiplied by a scale factor, as seen in Eqn.~\ref{apparentmass}.
+
+\textcolor{red}{\textbf{apparent force diagram}}
+
+\begin{equation} \label{apparentmass}
+  m_a = \frac{1}{2} \left[ \frac{4}{3}\pi \left( 0.7\frac{L_{ref}}{2} \right)^3 \right] \cdot \rho_{\infty}
+\end{equation}
+
+The force the parachute exerts on this mass is then calculated according to Newton''s second law, using the axial and normal accelerations in Eqn.~\ref{accelerations} derived from the precribed equations of motion.
+
+\begin{equation} \label{accelerations}
+  \overline{a}_b = R\dot{\theta}^2 \hat{X}_b + R\ddot{\theta} \hat{Z}_b
+\end{equation}
+
+By Newton''s third law, this force must be subtracted from the aerodynamic forces acting on the parachute calculated by surface integration in OVERFLOW, resulting in Eqn.~\ref{masscorrection} for the final expression for the aerodynamic forces on the parachute.
+
+\begin{equation} \label{masscorrection}
+  \Sigma \overline{F} = \overline{F}_{aero} - m_a\overline{a}_b
+\end{equation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Accelerations}
+
+To calculate the forces required to accelerate the apparent mass, it is necessary to derive the equations of motion pertaining to the parachute''s oscillation.  Representing the parachute as a single point rotating at a distance $R$ behind its attachement point in the negative $\hat{X}_b$ direction, the expression for its position is given in Eqn.~\ref{radius}.
+
+\begin{equation} \label{radius}
+  \overline{r}_b = -R \overline{\hat{X}_b}
+\end{equation}
+
+\noindent The velocity of the parachute due to oscillations in $\theta$ can be determined by differentiating Eqn.~\ref{radius} with respect to time.  There is no change in the radius in these simulations, so the relative acceleration term in Eqn.~\ref{derR} goes to zero, leaving the derivative of the $\hat{X}_b$ unit vector.
+
+\begin{equation} \label{derR}
+\begin{split}
+  \overline{v}_b =& \frac{^Bd}{dt} \overline{r}_b = \cancelto{0}{\frac{^Bd\overline{r}}{dt}} - R \frac{d\hat{X}_b}{dt}
+\end{split}
+\end{equation}
+
+\noindent From Eqn.~\ref{bodyrotation}, $\hat{X}_b$ can be substituted into terms of inertial frame unit vectors and simplified as in Eqn.~\ref{derRsub}.
+
+\begin{equation} \label{derRsub}
+\begin{split}
+  &\quad= -R \cdot \frac{d}{dt} \left( \cos\theta\hat{X}_i - \sin\theta\hat{Z}_i  \right) \\
+  &\quad= -R \left( -\dot{\theta}\sin\theta\hat{X}_i - \dot{\theta}\cos\theta\hat{Z}_i \right) \\
+  &\quad= R\dot{\theta} \underbrace{ \left( \sin\theta\hat{X}_i + \cos\theta\hat{Z}_i \right) }_{\hat{Z}_b} \\
+  &\boxed{\overline{v}_b = R\dot{\theta}\hat{Z}_b}
+\end{split}
+\end{equation}
+
+\noindent Finally, the velocity can be differentiated to produce the acceleration components in the body axis system.
+
+\begin{equation} \label{derV}
+\begin{split}
+  \overline{a}_b &\quad= \frac{^Bd}{dt} \overline{v}_b = \frac{^Bd}{dt}(R\dot{\theta}\hat{Z}_b) =  R \left[ \ddot{\theta}\hat{Z}_b + \dot{\theta}\frac{d\hat{Z}_b}{dt}\right] \\
+  &\quad= R \left[ \ddot{\theta}\hat{Z}_b + \dot{\theta} \frac{d}{dt}(\sin\theta\hat{X}_i + \cos\theta\hat{Z}_i)\right]
+  =  R \left[ \ddot{\theta}\hat{Z}_b + \dot{\theta} (\dot{\theta}\cos\theta\hat{X}_i - \dot{\theta}\sin\theta\hat{Z}_i)\right] \\
+  &\quad= R [ \ddot{\theta}\hat{Z}_b + \dot{\theta}^2 \underbrace{ (\cos\theta\hat{X}_i - \sin\theta\hat{Z}_i) }_{\hat{X}_b} ] \\
+  &\boxed{\overline{a}_b = R\dot{\theta}^2 \hat{X}_b + R\ddot{\theta} \hat{Z}_b}
+\end{split}
+\end{equation}
+
+
+\end{document}
+
+
