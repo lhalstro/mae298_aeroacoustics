@@ -73,6 +73,15 @@ Abstract about homework
   $W(r)$              \> Radial distribution of axial velocity \\
   $\overline{a^2}(r)$ \> Radial distribution of speed of sound squared\\
   $p'$                \> Perturbation pressure \\
+  $i$                 \> Imaginary number $\sqrt{-1}$ \\
+  $P$                 \>  \\
+  $k$                 \>  \\
+  $\omega$            \>  \\
+  $n$                 \>  \\
+  $r$                 \>  \\
+  $\theta$            \>  \\
+  $z$                 \>  \\
+
 
 
 \end{tabbing}
@@ -83,37 +92,125 @@ Abstract about homework
 \section{Background} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Lilley's equation for a parallel axisymmetric flow
+Lilley's equation for a parallel axisymmetric flow (Eqn~\ref{Lilley}):
 
 \begin{equation} \label{Lilley}
 \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right)^3 p'
 - \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) \left( \overline{a^2} \nabla^2p' \right)
 - \dfrac{d \overline{a^2}}{dr} \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) \dfrac{dp'}{dr}
++ 2\overline{a^2} \dfrac{dW}{dr}\dfrac{\partial^2 p'}{\partial z \partial r}
+= S(\vec{x}, t)
+\end{equation}
+
+\begin{center}
+where $\nabla^2 \equiv \dfrac{1}{r}\dfrac{\partial}{\partial r} \left( r\dfrac{\partial}{\partial r} \right)
++ \dfrac{1}{r^2}\dfrac{\partial^2}{\partial \theta^2}
++ \dfrac{\partial^2}{\partial z^2}$
+\end{center}
+
+
+$W(r)$ is the radial distribution of axial velocity and $\overline{a^2}(r)$ is the radial distribution of speed of sound squared.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Problem 1 -- Solution to Lilley's Equation} %%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Seek solutions of Lilley's equation in the form:
+
+\begin{equation} \label{SolnForm}
+p'(r, \theta, z, t) \sim P(r) \exp\left[ i(kz + n\theta -\omega t) \right]
+\end{equation}
+
+\noindent Assume:
+\begin{enumerate}
+  \item $\overline{a^2} = \dfrac{\gamma \overline{p}}{\overline{\rho}}$
+  \item $\overline{p} = const$
+\end{enumerate}
+
+\noindent where $\overline{\rho}(r)$ is the radial distribution of the mean density.  Show that Lilley's equation reduces to (Eqn~\ref{LilleySoln}):
+
+\begin{equation} \label{LilleySoln}
+\dfrac{d^2 P}{dr^2}
++ \left\{ \dfrac{1}{r}
+  - \dfrac{1}{\overline{\rho}} \dfrac{d\overline{\rho}}{dr}
+  + \dfrac{2k}{(\omega - kW)} \dfrac{dW}{dr}
+\right\} \dfrac{dP}{dr}
++ \left\{ \dfrac{(\omega - kW)^2}{\overline{a^2}} - k^2 - \dfrac{n^2}{r^2}
+\right\} P = RHS
+\end{equation}
+
+\subsection{Term 1}
+
+Apply solution form to first term of Lilley's equation:
+
+\begin{equation} \label{LilleyTerm1}
+\left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right)^3 p'
+\end{equation}
+
+First, we find the results for the first-order partial derivatives of parameters relevant to the solution:
+
+\newcommand\expterm{i(kz + n\theta -\omega t)}%terms in exponential
+\begin{equation} \label{dpdt}
+\begin{split}
+\dfrac{\partial p'}{\partial t} &= \dfrac{\partial}{\partial t}
+  \left\{ P(r) \exp\left[ \expterm \right]\right\} \\
+&= P \expterm \exp\left[ \expterm \right]
+    \dfrac{\partial}{\partial t} [\expterm] \\
+&= P i^2(kz + n\theta -\omega t) \exp\left[ \expterm \right]
+    \left[ \cancelto{0}{\dfrac{\partial}{\partial t}(kz)}
+    + \cancelto{0}{\dfrac{\partial}{\partial t}(n\theta)}
+    - \dfrac{\partial}{\partial t}(\omega t)
+    \right] \\
+&= P (-1) (-\omega) (kz + n\theta -\omega t) \exp\left[ \expterm \right] \\
+\dfrac{\partial p'}{\partial t} &= \boxed{P (kz\omega + n\theta\omega -\omega^2 t) \exp\left[ \expterm \right]}
+\end{split}
+\end{equation}
+
+\begin{equation} \label{dpdz}
+\begin{split}
+\dfrac{\partial p'}{\partial z} &= \dfrac{\partial}{\partial z}
+  \left\{ P(r) \exp\left[ \expterm \right]\right\} \\
+&= P \expterm \exp\left[ \expterm \right]
+    \dfrac{\partial}{\partial z} [\expterm] \\
+&= P i^2(kz + n\theta -\omega t) \exp\left[ \expterm \right]
+    \left[ \dfrac{\partial}{\partial z}(kz)
+    + \cancelto{0}{\dfrac{\partial}{\partial z}(n\theta)}
+    - \cancelto{0}{\dfrac{\partial}{\partial z}(\omega t)}
+    \right] \\
+&= P (-1) (k) (kz + n\theta -\omega t) \exp\left[ \expterm \right] \\
+\dfrac{\partial p'}{\partial z} &= \boxed{-P (kz^2 + nz\theta - z \omega t)
+  \exp\left[ \expterm \right]}
+\end{split}
 \end{equation}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Free Body Diagram}
-
-In this example, a mass is held against gravity by a string attached to a roof.  Some initial displacement from the neutral vertial position causes this system to exhibit simple pendulum motion due to the resulting force balance demonstrated in the free body diagram.
-
-% \newcommand\inertial{0}
-% \begin{figure}[htb]
-% \begin{center}
-% \includestandalone[width=.25\textwidth]{Diagram_SimplePendulum_FBD}
-% \caption{Simple, gravitational pendulum }
-% \label{gravpend}
-% \end{center}
-% \end{figure}
 
 
+\begin{equation}
+\begin{split}
+\left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right)^3 p'
+&= \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}
+   \right)^2
+   \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}
+   \right)p' \\
+&= \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}
+   \right)^2
+   \left( \dfrac{\partial p'}{\partial t} + W \dfrac{\partial p'}{\partial z}
+   \right)
+% &= \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right)   ^3 \left\{ P(r) \exp\left[ i(kz + n\theta -\omega t) \right] \right\}
+\end{split}
+\end{equation}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Process Raw OVERFLOW Data} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Before the calculation of dynamic parameters, the raw run condition and force data output by the OVERFLOW CFD solver must be processed.
 
+
+
+
+
+
+\clearpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Read Case Data}
