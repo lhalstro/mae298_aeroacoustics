@@ -295,25 +295,21 @@ Apply solution form to third term of Lilley's equation:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Term 4}
 
-Apply solution form to third term of Lilley's equation:
+Apply solution form to fourth term of Lilley's equation:
 
 
 \begin{equation}
 \begin{split}
-\dfrac{d \overline{a^2}}{dr} \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) \dfrac{dp'}{dr}
-&= \dfrac{d \overline{a^2}}{dr}
-   \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right)
-   \dfrac{dP}{dr} e^{iE}  \\
-&= \dfrac{d \overline{a^2}}{dr} \dfrac{dP}{dr}
-   \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) e^{iE} \\
-&= \dfrac{d \overline{a^2}}{dr} \dfrac{dP}{dr}
-    i(-\omega + kW) e^{iE} \\
-&= \dfrac{d}{dr} \left(\dfrac{\gamma \overline{p}}{\overline{\rho}}\right)
-    \dfrac{dP}{dr} i(-\omega + kW) e^{iE} \\
-&= -\left(\dfrac{\gamma \overline{p}}{\overline{\rho}^2}\right) \frac{d \overline{\rho}}{dr}
-    \dfrac{dP}{dr} i(-\omega + kW) e^{iE} \\
-&= -\left(\dfrac{\overline{a^2}}{\overline{\rho}}\right) \frac{d \overline{\rho}}{dr}
-    \dfrac{dP}{dr} i(-\omega + kW) e^{iE} \\
+2\overline{a^2} \dfrac{dW}{dr}\dfrac{\partial^2 p'}{\partial z \partial r}
+  &= 2\overline{a^2} \dfrac{dW}{dr} \dfrac{\partial }{\partial z}
+    \dfrac{\partial p'}{\partial r}
+    = 2\overline{a^2} \dfrac{dW}{dr} \dfrac{\partial }{\partial z}
+    \left( \dfrac{dP}{dr} e^{iE} \right) \\
+&= 2\overline{a^2} \dfrac{dW}{dr} \dfrac{dP}{dr}
+    \dfrac{\partial }{\partial z} \left( e^{iE} \right)
+    = 2\overline{a^2} \dfrac{dW}{dr} \dfrac{dP}{dr} ike^{iE}      \\
+2\overline{a^2} \dfrac{dW}{dr}\dfrac{\partial^2 p'}{\partial z \partial r}
+  &= \boxed{ k i 2\overline{a^2} \exp[i(kz + n\theta -\omega t)] \dfrac{dW}{dr} \dfrac{dP}{dr} } \\
 \end{split}
 \end{equation}
 
