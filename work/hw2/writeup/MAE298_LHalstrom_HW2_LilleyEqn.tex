@@ -164,6 +164,20 @@ To aid in this derivaiton, we find the results for the first-order partial deriv
 
 % Additionally, $\dfrac{\partial}{\partial t} E^ne^{iE} = E^{n+1}e^{iE}$, and $\dfrac{\partial}{\partial z} E^ne^{iE} = $
 
+\begin{equation} \label{dpdtheta}
+\begin{split}
+\dfrac{\partial p'}{\partial \theta} &= \dfrac{\partial}{\partial \theta}
+  \left\{ P(r) \exp\left[ \expterm \right]\right\} \\
+&= P \dfrac{\partial}{\partial \theta} [\expterm] \exp[\expterm] \\
+&= iP \left[\cancelto{0}{\dfrac{\partial}{\partial \theta}(kz)      }
+                      + \dfrac{\partial}{\partial \theta}(n\theta)
+          - \cancelto{0}{\dfrac{\partial}{\partial \theta}(\omega t)}
+    \right] \exp[\expterm]
+    = (iPn) \exp[\expterm] \\
+\dfrac{\partial p'}{\partial \theta} &= \boxed{iPn \exp[\expterm] = iPn e^{iE} }
+\end{split}
+\end{equation}
+
 \begin{equation} \label{dpdz}
 \begin{split}
 \dfrac{\partial p'}{\partial z} &= \dfrac{\partial}{\partial z}
@@ -217,9 +231,38 @@ Apply solution form to first term of Lilley's equation:
    \right) (-\omega + kW)^2Pi^2 (e^{iE}) \\
 &= (-\omega + kW)^3Pi^3 (e^{iE}) = (-\omega + kW)^3P(-i) (e^{iE}) = (\omega - kW)^3Pi (e^{iE}) \\
 \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right)^3 p'
-&= (\omega - kW)^3Pi (\exp[i(kz + n\theta -\omega t)]
+&= \boxed{(\omega - kW)^3Pi \exp[i(kz + n\theta -\omega t)]}
 \end{split}
 \end{equation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Term 2}
+
+Apply solution form to first term of Lilley's equation:
+
+
+\begin{equation}
+\begin{split}
+\left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) (\overline{a^2}\nabla^2p')
+&= \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}
+   \right) \overline{a^2}
+   \left[\dfrac{1}{r}\dfrac{\partial}{\partial r} \left( r\dfrac{\partial p'}{\partial r} \right)
+      + \dfrac{1}{r^2} \dfrac{\partial^2 p'}{\partial \theta^2}
+      + \dfrac{\partial^2 p'}{\partial z^2} \right] \\
+\end{split}
+\end{equation}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
