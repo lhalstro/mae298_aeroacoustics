@@ -178,18 +178,6 @@ To aid in this derivaiton, we find the results for the first-order partial deriv
 
 \begin{equation} \label{dpdz}
 \begin{split}
-% \dfrac{\partial p'}{\partial z} &= \dfrac{\partial}{\partial z}
-%   \left\{ P(r) \exp\left[ \expterm \right]\right\} \\
-% &= P \expterm \exp\left[ \expterm \right]
-%     \dfrac{\partial}{\partial z} [\expterm] \\
-% &= P i^2(kz + n\theta -\omega t) \exp\left[ \expterm \right]
-%     \left[ \dfrac{\partial}{\partial z}(kz)
-%     + \cancelto{0}{\dfrac{\partial}{\partial z}(n\theta)}
-%     - \cancelto{0}{\dfrac{\partial}{\partial z}(\omega t)}
-%     \right] \\
-% &= P (-1) (k) (kz + n\theta -\omega t) \exp\left[ \expterm \right] \\
-% \dfrac{\partial p'}{\partial z} &= \boxed{-P (kz^2 + nz\theta - z \omega t)
-%   \exp\left[ \expterm \right] = -Pk Ee^{iE} }
 \dfrac{\partial p'}{\partial z} &= \dfrac{\partial}{\partial z}
   \left\{ P(r) \exp\left[ \expterm \right]\right\} \\
 &= P \dfrac{\partial}{\partial z} [\expterm] \exp[\expterm] \\
@@ -199,6 +187,14 @@ To aid in this derivaiton, we find the results for the first-order partial deriv
     \right] \exp[\expterm]
     = (iPk) \exp[\expterm] \\
 \dfrac{\partial p'}{\partial z} &= \boxed{iPk \exp[\expterm] = iPk e^{iE} }
+\end{split}
+\end{equation}
+
+\begin{equation} \label{dpdr}
+\begin{split}
+\dfrac{\partial p'}{\partial r} &= \dfrac{\partial}{\partial r}
+  \left\{ P(r) \exp\left[ \expterm \right]\right\} \\
+\dfrac{\partial p'}{\partial r} &= \boxed{\dfrac{dP}{dr} \exp[\expterm] = \dfrac{dP}{dr} e^{iE} }
 \end{split}
 \end{equation}
 
@@ -274,14 +270,61 @@ Apply solution form to third term of Lilley's equation:
 
 \begin{equation}
 \begin{split}
-\left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) (\overline{a^2}\nabla^2p')
-&= \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}
-   \right) \overline{a^2}
-   \left[\dfrac{1}{r}\dfrac{\partial}{\partial r} \left( r\dfrac{\partial p'}{\partial r} \right)
-      + \dfrac{1}{r^2} \dfrac{\partial^2 p'}{\partial \theta^2}
-      + \dfrac{\partial^2 p'}{\partial z^2} \right] \\
+\dfrac{d \overline{a^2}}{dr} \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) \dfrac{dp'}{dr}
+&= \dfrac{d \overline{a^2}}{dr}
+   \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right)
+   \dfrac{dP}{dr} e^{iE}  \\
+&= \dfrac{d \overline{a^2}}{dr} \dfrac{dP}{dr}
+   \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) e^{iE} \\
+&= \dfrac{d \overline{a^2}}{dr} \dfrac{dP}{dr}
+    i(-\omega + kW) e^{iE} \\
+&= \dfrac{d}{dr} \left(\dfrac{\gamma \overline{p}}{\overline{\rho}}\right)
+    \dfrac{dP}{dr} i(-\omega + kW) e^{iE} \\
+&= -\left(\dfrac{\gamma \overline{p}}{\overline{\rho}^2}\right) \frac{d \overline{\rho}}{dr}
+    \dfrac{dP}{dr} i(-\omega + kW) e^{iE} \\
+&= -\left(\dfrac{\overline{a^2}}{\overline{\rho}}\right) \frac{d \overline{\rho}}{dr}
+    \dfrac{dP}{dr} i(-\omega + kW) e^{iE} \\
 \end{split}
 \end{equation}
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Term 4}
+
+Apply solution form to third term of Lilley's equation:
+
+
+\begin{equation}
+\begin{split}
+\dfrac{d \overline{a^2}}{dr} \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) \dfrac{dp'}{dr}
+&= \dfrac{d \overline{a^2}}{dr}
+   \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right)
+   \dfrac{dP}{dr} e^{iE}  \\
+&= \dfrac{d \overline{a^2}}{dr} \dfrac{dP}{dr}
+   \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) e^{iE} \\
+&= \dfrac{d \overline{a^2}}{dr} \dfrac{dP}{dr}
+    i(-\omega + kW) e^{iE} \\
+&= \dfrac{d}{dr} \left(\dfrac{\gamma \overline{p}}{\overline{\rho}}\right)
+    \dfrac{dP}{dr} i(-\omega + kW) e^{iE} \\
+&= -\left(\dfrac{\gamma \overline{p}}{\overline{\rho}^2}\right) \frac{d \overline{\rho}}{dr}
+    \dfrac{dP}{dr} i(-\omega + kW) e^{iE} \\
+&= -\left(\dfrac{\overline{a^2}}{\overline{\rho}}\right) \frac{d \overline{\rho}}{dr}
+    \dfrac{dP}{dr} i(-\omega + kW) e^{iE} \\
+\end{split}
+\end{equation}
+
+
+
+
+
+
+
+
+
 
 
 
