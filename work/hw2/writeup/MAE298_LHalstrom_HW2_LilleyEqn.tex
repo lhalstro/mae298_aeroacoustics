@@ -141,15 +141,7 @@ p'(r, \theta, z, t) \sim P(r) \exp\left[ i(kz + n\theta -\omega t) \right]
 \right\} P = RHS
 \end{equation}
 
-\subsection{Term 1}
-
-Apply solution form to first term of Lilley's equation:
-
-\begin{equation} \label{LilleyTerm1}
-\left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right)^3 p'
-\end{equation}
-
-First, we find the results for the first-order partial derivatives of parameters relevant to the solution:
+To aid in this derivaiton, we find the results for the first-order partial derivatives of parameters relevant to the solution:
 
 \newcommand\expterm{i(kz + n\theta -\omega t)}%terms in exponential
 \begin{equation} \label{dpdt}
@@ -164,9 +156,13 @@ First, we find the results for the first-order partial derivatives of parameters
     - \dfrac{\partial}{\partial t}(\omega t)
     \right] \\
 &= P (-1) (-\omega) (kz + n\theta -\omega t) \exp\left[ \expterm \right] \\
-\dfrac{\partial p'}{\partial t} &= \boxed{P (kz\omega + n\theta\omega -\omega^2 t) \exp\left[ \expterm \right]}
+\dfrac{\partial p'}{\partial t} &= \boxed{P (kz\omega + n\theta\omega -\omega^2    t) \exp\left[ \expterm \right] = P\omega Ee^{iE} }
 \end{split}
 \end{equation}
+
+\noindent where $E=kz + n\theta -\omega t$, $\dfrac{\partial E}{\partial t} = -\omega$, and $\dfrac{\partial E}{\partial z} = k$.
+
+% Additionally, $\dfrac{\partial}{\partial t} E^ne^{iE} = E^{n+1}e^{iE}$, and $\dfrac{\partial}{\partial z} E^ne^{iE} = $
 
 \begin{equation} \label{dpdz}
 \begin{split}
@@ -181,11 +177,18 @@ First, we find the results for the first-order partial derivatives of parameters
     \right] \\
 &= P (-1) (k) (kz + n\theta -\omega t) \exp\left[ \expterm \right] \\
 \dfrac{\partial p'}{\partial z} &= \boxed{-P (kz^2 + nz\theta - z \omega t)
-  \exp\left[ \expterm \right]}
+  \exp\left[ \expterm \right] = -Pk Ee^{iE} }
 \end{split}
 \end{equation}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Term 1}
 
+Apply solution form to first term of Lilley's equation:
+
+% \begin{equation} \label{LilleyTerm1}
+% \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right)^3 p'
+% \end{equation}
 
 
 \begin{equation}
@@ -198,8 +201,23 @@ First, we find the results for the first-order partial derivatives of parameters
 &= \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}
    \right)^2
    \left( \dfrac{\partial p'}{\partial t} + W \dfrac{\partial p'}{\partial z}
+   \right) \\
+&= \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}
+   \right)^2
+   \left( -Pi\omega e^{iE} + PikW e^{iE}
+   \right) \\
+&= \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}
    \right)
-% &= \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right)   ^3 \left\{ P(r) \exp\left[ i(kz + n\theta -\omega t) \right] \right\}
+   \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}
+   \right) (-\omega + kW)Pi (e^{iE}) \\
+&= \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}
+   \right) (-\omega + kW)Pi
+   (-i\omega e^{iE} + ikW e^{iE}) \\
+&= \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}
+   \right) (-\omega + kW)^2Pi^2 (e^{iE}) \\
+&= (-\omega + kW)^3Pi^3 (e^{iE}) = (-\omega + kW)^3P(-i) (e^{iE}) = (\omega - kW)^3Pi (e^{iE}) \\
+\left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right)^3 p'
+&= (\omega - kW)^3Pi (\exp[i(kz + n\theta -\omega t)]
 \end{split}
 \end{equation}
 
