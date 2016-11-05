@@ -74,6 +74,7 @@ Abstract about homework
   $\overline{a^2}(r)$ \> Radial distribution of speed of sound squared\\
   $p'$                \> Perturbation pressure \\
   $i$                 \> Imaginary number $\sqrt{-1}$ \\
+  $E$                 \> Exponential term: $kz + n\theta -\omega t$ \\
   $P$                 \>  \\
   $k$                 \>  \\
   $\omega$            \>  \\
@@ -141,7 +142,7 @@ p'(r, \theta, z, t) \sim P(r) \exp\left[ i(kz + n\theta -\omega t) \right]
 \right\} P = RHS
 \end{equation}
 
-To aid in this derivaiton, we find the results for the first-order partial derivatives of parameters relevant to the solution:
+To aid in this derivaiton, we find the results for the first-order partial derivatives of parameters relevant to the solution.  First, we compute the derivative of the perturbation pressure $p'$ with respect to (WRT) time $t$:
 
 \newcommand\expterm{i(kz + n\theta -\omega t)}%terms in exponential
 \begin{equation} \label{dpdt}
@@ -158,9 +159,7 @@ To aid in this derivaiton, we find the results for the first-order partial deriv
 \end{split}
 \end{equation}
 
-\noindent where $E=kz + n\theta -\omega t$, $\dfrac{\partial E}{\partial t} = -\omega$, and $\dfrac{\partial E}{\partial z} = k$.
-
-% Additionally, $\dfrac{\partial}{\partial t} E^ne^{iE} = E^{n+1}e^{iE}$, and $\dfrac{\partial}{\partial z} E^ne^{iE} = $
+\noindent where $E=kz + n\theta -\omega t$, $\dfrac{\partial E}{\partial t} = -\omega$, and $\dfrac{\partial E}{\partial z} = k$.  Next, we compute the derivative of $p'$ WRT the angular direction $\theta$:
 
 \begin{equation} \label{dpdtheta}
 \begin{split}
@@ -176,6 +175,8 @@ To aid in this derivaiton, we find the results for the first-order partial deriv
 \end{split}
 \end{equation}
 
+Next, we compute the derivative of $p'$ WRT the axial flow direction $z$:
+
 \begin{equation} \label{dpdz}
 \begin{split}
 \dfrac{\partial p'}{\partial z} &= \dfrac{\partial}{\partial z}
@@ -190,6 +191,8 @@ To aid in this derivaiton, we find the results for the first-order partial deriv
 \end{split}
 \end{equation}
 
+Next, we compute the derivative of $p'$ WRT the radial direction $r$:
+
 \begin{equation} \label{dpdr}
 \begin{split}
 \dfrac{\partial p'}{\partial r} &= \dfrac{\partial}{\partial r}
@@ -201,7 +204,7 @@ To aid in this derivaiton, we find the results for the first-order partial deriv
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Term 1}
 
-Apply solution form to first term of Lilley's equation:
+To simplify the derivation, we will apply the solution form individually to each term in Lilley's equation.  For the first term:
 
 % \begin{equation} \label{LilleyTerm1}
 % \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right)^3 p'
@@ -234,7 +237,7 @@ Apply solution form to first term of Lilley's equation:
    \right) (-\omega + kW)^2iP^2 (e^{iE}) \\
 &= (-\omega + kW)^3iP^3 (e^{iE}) = (-\omega + kW)^3P(-i) (e^{iE}) = (\omega - kW)^3iP (e^{iE}) \\
 \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right)^3 p'
-&= \boxed{(\omega - kW)^3iP \exp[i(kz + n\theta -\omega t)]}
+&= \boxed{ i\exp[i(kz + n\theta -\omega t)] (\omega - kW)^3 P}
 \end{split}
 \end{equation}
 
@@ -266,15 +269,13 @@ Apply solution form to second term of Lilley's equation:
 
 
 
-
+\clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Term 3}
 
-Apply solution form to third term of Lilley's equation:
+Applying the solution form to third term of Lilley's equation:
 
-
-\begin{equation}
-\begin{split}
+\begin{align*}
 \dfrac{d \overline{a^2}}{dr} \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) \dfrac{dp'}{dr}
 &= \dfrac{d \overline{a^2}}{dr}
    \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right)
@@ -283,16 +284,47 @@ Apply solution form to third term of Lilley's equation:
    \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) e^{iE} \\
 &= \dfrac{d \overline{a^2}}{dr} \dfrac{dP}{dr}
     i(-\omega + kW) e^{iE} \\
+\end{align*}
+
+Applying the isentropic relationship assumption for speed of sound and taking the derivative WRT $r$:
+
+\begin{align*}
+\dfrac{d \overline{a^2}}{dr} \dfrac{dP}{dr}
+    i(-\omega + kW) e^{iE}
 &= \dfrac{d}{dr} \left(\dfrac{\gamma \overline{p}}{\overline{\rho}}\right)
     \dfrac{dP}{dr} i(-\omega + kW) e^{iE} \\
 &= -\left(\dfrac{\gamma \overline{p}}{\overline{\rho}^2}\right) \frac{d \overline{\rho}}{dr}
     \dfrac{dP}{dr} i(-\omega + kW) e^{iE} \\
-&= -\left(\dfrac{\overline{a^2}}{\overline{\rho}}\right) \frac{d \overline{\rho}}{dr}
-    \dfrac{dP}{dr} i(-\omega + kW) e^{iE} \\
-\end{split}
+&= \left(\dfrac{\overline{a^2}}{\overline{\rho}}\right) \frac{d \overline{\rho}}{dr} \dfrac{dP}{dr} i(\omega - kW) e^{iE} \\
+\end{align*}
+
+This results in the final expression for Term 3:
+
+\begin{equation}
+\boxed{\dfrac{d \overline{a^2}}{dr} \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) \dfrac{dp'}{dr}
+= \overline{a^2} i\exp[i(kz + n\theta -\omega t)] (\omega - kW)
+    \dfrac{1}{\overline{\rho}}\frac{d \overline{\rho}}{dr} \dfrac{dP}{dr} }
 \end{equation}
 
 
+% \begin{equation}
+% \begin{split}
+% \dfrac{d \overline{a^2}}{dr} \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) \dfrac{dp'}{dr}
+% &= \dfrac{d \overline{a^2}}{dr}
+%    \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right)
+%    \dfrac{dP}{dr} e^{iE}  \\
+% &= \dfrac{d \overline{a^2}}{dr} \dfrac{dP}{dr}
+%    \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) e^{iE} \\
+% &= \dfrac{d \overline{a^2}}{dr} \dfrac{dP}{dr}
+%     i(-\omega + kW) e^{iE} \\
+% &= \dfrac{d}{dr} \left(\dfrac{\gamma \overline{p}}{\overline{\rho}}\right)
+%     \dfrac{dP}{dr} i(-\omega + kW) e^{iE} \\
+% &= -\left(\dfrac{\gamma \overline{p}}{\overline{\rho}^2}\right) \frac{d \overline{\rho}}{dr}
+%     \dfrac{dP}{dr} i(-\omega + kW) e^{iE} \\
+% &= -\left(\dfrac{\overline{a^2}}{\overline{\rho}}\right) \frac{d \overline{\rho}}{dr}
+%     \dfrac{dP}{dr} i(-\omega + kW) e^{iE} \\
+% \end{split}
+% \end{equation}
 
 
 
@@ -303,8 +335,7 @@ Apply solution form to third term of Lilley's equation:
 Apply solution form to fourth term of Lilley's equation:
 
 
-\begin{equation}
-\begin{split}
+\begin{align*}
 2\overline{a^2} \dfrac{dW}{dr}\dfrac{\partial^2 p'}{\partial z \partial r}
   &= 2\overline{a^2} \dfrac{dW}{dr} \dfrac{\partial }{\partial z}
     \dfrac{\partial p'}{\partial r}
@@ -313,10 +344,30 @@ Apply solution form to fourth term of Lilley's equation:
 &= 2\overline{a^2} \dfrac{dW}{dr} \dfrac{dP}{dr}
     \dfrac{\partial }{\partial z} \left( e^{iE} \right)
     = 2\overline{a^2} \dfrac{dW}{dr} \dfrac{dP}{dr} ike^{iE}      \\
-2\overline{a^2} \dfrac{dW}{dr}\dfrac{\partial^2 p'}{\partial z \partial r}
-  &= \boxed{ k i 2\overline{a^2} \exp[i(kz + n\theta -\omega t)] \dfrac{dW}{dr} \dfrac{dP}{dr} } \\
-\end{split}
+\end{align*}
+
+This results in the final expression for Term 4:
+
+\begin{equation}
+\boxed{2\overline{a^2} \dfrac{dW}{dr}\dfrac{\partial^2p'}{\partial z\partial r}
+  = \overline{a^2} i\exp[i(kz + n\theta -\omega t)]
+    2k \dfrac{dW}{dr} \dfrac{dP}{dr} } \\
 \end{equation}
+
+% \begin{equation}
+% \begin{split}
+% 2\overline{a^2} \dfrac{dW}{dr}\dfrac{\partial^2 p'}{\partial z \partial r}
+%   &= 2\overline{a^2} \dfrac{dW}{dr} \dfrac{\partial }{\partial z}
+%     \dfrac{\partial p'}{\partial r}
+%     = 2\overline{a^2} \dfrac{dW}{dr} \dfrac{\partial }{\partial z}
+%     \left( \dfrac{dP}{dr} e^{iE} \right) \\
+% &= 2\overline{a^2} \dfrac{dW}{dr} \dfrac{dP}{dr}
+%     \dfrac{\partial }{\partial z} \left( e^{iE} \right)
+%     = 2\overline{a^2} \dfrac{dW}{dr} \dfrac{dP}{dr} ike^{iE}      \\
+% 2\overline{a^2} \dfrac{dW}{dr}\dfrac{\partial^2 p'}{\partial z \partial r}
+%   &= \boxed{ k i 2\overline{a^2} \exp[i(kz + n\theta -\omega t)] \dfrac{dW}{dr} \dfrac{dP}{dr} } \\
+% \end{split}
+% \end{equation}
 
 
 
