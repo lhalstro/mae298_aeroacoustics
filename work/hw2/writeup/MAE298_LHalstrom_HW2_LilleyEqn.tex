@@ -291,7 +291,38 @@ The cubed imaginary number $i^3$ simplyfies to $-i$ and the $-1$ is distributed 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Term 2}
 
-Apply solution form to second term of Lilley's equation:
+Application of the solution form to second term (Eqn~\ref{term2}) of Lilley's equation is slightly more involved.
+
+\begin{equation}\label{term2}
+\left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) (\overline{a^2}\nabla^2p')
+\end{equation}
+
+Term 2 requires computing the double divergence of perturbation pressure $\nabla^2 p'$:
+
+\begin{align*}
+\nabla^2p'
+  &= \dfrac{1}{r}\dfrac{\partial}{\partial r} \left( r\dfrac{\partial p'}{\partial r} \right)
+      + \dfrac{1}{r^2} \dfrac{\partial^2 p'}{\partial \theta^2}
+      + \dfrac{\partial^2 p'}{\partial z^2} \\
+&= \dfrac{1}{r}\dfrac{\partial}{\partial r} \left( r \dfrac{dP}{dr} e^{iE} \right)
+      + \dfrac{1}{r^2} \dfrac{\partial }{\partial \theta} \left( Pn ie^{iE} \right)
+      + \dfrac{\partial}{\partial z} \left( Pk ie^{iE} \right) \\
+&= \dfrac{1}{r} e^{iE} \left(
+    \dfrac{dP}{dr} + r \dfrac{d^2P}{dr^2} \right)
+      + \dfrac{1}{r^2} Pn^2 i^2 e^{iE}
+      + Pk^2 i^2  e^{iE} \\
+&= e^{iE} \dfrac{d^2P}{dr^2}
+    + e^{iE} \dfrac{1}{r} \dfrac{dP}{dr}
+    + i^2 e^{iE} \left( \dfrac{n^2}{r^2} + k^2 \right) P \\
+\end{align*}
+
+\begin{equation}
+\boxed{ \nabla^2p'= \exp[i(kz + n\theta -\omega t)] \left[
+      \dfrac{d^2P}{dr^2}
+    + \dfrac{1}{r} \dfrac{dP}{dr}
+    - \left( \dfrac{n^2}{r^2} + k^2 \right) P \right] }
+\end{equation}
+
 
 
 \begin{equation}
