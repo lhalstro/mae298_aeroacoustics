@@ -251,7 +251,7 @@ To simplify the derivation, we will apply the solution form individually to each
 
 The cubed imaginary number $i^3$ simplyfies to $-i$ and the $-1$ is distributed into the cubed factor.  This results in the final expression for Term 1:
 
-\begin{equation}
+\begin{equation} \label{term1soln}
 \boxed{ \left( \dfrac{\partial}{\partial t}
           + W \dfrac{\partial}{\partial z} \right)^3 p'
     =  i\exp[i(kz + n\theta -\omega t)] (\omega - kW)^3 P}
@@ -358,7 +358,7 @@ Substituting Eqn~\ref{doubledivp} into Term 2 (Eqn~\ref{term2}), we can perform 
 
 This results in the final expression for Term 2:
 
-\begin{equation} \label{term2solv}
+\begin{equation} \label{term2soln}
 \boxed{ \left( \dfrac{\partial}{\partial t}
   + W \dfrac{\partial}{\partial z} \right)
   (\overline{a^2}\nabla^2p')
@@ -403,7 +403,7 @@ Applying the isentropic relationship assumption for speed of sound and taking th
 
 This results in the final expression for Term 3:
 
-\begin{equation}
+\begin{equation} \label{term3soln}
 \boxed{\dfrac{d \overline{a^2}}{dr} \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) \dfrac{dp'}{dr}
 = \overline{a^2} i\exp[i(kz + n\theta -\omega t)] (\omega - kW)
     \dfrac{1}{\overline{\rho}}\frac{d \overline{\rho}}{dr} \dfrac{dP}{dr} }
@@ -451,7 +451,7 @@ Apply solution form to fourth term of Lilley's equation:
 
 This results in the final expression for Term 4:
 
-\begin{equation}
+\begin{equation} \label{term4soln}
 \boxed{2\overline{a^2} \dfrac{dW}{dr}\dfrac{\partial^2p'}{\partial z\partial r}
   = \overline{a^2} i\exp[i(kz + n\theta -\omega t)]
     2k \dfrac{dW}{dr} \dfrac{dP}{dr} } \\
@@ -475,7 +475,28 @@ This results in the final expression for Term 4:
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Lilley's Equation Solution}
 
+To derive the final form of Lilley's equation, we combine Terms 1 through 4:
+
+\begin{align*}
+Eqn~\ref{term1soln} - Eqn~\ref{term2soln} - Eqn~\ref{term3soln} + Eqn~\ref{term4soln} = RHS
+\end{align*}
+
+Which becomes the following in expanded form:
+
+\begin{align*}
+\left\{ ie^{iE} (\omega - kW)^3 P \right\}
+- \left\{ - \overline{a^2} ie^{iE}
+    (\omega - kW) \left[ \dfrac{d^2P}{dr^2}
+    + \dfrac{1}{r} \dfrac{dP}{dr}
+    - \left( \dfrac{n^2}{r^2} + k^2 \right) P \right] \right\} \\
+- \left\{ \overline{a^2} ie^{iE} (\omega - kW)
+    \dfrac{1}{\overline{\rho}}\frac{d \overline{\rho}}{dr} \dfrac{dP}{dr} \right\}
++ \left\{ \overline{a^2} ie^{iE} 2k \dfrac{dW}{dr} \dfrac{dP}{dr} \right\}
+= RHS
+\end{align*}
 
 
 
