@@ -288,6 +288,10 @@ The cubed imaginary number $i^3$ simplyfies to $-i$ and the $-1$ is distributed 
 % \end{equation}
 
 
+
+
+
+\clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Term 2}
 
@@ -316,31 +320,53 @@ Term 2 requires computing the double divergence of perturbation pressure $\nabla
     + i^2 e^{iE} \left( \dfrac{n^2}{r^2} + k^2 \right) P \\
 \end{align*}
 
-\begin{equation}
+Thus, the double divergence of $p'$ can be expressed in the following expression, which is seperated into like differential terms of $P$:
+
+\begin{equation} \label{doubledivp}
 \boxed{ \nabla^2p'= \exp[i(kz + n\theta -\omega t)] \left[
       \dfrac{d^2P}{dr^2}
     + \dfrac{1}{r} \dfrac{dP}{dr}
     - \left( \dfrac{n^2}{r^2} + k^2 \right) P \right] }
 \end{equation}
 
+Substituting Eqn~\ref{doubledivp} into Term 2 (Eqn~\ref{term2}), we can perform the multi-derivative expression to derive the final term.  All terms grouped with $P$ as well as $a$ are constant WRT $t$ and $z$ and can be carried outside of the derivative expression.
 
+\begin{align*}
+\left( \dfrac{\partial}{\partial t}
+  + W \dfrac{\partial}{\partial z} \right)
+  (\overline{a^2}\nabla^2p')
+&= \left( \dfrac{\partial}{\partial t}
+  + W \dfrac{\partial}{\partial z}
+  \right) \overline{a^2} e^{iE} \left[
+      \dfrac{d^2P}{dr^2}
+    + \dfrac{1}{r} \dfrac{dP}{dr}
+    - \left( \dfrac{n^2}{r^2} + k^2 \right) P \right] \\
+&= \overline{a^2} \left[ \dfrac{d^2P}{dr^2}
+          + \dfrac{1}{r} \dfrac{dP}{dr}
+          - \left( \dfrac{n^2}{r^2} + k^2 \right) P \right]
+    \left( \dfrac{\partial}{\partial t}
+  + W \dfrac{\partial}{\partial z}
+  \right) e^{iE} \\
+&= \overline{a^2} \left[ \dfrac{d^2P}{dr^2}
+          + \dfrac{1}{r} \dfrac{dP}{dr}
+          - \left( \dfrac{n^2}{r^2} + k^2 \right) P \right]
+  \left( -\omega ie^{iE} + kW ie^{iE}\right) \\
+&= - \overline{a^2} ie^{iE} (\omega - kW) \left[ \dfrac{d^2P}{dr^2}
+          + \dfrac{1}{r} \dfrac{dP}{dr}
+          - \left( \dfrac{n^2}{r^2} + k^2 \right) P \right] \\
+\end{align*}
 
-\begin{equation}
-\begin{split}
-\left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) (\overline{a^2}\nabla^2p')
-&= \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}
-   \right) \overline{a^2}
-   \left[\dfrac{1}{r}\dfrac{\partial}{\partial r} \left( r\dfrac{\partial p'}{\partial r} \right)
-      + \dfrac{1}{r^2} \dfrac{\partial^2 p'}{\partial \theta^2}
-      + \dfrac{\partial^2 p'}{\partial z^2} \right] \\
-&= \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}
-   \right) \overline{a^2}
-   \left[\dfrac{1}{r}\dfrac{\partial}{\partial r} \left( r \dfrac{dP}{dr} e^{iE} \right)
-      + \dfrac{1}{r^2} \dfrac{\partial }{\partial \theta} \left( iPn e^{iE} \right)
-      + \dfrac{\partial}{\partial z} \left( iPk e^{iE} \right) \right] \\
-\end{split}
+This results in the final expression for Term 2:
+
+\begin{equation} \label{term2solv}
+\boxed{ \left( \dfrac{\partial}{\partial t}
+  + W \dfrac{\partial}{\partial z} \right)
+  (\overline{a^2}\nabla^2p')
+= - \overline{a^2} i\exp[i(kz + n\theta -\omega t)]
+    (\omega - kW) \left[ \dfrac{d^2P}{dr^2}
+    + \dfrac{1}{r} \dfrac{dP}{dr}
+    - \left( \dfrac{n^2}{r^2} + k^2 \right) P \right] }
 \end{equation}
-
 
 
 
