@@ -456,7 +456,7 @@ Dividing both sides of the equation by the term $\overline{a^2} ie^{iE} (\omega 
 
 Grouping like terms of $P$, we obtain the final form of the general solution of Lilley's Equation:
 
-\begin{equation}
+\begin{equation} \label{lilleysoln}
 \boxed{
 \dfrac{d^2P}{dr^2}
 + \left\{
@@ -481,10 +481,45 @@ Grouping like terms of $P$, we obtain the final form of the general solution of 
 \section{Problem 2 -- General Solution for Jet Flow Far-Field} %%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Determine the general form of solution (solution of the homogeneous equation) for the pressure fluctuation outside the jet in the ambient medium where the sources vanish. Make sure the solution is chosen to ensure decaying solutions or outgoing waves.
+Next, we will solve the homogeneous form of Eqn~\ref{lilleysoln} to determine the general solution for the pressure fluctuation outside of the jet in the ambient medium where the sources vanish.  This region can be considered to be the far-field of the jet, so the solution must be chosen to ensure decaying solutions (outgoing waves).
 
+Re-writing the homogeneous solution of Lilley's equation, we get:
 
+\begin{align*}
+\dfrac{d^2P}{dr^2}
++ \underbrace{\left\{
+    \dfrac{1}{r} \dfrac{dP}{dr}
+    - \dfrac{1}{\overline{\rho}}\frac{d \overline{\rho}}{dr}
+    + \dfrac{1}{\omega - kW} 2k \dfrac{dW}{dr}
+\right\}}_{B} \dfrac{dP}{dr}
+&+ \underbrace{ \left\{
+    \dfrac{(\omega - kW)^2}{\overline{a^2}}
+    - \left( \dfrac{n^2}{r^2} + k^2 \right)
+\right\} }_{C} P = 0 \\
+\dfrac{d^2P}{dr^2} + B \dfrac{dP}{dr} &+ C P = 0
+\end{align*}
 
+To solve this homogeneous equation, we seek an exponential solution of the form:
+
+\newcommand\expsoln{e^{-\lambda r}}
+\begin{equation} \label{homosolnform}
+P = e^{\lambda r}
+\end{equation}
+
+Substituting the solution form into the homogeneous equation, we obtain the quadratic equation:
+
+\begin{equation}
+\begin{split}
+\lambda^2 \expsoln + B \lambda \expsoln & + C \expsoln = 0 \\
+\lambda^2 + B \lambda&+ C = 0
+\end{split}
+\end{equation}
+
+The solutions to the quadratic equation can be found using the following relation:
+
+\begin{equation}
+\lambda = \dfrac{-b}{}
+\end{equation}
 
 
 
