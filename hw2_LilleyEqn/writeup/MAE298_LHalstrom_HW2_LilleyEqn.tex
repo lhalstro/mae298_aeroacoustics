@@ -460,7 +460,7 @@ Grouping like terms of $P$, we obtain the final form of the general solution of 
 \boxed{
 \dfrac{d^2P}{dr^2}
 + \left\{
-    \dfrac{1}{r} \dfrac{dP}{dr}
+    \dfrac{1}{r}
     - \dfrac{1}{\overline{\rho}}\frac{d \overline{\rho}}{dr}
     + \dfrac{1}{\omega - kW} 2k \dfrac{dW}{dr}
 \right\} \dfrac{dP}{dr}
@@ -488,7 +488,7 @@ Re-writing the homogeneous solution of Lilley's equation, we get:
 \begin{align*}
 \dfrac{d^2P}{dr^2}
 + \underbrace{\left\{
-    \dfrac{1}{r} \dfrac{dP}{dr}
+    \dfrac{1}{r}
     - \dfrac{1}{\overline{\rho}}\frac{d \overline{\rho}}{dr}
     + \dfrac{1}{\omega - kW} 2k \dfrac{dW}{dr}
 \right\}}_{B} \dfrac{dP}{dr}
@@ -499,9 +499,18 @@ Re-writing the homogeneous solution of Lilley's equation, we get:
 \dfrac{d^2P}{dr^2} + B \dfrac{dP}{dr} &+ C P = 0
 \end{align*}
 
+Since this is far-field, ambient flow, we will assume that the mean velocity and density in this region are equal to the ambient mean values:
+
+\begin{equation}
+\begin{split}
+&W(r)=0 \\
+&\overline{\rho} = \overline{\rho_0} = const
+\end{split}
+\end{equation}
+
 To solve this homogeneous equation, we seek an exponential solution of the form:
 
-\newcommand\expsoln{e^{-\lambda r}}
+\newcommand\expsoln{e^{\lambda r}}
 \begin{equation} \label{homosolnform}
 P = e^{\lambda r}
 \end{equation}
@@ -518,10 +527,20 @@ Substituting the solution form into the homogeneous equation, we obtain the quad
 The solutions to the quadratic equation can be found using the following relation:
 
 \begin{equation}
-\lambda = \dfrac{-b}{}
+\lambda = \dfrac{-B \pm \sqrt{B^2-4C}}{2}
 \end{equation}
 
+Solving for the term inside the radical:
 
+\begin{equation}
+B^2-4C =
+\left(\dfrac{1}{r}
+    - \dfrac{1}{\overline{\rho}}\frac{d \overline{\rho}}{dr}
+    + \dfrac{1}{\omega - kW} 2k \dfrac{dW}{dr} \right) ^2
+-4 \left[
+    \dfrac{(\omega - kW)^2}{\overline{a^2}}
+    - \left( \dfrac{n^2}{r^2} + k^2 \right) \right]
+\end{equation}
 
 
 
@@ -534,6 +553,13 @@ The solutions to the quadratic equation can be found using the following relatio
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Determine the general form of solution (solution of the homogeneous equation) in the potential core region where the mean velocity and density are constant and equal to the jet exit values.
+
+In this section, we will solve the homogeneous form of Lilley's equation (Eqn~\ref{lilleysoln}) to determine the general solution for the potential core region of the jet.  We will assume that the mean velocity and density in this region are constant and equal to the jet exit values:
+
+\begin{align}
+W(r)=W_j=const \\
+\overline{\rho} = \overline{\rho_j} = const
+\end{align}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
