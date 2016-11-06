@@ -51,12 +51,12 @@
 
 \maketitle
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{abstract}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{abstract}
 
-Abstract about homework
+% Abstract about homework
 
-\end{abstract}
+% \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Nomenclature}
@@ -93,7 +93,7 @@ Abstract about homework
 \section{Background} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Lilley's equation for a parallel axisymmetric flow (Eqn~\ref{Lilley}):
+The following analysis will derive solutions to Lilley's equation for parallel axisymmetric flow (Eqn~\ref{Lilley}):
 
 \begin{equation} \label{Lilley}
 \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right)^3 p'
@@ -111,6 +111,8 @@ where $\nabla^2 \equiv \dfrac{1}{r}\dfrac{\partial}{\partial r} \left( r\dfrac{\
 
 
 $W(r)$ is the radial distribution of axial velocity and $\overline{a^2}(r)$ is the radial distribution of speed of sound squared.
+
+After a general solution is derived, it will be applied to find homogeneous solutions to the far-field and potential core regions of an axial jet.  Finally, the conditions for matching the solutions for this regions will be discussed.
 
 
 
@@ -416,7 +418,7 @@ This results in the final expression for Term 4:
 To derive the final form of Lilley's equation, we combine Terms 1 through 4:
 
 \begin{align*}
-Eqn~\ref{term1soln} - Eqn~\ref{term2soln} - Eqn~\ref{term3soln} + Eqn~\ref{term4soln} = RHS
+Eqn~\ref{term1soln} - Eqn~\ref{term2soln} - Eqn~\ref{term3soln} + Eqn~\ref{term4soln} = S(\vec{x}, t)
 \end{align*}
 
 Which becomes the following in expanded form:
@@ -430,7 +432,26 @@ Which becomes the following in expanded form:
 - \left\{ \overline{a^2} ie^{iE} (\omega - kW)
     \dfrac{1}{\overline{\rho}}\frac{d \overline{\rho}}{dr} \dfrac{dP}{dr} \right\}
 + \left\{ \overline{a^2} ie^{iE} 2k \dfrac{dW}{dr} \dfrac{dP}{dr} \right\}
-= RHS
+= S(\vec{x}, t)
+\end{align*}
+
+Dividing both sides of the equation by the term $\overline{a^2} ie^{iE} (\omega - kW)$:
+
+\begin{align*}
+\dfrac{(\omega - kW)^2}{\overline{a^2}} P
++ \dfrac{d^2P}{dr^2}
++ \dfrac{1}{r} \dfrac{dP}{dr}
+- \left( \dfrac{n^2}{r^2} + k^2 \right) P
+- \dfrac{1}{\overline{\rho}}\frac{d \overline{\rho}}{dr} \dfrac{dP}{dr}
++ \dfrac{1}{\omega - kW} 2k \dfrac{dW}{dr} \dfrac{dP}{dr}
+= \dfrac{S(\vec{x}, t)}{\overline{a^2} ie^{iE} (\omega - kW)} \\
+\dfrac{d^2P}{dr^2}
++ \dfrac{1}{r} \dfrac{dP}{dr}
+- \dfrac{1}{\overline{\rho}}\frac{d \overline{\rho}}{dr} \dfrac{dP}{dr}
++ \dfrac{1}{\omega - kW} 2k \dfrac{dW}{dr} \dfrac{dP}{dr}
++ \dfrac{(\omega - kW)^2}{\overline{a^2}} P
+- \left( \dfrac{n^2}{r^2} + k^2 \right) P
+= \dfrac{S(\vec{x}, t)}{\overline{a^2} ie^{iE} (\omega - kW)} \\
 \end{align*}
 
 
@@ -440,9 +461,8 @@ Which becomes the following in expanded form:
 
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Problem 2 -- General Solution for Jet FlowFar-Field} %%%%%%%%%%%
+\section{Problem 2 -- General Solution for Jet Flow Far-Field} %%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Determine the general form of solution (solution of the homogeneous equation) for the pressure fluctuation outside the jet in the ambient medium where the sources vanish. Make sure the solution is chosen to ensure decaying solutions or outgoing waves.
@@ -466,10 +486,10 @@ Determine the general form of solution (solution of the homogeneous equation) in
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Problem 4 -- Matching of FlowFar-Field and Potential Core Solutions}
+\section{Problem 4 -- Matching of Far-Field and Potential Core Solutions}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Consider a case in which the real jet is replaced by a vortex sheet at 𝑟 = 𝑅!. If the solutions are to be matched at the vortex sheet, describe what matching conditions should be applied. Give both the physical description and the mathematical expressions.
+Consider a case in which the real jet is replaced by a vortex sheet at $r = R_j$. If the solutions are to be matched at the vortex sheet, describe what matching conditions should be applied. Give both the physical description and the mathematical expressions.
 
 
 
