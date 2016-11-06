@@ -481,7 +481,51 @@ Grouping like terms of $P$, we obtain the final form of the general solution of 
 \section{Problem 2 -- General Solution for Jet Flow Far-Field} %%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Next, we will solve the homogeneous form of Eqn~\ref{lilleysoln} to determine the general solution for the pressure fluctuation outside of the jet in the ambient medium where the sources vanish.  This region can be considered to be the far-field of the jet, so the solution must be chosen to ensure decaying solutions (outgoing waves).
+Next, we will solve the homogeneous form of Lilley's equation (Eqn~\ref{lilleysoln}) to determine the general solution for the pressure fluctuation outside of the jet in the ambient medium where the sources vanish.  This region can be considered to be the far-field of the jet, so the solution must be chosen to ensure decaying solutions (outgoing waves).
+
+Since this is far-field, ambient flow, we will assume that the mean velocity and density in this region are equal to the ambient mean values:
+
+\begin{equation}
+\begin{split}
+&W(r)=0 \\
+&\overline{\rho} = \overline{\rho_0} = const
+\end{split}
+\end{equation}
+
+\noindent which allows us to simplify the homogeneous equation:
+
+\begin{align}
+\dfrac{d^2P}{dr^2}
++ \left\{
+    \dfrac{1}{r}
+    - \dfrac{1}{\overline{\rho}}\frac{d \overline{\rho}}{dr}
+    + \dfrac{1}{\omega - kW} 2k \dfrac{dW}{dr}
+\right\} \dfrac{dP}{dr}
++ \left\{
+    \dfrac{(\omega - kW)^2}{\overline{a^2}}
+    - \left( \dfrac{n^2}{r^2} + k^2 \right)
+\right\} P = 0 \\
+\dfrac{d^2P}{dr^2}
+  + \left\{
+    \dfrac{1}{r}
+    - \dfrac{1}{\overline{\rho_0}} \cancelto{0}{\frac{d \overline{\rho_0}}{dr}}
+    + \dfrac{1}{\omega - k\cancelto{0}{W}} 2k \cancelto{0}{\dfrac{dW}{dr}}
+\right\} \dfrac{dP}{dr}
+ + \left\{
+    \dfrac{(\omega - k \cancelto{0}{W})^2}{\dfrac{\gamma \overline{p}}{\overline{\rho_0}}}
+    - \left( \dfrac{n^2}{r^2} + k^2 \right)
+\right\} P = 0 \\
+\dfrac{d^2P}{dr^2}
+  + \left\{
+    \dfrac{1}{r}
+  \right\} \dfrac{dP}{dr}
++ \left\{
+    \dfrac{\omega^2\overline{\rho_0}}{\gamma \overline{p}}
+    - \left( \dfrac{n^2}{r^2} + k^2 \right)
+\right\} P = 0 \\
+\end{align}
+
+
 
 Re-writing the homogeneous solution of Lilley's equation, we get:
 
@@ -499,14 +543,6 @@ Re-writing the homogeneous solution of Lilley's equation, we get:
 \dfrac{d^2P}{dr^2} + B \dfrac{dP}{dr} &+ C P = 0
 \end{align*}
 
-Since this is far-field, ambient flow, we will assume that the mean velocity and density in this region are equal to the ambient mean values:
-
-\begin{equation}
-\begin{split}
-&W(r)=0 \\
-&\overline{\rho} = \overline{\rho_0} = const
-\end{split}
-\end{equation}
 
 To solve this homogeneous equation, we seek an exponential solution of the form:
 
