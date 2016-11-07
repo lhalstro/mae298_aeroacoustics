@@ -494,7 +494,7 @@ Since this is far-field, ambient flow, we will assume that the mean velocity and
 
 \noindent which allows us to simplify the homogeneous equation:
 
-\begin{align}
+\begin{align*}
 \dfrac{d^2P}{dr^2}
 + \left\{
     \dfrac{1}{r}
@@ -516,33 +516,30 @@ Since this is far-field, ambient flow, we will assume that the mean velocity and
     - \left( \dfrac{n^2}{r^2} + k^2 \right)
 \right\} P = 0 \\
 \dfrac{d^2P}{dr^2}
-  + \left\{
+  + \underbrace{ \left\{
     \dfrac{1}{r}
-  \right\} \dfrac{dP}{dr}
-+ \left\{
+  \right\} }_{B} \dfrac{dP}{dr}
++ \underbrace{ \left\{
     \dfrac{\omega^2\overline{\rho_0}}{\gamma \overline{p}}
     - \left( \dfrac{n^2}{r^2} + k^2 \right)
-\right\} P = 0 \\
-\end{align}
+\right\} }_{C} P = 0 \\
+\end{align*}
 
 
 
 Re-writing the homogeneous solution of Lilley's equation, we get:
 
-\begin{align*}
-\dfrac{d^2P}{dr^2}
-+ \underbrace{\left\{
-    \dfrac{1}{r}
-    - \dfrac{1}{\overline{\rho}}\frac{d \overline{\rho}}{dr}
-    + \dfrac{1}{\omega - kW} 2k \dfrac{dW}{dr}
-\right\}}_{B} \dfrac{dP}{dr}
-&+ \underbrace{ \left\{
-    \dfrac{(\omega - kW)^2}{\overline{a^2}}
-    - \left( \dfrac{n^2}{r^2} + k^2 \right)
-\right\} }_{C} P = 0 \\
-\dfrac{d^2P}{dr^2} + B \dfrac{dP}{dr} &+ C P = 0
-\end{align*}
+\begin{align}
+\dfrac{d^2P}{dr^2} + B \dfrac{dP}{dr} + C P = 0
+\end{align}
 
+\noindent where
+
+\begin{align*}
+B &=  \dfrac{1}{r} \\
+C &= \dfrac{\omega^2\overline{\rho_0}}{\gamma \overline{p}}
+    - \left( \dfrac{n^2}{r^2} + k^2 \right)
+\end{align*}
 
 To solve this homogeneous equation, we seek an exponential solution of the form:
 
@@ -568,15 +565,15 @@ The solutions to the quadratic equation can be found using the following relatio
 
 Solving for the term inside the radical:
 
-\begin{equation}
-B^2-4C =
-\left(\dfrac{1}{r}
-    - \dfrac{1}{\overline{\rho}}\frac{d \overline{\rho}}{dr}
-    + \dfrac{1}{\omega - kW} 2k \dfrac{dW}{dr} \right) ^2
--4 \left[
-    \dfrac{(\omega - kW)^2}{\overline{a^2}}
-    - \left( \dfrac{n^2}{r^2} + k^2 \right) \right]
-\end{equation}
+\begin{align*}
+B^2-4C
+=& \left( \dfrac{1}{r} \right)^2
+  -4 \left[ \dfrac{\omega^2\overline{\rho_0}}{\gamma \overline{p}}
+    - \left( \dfrac{n^2}{r^2} + k^2 \right) \right] \\
+=& \dfrac{1}{r^2}
+  - 4\dfrac{\omega^2\overline{\rho_0}}{\gamma \overline{p}}
+     + \dfrac{4n^2}{r^2} + 4k^2
+\end{align*}
 
 
 
