@@ -649,7 +649,7 @@ The second order Bessel function $Y_n$ is defined as having a singularity where 
 
 In Section~\ref{secprob2} we derived a solution for the pressure fluctuations ($P^+$) outside of the jet potential core in the far-field (Eqn~\ref{BesselFar}) and in Section~\ref{SecProb3} we derived a solution for the pressure fluctuations ($P^-$) inside the jet potential core (Eqn~\ref{BesselCore}).  Ideally, we would like to combine these near and far solutions by joining them at the edge of the potential core.
 
-One method of accomplishing this solution is to replace the potential core boundary with a vortex sheet located at $r = R_j$.  To successfully join the two solutions, we must match them at this vortex sheet according to the following conditions:
+One method of accomplishing this solution is to replace the potential core boundary with a vortex sheet located at $r = R_j$.  To successfully join the two solutions, we must match them at this vortex sheet according the two following conditions:
 
 \begin{enumerate}
   \item Pressure fluctuations on either edge of the vortex sheet must match:
@@ -662,7 +662,15 @@ One method of accomplishing this solution is to replace the potential core bound
         \end{align}
 \end{enumerate}
 
-For the first constraint, we will derive a relationship for the pressure fluctuation using the momentum equation:
+To achieve the two constraints, we require two independent equations. These equations will be related through the variable $V_r$, which is the radial component of velocity at the vortex sheet:
+
+\begin{equation}
+V_r = \nu \exp[i(-\omega t + kz)]
+\end{equation}
+
+\noindent where $\nu$ is a constant value of velocity in the radial direction that is modulated by the expression $\exp[i(-\omega t + kz)]$, which is a function of time and the jet flow direction $z$.
+
+For the first constraint, we will derive a relationship between $V_r$ and the pressure fluctuation using the momentum equation:
 
 \begin{equation} \label{momentum}
 \overline{\rho_0} \dfrac{D\vec{V} }{Dt} = - \nabla P
@@ -676,14 +684,6 @@ Because the matching conditions apply only across the vortex sheet in the radial
 \overline{\rho_0} \dfrac{D V_r}{Dt} &= - \dfrac{\partial P}{\partial r}
 \end{align*}
 
-\noindent where $V_r$ is the radial component of velocity at the vortex sheet:
-
-\begin{equation}
-V_r = \nu \exp(-i\omega t + kz)
-\end{equation}
-
-\noindent where $\nu$ is a constant value of velocity in the radial direction that is modulated by the expression $\exp(-i\omega t + kz)$, which is a function of time and the jet flow direction $z$.
-
 The total time derivative of $V_r$ is (see Section~\ref{SecLilley}):
 
 \begin{align*}
@@ -691,16 +691,22 @@ The total time derivative of $V_r$ is (see Section~\ref{SecLilley}):
   &= \left(\dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}\right)
   V_r \\
   &= \left(\dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}\right)
-  \nu \exp(-i\omega t + kz) \\
-  &= - ( i\omega - kW ) \nu\exp(-i\omega t + kz) \\
-  &= - ( i\omega - kW ) V_r
+  \nu \exp[i(-\omega t + kz)] \\
+  &= - i( \omega - kW ) \nu\exp[i(-\omega t + kz)] \\
+  &= - i( \omega - kW ) V_r
 \end{align*}
 
 Substituting $\dfrac{D V_r}{Dt}$ into Eqn~\ref{momentum}, we obtain:
 
-\begin{equation}
-\overline{\rho_0} ( i\omega - kW ) V_r = \dfrac{d P}{d r}
-\end{equation}
+\begin{align}
+\overline{\rho_0} i( \omega - kW ) V_r = \dfrac{d P}{d r}
+\end{align}
+
+\noindent which can be rearranged in terms of $V_r$, allowing us to satisfy our second constraint:
+
+\begin{align}
+\boxed{V_r = \dfrac{\dfrac{d P}{d r}}{\overline{\rho_0} i( \omega - kW )}}
+\end{align}
 
 
 
@@ -708,7 +714,7 @@ Substituting $\dfrac{D V_r}{Dt}$ into Eqn~\ref{momentum}, we obtain:
 
 
 
-Beginning with the second constraint, the radial velocity fluctuation $V_r$ can be defined as the time derivative of the radial displacement $\zeta$ of fluid particles located at the vortex sheet.
+For the second equation, we will define the radial velocity fluctuation $V_r$ instead as the time derivative of the radial displacement $\zeta$ of fluid particles located at the vortex sheet.
 
 \begin{equation}
 V_r = \dfrac{D\zeta}{Dt}
@@ -717,8 +723,10 @@ V_r = \dfrac{D\zeta}{Dt}
 \noindent where
 
 \begin{equation}
-\zeta(z,t) = a \exp(-i\omega t + kz)
+\zeta(z,t) = \chi \exp[i(-\omega t + kz)]
 \end{equation}
+
+\noindent and where $\chi$ is a constant value of radial position that is modulated by the same expression $\exp[i(-\omega t + kz)]$, which governs the oscillation of the vortex sheet.
 
 Taking the time derivative of $\zeta$ (see Section~\ref{SecLilley}):
 
@@ -727,22 +735,23 @@ V_r &= \dfrac{D\zeta}{Dt} =
     \left(\dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}\right)
     \zeta \\
     &=\left(\dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}\right)
-    a \exp(-i\omega t + kz)\\
-&= -a ( i\omega - kW ) \exp(-i\omega t + kz)
+    \chi \exp[i(-\omega t + kz)]  \\
+&= -\chi \exp[i(-\omega t + kz)] i ( \omega - kW )  \\
+&= -\zeta i ( \omega - kW )
 \end{align*}
 
 Applying the solution for $V_r$ to the outer and inner vortex sheet velocity fluctuations:
 
 \begin{align}
-V_r^+ &= -a ( i\omega - kW_{\infty} ) \exp(-i\omega t + kz)  \label{Vplus}\\
-V_r^- &= -a ( i\omega - kW_j ) \exp(-i\omega t + kz) \label{Vminus}
+V_r^+ &= -\zeta i(\omega - kW_{\infty} )  \label{Vplus}\\
+V_r^- &= -\zeta i(\omega - kW_j ) \label{Vminus}
 \end{align}
 
-Solving the solution for $V_r$ for the constant terms, and setting Eqns~\ref{Vplus} and~\ref{Vminus} equal to each other:
+Rearranging the solution of $V_r$ for $\zeta$, and setting Eqns~\ref{Vplus} and~\ref{Vminus} equal to each other:
 
 \begin{align}
--a \exp(-i\omega t + kz) = \dfrac{V_r^+}{i\omega - kW_{\infty}}
-    = \dfrac{V_r^-}{i\omega - kW_{j}}
+\zeta = \dfrac{V_r^+}{-i(\omega - kW_{\infty})}
+    = \dfrac{V_r^-}{-i(\omega - kW_{j})}
 \end{align}
 
 
