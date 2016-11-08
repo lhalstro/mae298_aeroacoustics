@@ -653,16 +653,22 @@ One method of accomplishing this solution is to replace the potential core bound
 
 \begin{enumerate}
   \item Pressure fluctuations on either edge of the vortex sheet must match:
-        \begin{align}
+        \begin{align} \label{constraint1}
           P^+ = P^-
         \end{align}
   \item Radial velocity fluctuations accross the vortex sheet must match:
-        \begin{align}
+        \begin{align} \label{constraint2}
           V_r^+ = V_r^-
         \end{align}
 \end{enumerate}
 
-To achieve the two constraints, we require two independent equations. These equations will be related through the variable $V_r$, which is the radial component of velocity at the vortex sheet:
+The first constraint (Eqn~\ref{constraint1}) of matched pressure fluctuation can be written using the Bessel equation solutions for the outer flow (Eqn~\ref{BesselFar}) and inner flow (Eqn~\ref{BesselCore}):
+
+\begin{equation} \label{constantsEqn1}
+\boxed{C H_n^{(1)}(\lambda_{\infty} r) = A J_n(\lambda_j r)}
+\end{equation}
+
+The second contraint will be achieved by relating the radial gradient of pressure $\dfrac{dP}{dr}$ with the radial velocity at the vortex sheet $V_r$:
 
 \begin{equation}
 V_r = \nu \exp[i(-\omega t + kz)]
@@ -670,7 +676,7 @@ V_r = \nu \exp[i(-\omega t + kz)]
 
 \noindent where $\nu$ is a constant value of velocity in the radial direction that is modulated by the expression $\exp[i(-\omega t + kz)]$, which is a function of time and the jet flow direction $z$.
 
-For the first constraint, we will derive a relationship between $V_r$ and the pressure fluctuation using the momentum equation:
+We will first obtain an expression relating $V_r$ and the pressure fluctuation using the momentum equation:
 
 \begin{equation} \label{momentum}
 \overline{\rho_0} \dfrac{D\vec{V} }{Dt} = - \nabla P
@@ -709,12 +715,7 @@ Substituting $\dfrac{D V_r}{Dt}$ into Eqn~\ref{momentum}, we obtain:
 \end{align}
 
 
-
-
-
-
-
-For the second equation, we will define the radial velocity fluctuation $V_r$ instead as the time derivative of the radial displacement $\zeta$ of fluid particles located at the vortex sheet.
+Next, we will define the radial velocity fluctuation $V_r$ instead as the time derivative of the radial displacement $\zeta$ of fluid particles located at the vortex sheet.
 
 \begin{equation}
 V_r = \dfrac{D\zeta}{Dt}
@@ -754,8 +755,7 @@ Rearranging the solution of $V_r$ for $\zeta$, and setting Eqns~\ref{Vplus} and~
     = \dfrac{V_r^-}{-i(\omega - kW_{j})}}
 \end{align}
 
-
-Next, a single expression achieving both of the required constraints can be obtained by substituting Eqn~\ref{VrMomentum} applied to the inner and outer solutions:
+Next, the second constraint (Eqn~\ref{constraint2}) can be put into terms of pressure rather than $V_r$ by substituting Eqn~\ref{VrMomentum} applied to the inner and outer solutions:
 
 \begin{align*}
 V_r^+ &=\dfrac{\dfrac{dP}{dr}^+}{\overline{\rho_0} i( \omega - kW_{\infty})} \\
@@ -780,25 +780,35 @@ Finally, we can calculate the pressure differentials from the solutions for the 
 
 \begin{align*}
 \dfrac{dP}{dr}^+ &= \dfrac{d}{dr} \left[C H_n^{(1)}(\lambda_{\infty} r) \right]
-    = C \dfrac{dH_n^{(1)}(\lambda_{\infty} r)}{dr} \\
+    = C \dfrac{d}{dr}\left[H_n^{(1)}(\lambda_{\infty} r)\right] \\
 \dfrac{dP}{dr}^- &= \dfrac{d}{dr} \left[A J_n(\lambda_j r) \right]
-    = A \dfrac{dJ_n(\lambda_j r)}{dr}
+    = A \dfrac{d}{dr}\left[ J_n(\lambda_j r) \right]
 \end{align*}
 
 \noindent and substitute the resulting expressions into Eqn~\ref{constraints}:
 
 \begin{align*}
-\dfrac{C \dfrac{dH_n^{(1)}(\lambda_{\infty} r)}{dr}}{(\omega - kW_{\infty})^2}
-    = \dfrac{A \dfrac{dJ_n(\lambda_j r)}{dr}}{(\omega - kW_{j})^2} \\
-\dfrac{A}{C} = \dfrac{(\omega - kW_{j})^2}{(\omega - kW_{\infty})^2}
-  \dfrac{ \dfrac{dH_n^{(1)}(\lambda_{\infty} r)}{dr}}{\dfrac{dJ_n(\lambda_j r)}{dr}}
+\dfrac{C \dfrac{d}{dr}\left[H_n^{(1)}(\lambda_{\infty} r)\right]}{(\omega - kW_{\infty})^2}
+    = \dfrac{A \dfrac{d}{dr}\left[ J_n(\lambda_j r) \right]}{(\omega - kW_{j})^2}
 \end{align*}
 
+\noindent Rearranging, we obtain a second equation containing the unknown constants $A$ and $C$.
 
+\begin{equation} \label{constantsEqn2}
+\boxed{
+C(\omega - kW_{j})^2 \dfrac{d}{dr}\left[H_n^{(1)}(\lambda_{\infty} r)\right]
+    = A(\omega - kW_{\infty})^2 \dfrac{d}{dr}\left[ J_n(\lambda_j r) \right]}
+\end{equation}
 
+Thus, achieving the two constraints set at the beginning of this section and substituting the known equations for pressure fluctuations inside and outside the potential core, we rewrite the resulting two equations (Eqns~\ref{constantsEqn1} and~\ref{constantsEqn2}) with two constant unknowns:
 
+\begin{align*}
+C H_n^{(1)}(\lambda_{\infty} r) &= A J_n(\lambda_j r) \\
+C(\omega - kW_{j})^2 \dfrac{d}{dr}\left[H_n^{(1)}(\lambda_{\infty} r)\right]
+    &= A(\omega - kW_{\infty})^2 \dfrac{d}{dr}\left[ J_n(\lambda_j r) \right]
+\end{align*}
 
-Consider a case in which the real jet is replaced by a vortex sheet at $r = R_j$. If the solutions are to be matched at the vortex sheet, describe what matching conditions should be applied. Give both the physical description and the mathematical expressions.
+This system of ordinary differential equations can be solved to correctly determine $A$ and $C$ and thus provide an explicit solution for the combined interior and exterior axial jet flow.
 
 
 
