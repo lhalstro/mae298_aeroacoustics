@@ -704,7 +704,7 @@ Substituting $\dfrac{D V_r}{Dt}$ into Eqn~\ref{momentum}, we obtain:
 
 \noindent which can be rearranged in terms of $V_r$, allowing us to satisfy our second constraint:
 
-\begin{align}
+\begin{align} \label{VrMomentum}
 \boxed{V_r = \dfrac{\dfrac{d P}{d r}}{\overline{\rho_0} i( \omega - kW )}}
 \end{align}
 
@@ -743,20 +743,56 @@ V_r &= \dfrac{D\zeta}{Dt} =
 Applying the solution for $V_r$ to the outer and inner vortex sheet velocity fluctuations:
 
 \begin{align}
-V_r^+ &= -\zeta i(\omega - kW_{\infty} )  \label{Vplus}\\
-V_r^- &= -\zeta i(\omega - kW_j ) \label{Vminus}
+V_r^+ &= -i(\omega - kW_{\infty} )\zeta  \label{Vplus}\\
+V_r^- &= -i(\omega - kW_j )       \zeta  \label{Vminus}
 \end{align}
 
 Rearranging the solution of $V_r$ for $\zeta$, and setting Eqns~\ref{Vplus} and~\ref{Vminus} equal to each other:
 
-\begin{align}
-\zeta = \dfrac{V_r^+}{-i(\omega - kW_{\infty})}
-    = \dfrac{V_r^-}{-i(\omega - kW_{j})}
+\begin{align} \label{VrVel}
+\boxed{\zeta = \dfrac{V_r^+}{-i(\omega - kW_{\infty})}
+    = \dfrac{V_r^-}{-i(\omega - kW_{j})}}
 \end{align}
 
 
+Next, a single expression achieving both of the required constraints can be obtained by substituting Eqn~\ref{VrMomentum} applied to the inner and outer solutions:
 
+\begin{align*}
+V_r^+ &=\dfrac{\dfrac{dP}{dr}^+}{\overline{\rho_0} i( \omega - kW_{\infty})} \\
+V_r^- &= \dfrac{\dfrac{dP}{dr}^-}{\overline{\rho_0} i( \omega - kW_{j})}
+\end{align*}
 
+\noindent into Eqn~\ref{VrVel}:
+
+\begin{align*}
+\dfrac{V_r^+}{-i(\omega - kW_{\infty})}
+    &= \dfrac{V_r^-}{-i(\omega - kW_{j})} \\
+\dfrac{\dfrac{dP}{dr}^+}{-i^2(\omega - kW_{\infty})^2}
+    &= \dfrac{\dfrac{dP}{dr}^-}{-i^2(\omega - kW_{j})^2} \\
+\end{align*}
+
+\begin{equation} \label{constraints}
+\boxed{\dfrac{\dfrac{dP}{dr}^+}{(\omega - kW_{\infty})^2}
+    = \dfrac{\dfrac{dP}{dr}^-}{(\omega - kW_{j})^2}}
+\end{equation}
+
+Finally, we can calculate the pressure differentials from the solutions for the outer flow (Eqn~\ref{BesselFar}) and inner flow (Eqn~\ref{BesselCore}):
+
+\begin{align*}
+\dfrac{dP}{dr}^+ &= \dfrac{d}{dr} \left[C H_n^{(1)}(\lambda_{\infty} r) \right]
+    = C \dfrac{dH_n^{(1)}(\lambda_{\infty} r)}{dr} \\
+\dfrac{dP}{dr}^- &= \dfrac{d}{dr} \left[A J_n(\lambda_j r) \right]
+    = A \dfrac{dJ_n(\lambda_j r)}{dr}
+\end{align*}
+
+\noindent and substitute the resulting expressions into Eqn~\ref{constraints}:
+
+\begin{align*}
+\dfrac{C \dfrac{dH_n^{(1)}(\lambda_{\infty} r)}{dr}}{(\omega - kW_{\infty})^2}
+    = \dfrac{A \dfrac{dJ_n(\lambda_j r)}{dr}}{(\omega - kW_{j})^2} \\
+\dfrac{A}{C} = \dfrac{(\omega - kW_{j})^2}{(\omega - kW_{\infty})^2}
+  \dfrac{ \dfrac{dH_n^{(1)}(\lambda_{\infty} r)}{dr}}{\dfrac{dJ_n(\lambda_j r)}{dr}}
+\end{align*}
 
 
 
