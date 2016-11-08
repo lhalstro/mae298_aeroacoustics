@@ -478,7 +478,7 @@ Grouping like terms of $P$, we obtain the final form of the general solution of 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Problem 2 -- General Solution for Jet Flow Far-Field} %%%%%%%%%%%
+\section{Problem 2 -- General Solution for Jet Flow Far-Field} \label{secprob2}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Next, we will solve the homogeneous form of Lilley's equation (Eqn~\ref{lilleysoln}) to determine the general solution for the pressure fluctuation outside of the jet in the ambient medium where the sources vanish.  This region can be considered to be the far-field of the jet, so the solution must be chosen to ensure decaying solutions (outgoing waves).
@@ -591,10 +591,10 @@ Taking the limit of $H_n^{+}(x)$ and $H_n^{-}(x)$ as $x$ and $r$ approach infini
 \lim_{x\to\infty} H_n^{+}(x) &= i^{n+1}    \dfrac{e^{-ix}}{x}
 \end{align*}
 
-In the far-field, flow velocity is subsonic ($M_{\infty}<1$), making $\lambda_{\infty}$ imaginary according to Eqn~\ref{lambda}.  This, in turn, makes the limit of $H_n^{+}(x)$ a diminishing exponential and the limit of $H_n^{-}(x)$ an increasing exponential, which is impossible.  Thus, Eqn~\ref{BesselEqn} reduces to Eqn~\ref{BesselFar} for the far-field:
+In the far-field, flow velocity is subsonic ($M_{\infty}<1$), making $\lambda_{\infty}$ imaginary according to Eqn~\ref{lambda}.  This, in turn, makes the limit of $H_n^{+}(x)$ a diminishing exponential and the limit of $H_n^{-}(x)$ an increasing exponential, which is impossible.  Thus, Eqn~\ref{BesselEqn} reduces to Eqn~\ref{BesselFar} for final solution of the far-field outside of the potential core of the jet:
 
 \begin{equation} \label{BesselFar}
-P = C H_n^{(1)}(\lambda_{\infty} r)
+\boxed{P = C H_n^{(1)}(\lambda_{\infty} r)}
 \end{equation}
 
 
@@ -608,14 +608,52 @@ P = C H_n^{(1)}(\lambda_{\infty} r)
 \section{Problem 3 -- General Solution for Jet Potential Core} %%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Determine the general form of solution (solution of the homogeneous equation) in the potential core region where the mean velocity and density are constant and equal to the jet exit values.
-
 In this section, we will solve the homogeneous form of Lilley's equation (Eqn~\ref{lilleysoln}) to determine the general solution for the potential core region of the jet.  We will assume that the mean velocity and density in this region are constant and equal to the jet exit values:
 
 \begin{align}
 W(r)=W_j=const \\
 \overline{\rho} = \overline{\rho_j} = const
 \end{align}
+
+These assumptions are similar to those made in Section~\ref{secprob2}, which allows the reduction of Eqn~\ref{lilleysoln} to the Bessel equation:
+
+\begin{equation} \label{BesselEqnJet}
+\boxed{ \dfrac{d^2P}{dr^2} + \left\{ \dfrac{1}{r} \right\} \dfrac{dP}{dr}
+      + \left\{ \lambda_{j}^2 - \dfrac{n^2}{r^2} \right\} P = 0 }
+\end{equation}
+
+\noindent with
+
+\begin{equation} \label{lambdaJ}
+\lambda_{j} = \sqrt{ \dfrac{\omega^2}{\overline{a^2}} M_{j} ( M_{j} - 2 ) }
+\end{equation}
+
+\noindent where $M_{j}=\dfrac{W_j}{\overline{a}}$ is the jet exit Mach number and $\lambda_{j}$ is an imaginary quantity for $M_{j} < 2$.
+
+For this potential core solution, we assume the Bessel equation is equivalent to the first $J_n$ and second $Y_n$ order Bessel functions:
+
+\begin{equation}
+P = A J_n(\lambda_j r) + B Y_n(\lambda_j r)
+\end{equation}
+
+\noindent where $A$ and $B$ are arbitrary constants.
+
+The second order Bessel function $Y_n$ is defined as having a singularity where $\lambda_j r = 0$, so inside the potential core region where $0<r<R_j$, we can leave the singular $Y_n$ out of Eqn~\ref{BesselEqnJet}, resulting in the final expression for the solution inside of the potential core:
+
+\begin{equation} \label{BesselCore}
+\boxed{P = A J_n(\lambda_j r)}
+\end{equation}
+
+
+
+
+
+
+
+
+
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
