@@ -65,23 +65,40 @@
 
 \begin{tabbing}
   XXX \= \kill% this line sets tab stop
+  $\infty$            \> Ambient flow parameter subscript \\
+  $j$                 \> Jet exit flow parameter subscript \\
+  $r$                 \> Radial location in flow \\
   $R_j$               \> Axisymmetric jet radius \\
-  $W_j$               \> Jet exit mean velocity \\
-  $\overline{\rho_j}$ \> Jet exit mean density \\
-  $W_0$               \> Ambient mean velocity \\
-  $\overline{\rho_0}$ \> Ambient mean density \\
-  $W(r)$              \> Radial distribution of axial velocity \\
+  $\theta$            \> Angular location in flow \\
+  $z$                 \> Axial location in flow \\
+  $M$                 \> Mach number \\
+  $W(r)$              \> Radial distribution of mean axial velocity \\
   $\overline{a^2}(r)$ \> Radial distribution of speed of sound squared\\
+  $\overline{\rho}$   \> Mean density \\
+  $\gamma$            \> Specific heat ratio \\
+  $\overline{p}$      \> Mean pressure \\
   $p'$                \> Perturbation pressure \\
+  $P(r)$              \> Pressure profile in radial direction  \\
+  $k$                 \> Wavenumber \\
+  $\omega$            \> Wave oscillating frequency \\
+  $n$                 \> Characteristic integer \\
   $i$                 \> Imaginary number $\sqrt{-1}$ \\
+  $\exp$              \> Exponential ($e$) \\
   $E$                 \> Exponential term: $kz + n\theta -\omega t$ \\
-  $P$                 \>  \\
-  $k$                 \>  \\
-  $\omega$            \>  \\
-  $n$                 \>  \\
-  $r$                 \>  \\
-  $\theta$            \>  \\
-  $z$                 \>  \\
+  $\lambda$           \> Constant term in Bessel equation \\
+  $J$                 \> First-order Bessel function \\
+  $Y$                 \> Second-order Bessel function \\
+  $H^{(n)}$           \> nth-order Hankel function \\
+  $x$                 \> Placeholder variable for $\lambda r$ \\
+  $A,B$               \> Arbitrary Bessel function constants \\
+  $C,D$               \> Arbitrary Hankel constants \\
+  $\vec{V}$           \> General velocity vector \\
+  $V_r$               \> Velocity component in radial direction \\
+  $\nu$               \> Constant velocity parameter \\
+  $\chi$              \> Constant position parameter \\
+  $\zeta$             \> Position of vortex sheet dividing inner/outer solution \\
+  $+/-$               \> Outer/Inner solution, respectively \\
+
 
 
 
@@ -144,7 +161,7 @@ p'(r, \theta, z, t) \sim P(r) \exp\left[ i(kz + n\theta -\omega t) \right]
 \right\} P = RHS
 \end{equation}
 
-To aid in this derivaiton, we find the results for the first-order partial derivatives of parameters relevant to the solution.  First, we compute the derivative of the perturbation pressure $p'$ with respect to (WRT) time $t$:
+To aid in this derivation, we find the results for the first-order partial derivatives of parameters relevant to the solution.  First, we compute the derivative of the perturbation pressure $p'$ with respect to (WRT) time $t$:
 
 \newcommand\expterm{i(kz + n\theta -\omega t)}%terms in exponential
 
@@ -249,7 +266,7 @@ To simplify the derivation, we will apply the solution form individually to each
 &= (\omega - kW)^3iP (e^{iE})
 \end{align*}
 
-The cubed imaginary number $i^3$ simplyfies to $-i$ and the $-1$ is distributed into the cubed factor.  This results in the final expression for Term 1:
+The cubed imaginary number $i^3$ simplifies to $-i$ and the $-1$ is distributed into the cubed factor.  This results in the final expression for Term 1:
 
 \begin{equation} \label{term1soln}
 \boxed{ \left( \dfrac{\partial}{\partial t}
@@ -290,7 +307,7 @@ Term 2 requires computing the double divergence of perturbation pressure $\nabla
     + i^2 e^{iE} \left( \dfrac{n^2}{r^2} + k^2 \right) P
 \end{align*}
 
-Thus, the double divergence of $p'$ can be expressed in the following expression, which is seperated into like differential terms of $P$:
+Thus, the double divergence of $p'$ can be expressed in the following expression, which is separated into like differential terms of $P$:
 
 \begin{equation} \label{doubledivp}
 \boxed{ \nabla^2p'= \exp[i(kz + n\theta -\omega t)] \left[
@@ -656,7 +673,7 @@ One method of accomplishing this solution is to replace the potential core bound
         \begin{align} \label{constraint1}
           P^+ = P^-
         \end{align}
-  \item Radial velocity fluctuations accross the vortex sheet must match:
+  \item Radial velocity fluctuations across the vortex sheet must match:
         \begin{align} \label{constraint2}
           V_r^+ = V_r^-
         \end{align}
@@ -668,7 +685,7 @@ The first constraint (Eqn~\ref{constraint1}) of matched pressure fluctuation can
 \boxed{C H_n^{(1)}(\lambda_{\infty} r) = A J_n(\lambda_j r)}
 \end{equation}
 
-The second contraint will be achieved by relating the radial gradient of pressure $\dfrac{dP}{dr}$ with the radial velocity at the vortex sheet $V_r$:
+The second constraint will be achieved by relating the radial gradient of pressure $\dfrac{dP}{dr}$ with the radial velocity at the vortex sheet $V_r$:
 
 \begin{equation}
 V_r = \nu \exp[i(-\omega t + kz)]
