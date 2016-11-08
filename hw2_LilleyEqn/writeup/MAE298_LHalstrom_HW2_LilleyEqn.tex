@@ -117,7 +117,7 @@ After a general solution is derived, it will be applied to find homogeneous solu
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Problem 1 -- Solution to Lilley's Equation} %%%%%%%%%%%%%%%%%%%
+\section{Problem 1 -- Solution to Lilley's Equation} \label{SecLilley}%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Seek solutions of Lilley's equation in the form:
@@ -155,7 +155,7 @@ To aid in this derivaiton, we find the results for the first-order partial deriv
 &= iP \left[\cancelto{0}{\dfrac{\partial}{\partial t}(kz)      }
           + \cancelto{0}{\dfrac{\partial}{\partial t}(n\theta)}
                        - \dfrac{\partial}{\partial t}(\omega t)
-    \right] \exp[\expterm] \\
+    \right] \exp[\expterm]
 \end{align*}
 
 \begin{equation} \label{dpdt}
@@ -172,7 +172,7 @@ To aid in this derivaiton, we find the results for the first-order partial deriv
 &= iP \left[\cancelto{0}{\dfrac{\partial}{\partial \theta}(kz)      }
                       + \dfrac{\partial}{\partial \theta}(n\theta)
           - \cancelto{0}{\dfrac{\partial}{\partial \theta}(\omega t)}
-    \right] \exp[\expterm] \\
+    \right] \exp[\expterm]
 \end{align*}
 
 \begin{equation} \label{dpdtheta}
@@ -191,7 +191,7 @@ Next, we compute the derivative of $p'$ WRT the axial flow direction $z$:
 &= iP \left[             \dfrac{\partial}{\partial z}(kz)
           + \cancelto{0}{\dfrac{\partial}{\partial z}(n\theta)}
           - \cancelto{0}{\dfrac{\partial}{\partial z}(\omega t)}
-    \right] \exp[\expterm] \\
+    \right] \exp[\expterm]
 \end{align*}
 
 \begin{equation} \label{dpdz}
@@ -203,7 +203,7 @@ Next, we compute the derivative of $p'$ WRT the radial direction $r$:
 
 \begin{align*}
 \dfrac{\partial p'}{\partial r} &= \dfrac{\partial}{\partial r}
-  \left\{ P(r) \exp\left[ \expterm \right]\right\} \\
+  \left\{ P(r) \exp\left[ \expterm \right]\right\}
 \end{align*}
 
 \begin{equation} \label{dpdr}
@@ -246,9 +246,7 @@ To simplify the derivation, we will apply the solution form individually to each
 &= \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}
    \right) (-\omega + kW)^2 P i^2 (e^{iE}) \\
 &= (-\omega + kW)^3 P i^3(e^{iE}) = (-\omega + kW)^3P(-i) (e^{iE}) \\
-&= (\omega - kW)^3iP (e^{iE}) \\
-% \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right)^3 p'
-% &= \boxed{ i\exp[i(kz + n\theta -\omega t)] (\omega - kW)^3 P}
+&= (\omega - kW)^3iP (e^{iE})
 \end{align*}
 
 The cubed imaginary number $i^3$ simplyfies to $-i$ and the $-1$ is distributed into the cubed factor.  This results in the final expression for Term 1:
@@ -289,7 +287,7 @@ Term 2 requires computing the double divergence of perturbation pressure $\nabla
       + Pk^2 i^2  e^{iE} \\
 &= e^{iE} \dfrac{d^2P}{dr^2}
     + e^{iE} \dfrac{1}{r} \dfrac{dP}{dr}
-    + i^2 e^{iE} \left( \dfrac{n^2}{r^2} + k^2 \right) P \\
+    + i^2 e^{iE} \left( \dfrac{n^2}{r^2} + k^2 \right) P
 \end{align*}
 
 Thus, the double divergence of $p'$ can be expressed in the following expression, which is seperated into like differential terms of $P$:
@@ -325,7 +323,7 @@ Substituting Eqn~\ref{doubledivp} into Term 2 (Eqn~\ref{term2}), we can perform 
   \left( -\omega ie^{iE} + kW ie^{iE}\right) \\
 &= - \overline{a^2} ie^{iE} (\omega - kW) \left[ \dfrac{d^2P}{dr^2}
           + \dfrac{1}{r} \dfrac{dP}{dr}
-          - \left( \dfrac{n^2}{r^2} + k^2 \right) P \right] \\
+          - \left( \dfrac{n^2}{r^2} + k^2 \right) P \right]
 \end{align*}
 
 This results in the final expression for Term 2:
@@ -358,7 +356,7 @@ Applying the solution form to third term of Lilley's equation:
 &= \dfrac{d \overline{a^2}}{dr} \dfrac{dP}{dr}
    \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) e^{iE} \\
 &= \dfrac{d \overline{a^2}}{dr} \dfrac{dP}{dr}
-    i(-\omega + kW) e^{iE} \\
+    i(-\omega + kW) e^{iE}
 \end{align*}
 
 Applying the isentropic relationship assumption for speed of sound and taking the derivative WRT $r$:
@@ -370,7 +368,7 @@ Applying the isentropic relationship assumption for speed of sound and taking th
     \dfrac{dP}{dr} i(-\omega + kW) e^{iE} \\
 &= -\left(\dfrac{\gamma \overline{p}}{\overline{\rho}^2}\right) \frac{d \overline{\rho}}{dr}
     \dfrac{dP}{dr} i(-\omega + kW) e^{iE} \\
-&= \left(\dfrac{\overline{a^2}}{\overline{\rho}}\right) \frac{d \overline{\rho}}{dr} \dfrac{dP}{dr} i(\omega - kW) e^{iE} \\
+&= \left(\dfrac{\overline{a^2}}{\overline{\rho}}\right) \frac{d \overline{\rho}}{dr} \dfrac{dP}{dr} i(\omega - kW) e^{iE}
 \end{align*}
 
 This results in the final expression for Term 3:
@@ -398,7 +396,7 @@ Apply solution form to fourth term of Lilley's equation:
     \left( \dfrac{dP}{dr} e^{iE} \right) \\
 &= 2\overline{a^2} \dfrac{dW}{dr} \dfrac{dP}{dr}
     \dfrac{\partial }{\partial z} \left( e^{iE} \right)
-    = 2\overline{a^2} \dfrac{dW}{dr} \dfrac{dP}{dr} ike^{iE}      \\
+    = 2\overline{a^2} \dfrac{dW}{dr} \dfrac{dP}{dr} ike^{iE}
 \end{align*}
 
 This results in the final expression for Term 4:
@@ -406,7 +404,7 @@ This results in the final expression for Term 4:
 \begin{equation} \label{term4soln}
 \boxed{2\overline{a^2} \dfrac{dW}{dr}\dfrac{\partial^2p'}{\partial z\partial r}
   = \overline{a^2} i\exp[i(kz + n\theta -\omega t)]
-    2k \dfrac{dW}{dr} \dfrac{dP}{dr} } \\
+    2k \dfrac{dW}{dr} \dfrac{dP}{dr} }
 \end{equation}
 
 
@@ -515,7 +513,7 @@ Since this is far-field, ambient flow, we will assume that the mean velocity and
     \underbrace{ \dfrac{(\omega - k W_{\infty} )^2}{\overline{a^2} }
     - k^2 }_{\lambda^2}
     - \dfrac{n^2}{r^2}
-\right\} P = 0      \\
+\right\} P = 0
 % \dfrac{d^2P}{dr^2}
 %   + \left\{
 %     \dfrac{1}{r}
@@ -536,7 +534,7 @@ Resulting in the homogeneous Bessel equation:
 \noindent where the constant term is collected in $\lambda_{\infty}$:
 
 \begin{align*}
-\lambda_{\infty} &= \sqrt{\dfrac{(\omega - k W_{\infty} )^2}{\overline{a^2} } - k^2} \\
+\lambda_{\infty} &= \sqrt{\dfrac{(\omega - k W_{\infty} )^2}{\overline{a^2} } - k^2}
 \end{align*}
 
 Substituting the definition of wavenumber $k=\dfrac{\omega}{\overline{a}}$, the expression can be reduced:
@@ -558,7 +556,7 @@ Substituting the definition of wavenumber $k=\dfrac{\omega}{\overline{a}}$, the 
 &= \sqrt{ \dfrac{\omega^2}{\overline{a^2}}
     \left( \dfrac{W_{\infty}^2}{\overline{a^2}} -2\dfrac{W_{\infty}}{\overline{a}} \right) } \\
 &= \sqrt{ \dfrac{\omega^2}{\overline{a^2}} \dfrac{W_{\infty}}{\overline{a}}
-    \left( \dfrac{W_{\infty}}{\overline{a}} - 2 \right) } \\
+    \left( \dfrac{W_{\infty}}{\overline{a}} - 2 \right) }
 \end{align*}
 
 Substituting the definition of Mach number $M_{\infty} = \dfrac{W_{\infty}}{\overline{a}}$, we obtain:
@@ -605,7 +603,7 @@ In the far-field, flow velocity is subsonic ($M_{\infty}<1$), making $\lambda_{\
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Problem 3 -- General Solution for Jet Potential Core} %%%%%%%%%%%
+\section{Problem 3 -- General Solution for Jet Potential Core} \label{SecProb3}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In this section, we will solve the homogeneous form of Lilley's equation (Eqn~\ref{lilleysoln}) to determine the general solution for the potential core region of the jet.  We will assume that the mean velocity and density in this region are constant and equal to the jet exit values:
@@ -645,20 +643,57 @@ The second order Bessel function $Y_n$ is defined as having a singularity where 
 \end{equation}
 
 
-
-
-
-
-
-
-
-
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Problem 4 -- Matching of Far-Field and Potential Core Solutions}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In Section~\ref{secprob2} we derived a solution for the pressure fluctuations ($P^+$) outside of the jet potential core in the far-field (Eqn~\ref{BesselFar}) and in Section~\ref{SecProb3} we derived a solution for the pressure fluctuations ($P^-$) inside the jet potential core (Eqn~\ref{BesselCore}).  Ideally, we would like to combine these near and far solutions by joining them at the edge of the potential core.
+
+One method of accomplishing this solution is to replace the potential core boundary with a vortex sheet located at $r = R_j$.  To successfully join the two solutions, we must match them at this vortex sheet according to the following conditions:
+
+\begin{enumerate}
+  \item Pressure fluctuations on either edge of the vortex sheet must match:
+        \begin{align}
+          P^+ = P^-
+        \end{align}
+  \item Radial velocity fluctuations accross the vortex sheet must match:
+        \begin{align}
+          V_r^+ = V_r^-
+        \end{align}
+\end{enumerate}
+
+Beginning with the second assumption, the radial velocity fluctuation $V_r$ can be defined as the time derivative of the radial displacement $\zeta$ of fluid particles located at the vortex sheet.
+
+\begin{equation}
+V_r = \dfrac{D\zeta}{Dt}
+\end{equation}
+
+\noindent where
+
+\begin{equation}
+\zeta(z,t) = a \exp(-i\omega t + kz)
+\end{equation}
+
+Taking the time derivative of $\zeta$ (see Section~\ref{SecLilley}):
+
+\begin{align*}
+V_r &= \dfrac{D\zeta}{Dt} =
+    \left(\dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}\right)
+    \zeta \\
+    &=\left(\dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}\right)
+    a \exp(-i\omega t + kz)\\
+&= -a ( i\omega - kW ) \exp(-i\omega t + kz)
+\end{align*}
+
+Applying the solution for $V_r$ to the outer and inner vortex sheet velocity fluctuations:
+
+\begin{align}
+V_r^+ &= -a ( i\omega - kW_{\infty} ) \exp(-i\omega t + kz)  \\
+V_r^- &= -a ( i\omega - kW_j ) \exp(-i\omega t + kz)
+\end{align}
+
+
+
 
 Consider a case in which the real jet is replaced by a vortex sheet at $r = R_j$. If the solutions are to be matched at the vortex sheet, describe what matching conditions should be applied. Give both the physical description and the mathematical expressions.
 
