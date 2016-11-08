@@ -487,7 +487,7 @@ Since this is far-field, ambient flow, we will assume that the mean velocity and
 
 \begin{equation}
 \begin{split}
-&W(r)=0 \\
+&W(r)= W_{\infty}=const \\
 &\overline{\rho} = \overline{\rho_0} = const
 \end{split}
 \end{equation}
@@ -509,71 +509,71 @@ Since this is far-field, ambient flow, we will assume that the mean velocity and
   + \left\{
     \dfrac{1}{r}
     - \dfrac{1}{\overline{\rho_0}} \cancelto{0}{\frac{d \overline{\rho_0}}{dr}}
-    + \dfrac{1}{\omega - k\cancelto{0}{W}} 2k \cancelto{0}{\dfrac{dW}{dr}}
+    + \dfrac{1}{\omega - kW_{\infty}} 2k \cancelto{0}{\dfrac{dW}{dr}}
 \right\} \dfrac{dP}{dr}
  + \left\{
-    \dfrac{(\omega - k \cancelto{0}{W})^2}{\dfrac{\gamma \overline{p}}{\overline{\rho_0}}}
-    - \left( \dfrac{n^2}{r^2} + k^2 \right)
-\right\} P = 0 \\
+    \underbrace{ \dfrac{(\omega - k W_{\infty} )^2}{\overline{a^2} }
+    - k^2 }_{\lambda^2}
+    - \dfrac{n^2}{r^2}
+\right\} P = 0      \\
 \dfrac{d^2P}{dr^2}
-  + \underbrace{ \left\{
+  + \left\{
     \dfrac{1}{r}
-  \right\} }_{B} \dfrac{dP}{dr}
-+ \underbrace{ \left\{
-    \dfrac{\omega^2\overline{\rho_0}}{\gamma \overline{p}}
-    - \left( \dfrac{n^2}{r^2} + k^2 \right)
-\right\} }_{C} P = 0 \\
+  \right\} \dfrac{dP}{dr}
++ \left\{
+    \lambda^2
+    - \dfrac{n^2}{r^2}
+\right\} P = 0 \\
 \end{align*}
 
+\noindent where the constant term is collected in $\lambda$, which is expressed in terms of wavenumber $k=\dfrac{\omega}{\overline{a}}$:
 
+\begin{align*}
+\lambda &= \sqrt{\dfrac{(\omega - k W_{\infty} )^2}{\overline{a^2} } - k^2} \\
+&= \sqrt{
+  \dfrac{ \left(\omega -\dfrac{\omega}{\overline{a}} W_{\infty} \right)^2}{\overline{a^2}}
+  - \dfrac{\omega^2}{\overline{a^2}}
+  } \\
+&= \sqrt{
+  \dfrac{ \omega^2 \left(1 -\dfrac{W_{\infty}}{\overline{a}} \right)^2}{\overline{a^2}}
+  - \dfrac{\omega^2}{\overline{a^2}}
+  } \\
+&= \sqrt{ \dfrac{\omega^2}{\overline{a^2}}
+    \left[ \left(1 -\dfrac{W_{\infty}}{\overline{a}} \right)^2 - 1  \right]
+  } \\
+&= \sqrt{ \dfrac{\omega^2}{\overline{a^2}}
+    \left( 1 -2\dfrac{W_{\infty}}{\overline{a}} + \dfrac{W_{\infty}^2}{\overline{a^2}} - 1  \right) } \\
+&= \sqrt{ \dfrac{\omega^2}{\overline{a^2}}
+    \left( \dfrac{W_{\infty}^2}{\overline{a^2}} -2\dfrac{W_{\infty}}{\overline{a}} \right) } \\
+&= \sqrt{ \dfrac{\omega^2}{\overline{a^2}}
+    ( M_{\infty}^2 -2M_{\infty} ) } \\
+&= \sqrt{ \dfrac{\omega^2}{\overline{a^2}} M_{\infty}
+    ( M_{\infty} - 2 ) } \\
+\end{align*}
 
-Re-writing the homogeneous solution of Lilley's equation, we get:
+This equation is of the same form as Bessel's ordinary differential equation and can be solved using the first $H_n^{(1)}(\lambda r)$ and second $H_n^{(2)}(\lambda r)$ order Hankel functions:
+
+\begin{equation}
+P = C H_n^{(1)}(\lambda r) + D H_n^{(2)}(\lambda r)
+\end{equation}
+
+\noindent where $C$ and $D$ are arbitrary constants and the first and second order Hankel functions are equal to the outgoing $H_n^{+}(x)$ and incoming $H_n^{+}(x)$ wave solutions, respectively, and $x = \lambda r$:
 
 \begin{align}
-\dfrac{d^2P}{dr^2} + B \dfrac{dP}{dr} + C P = 0
+H_n^{(1)}(\lambda r) = H_n^{+}(x) = J_n(x) + i Y_n(x) \\
+H_n^{(2)}(\lambda r) = H_n^{-}(x) = J_n(x) - i Y_n(x)
 \end{align}
 
-\noindent where
+\noindent where the Hankel functions are composed of the first and second order Bessel functions $J_n$ and $Y_n$, respectively.
+
+Taking the limit of $H_n^{+}(x)$ and $H_n^{-}(x)$ as $x$ and $r$ approach infinity (far-field condition):
 
 \begin{align*}
-B &=  \dfrac{1}{r} \\
-C &= \dfrac{\omega^2\overline{\rho_0}}{\gamma \overline{p}}
-    - \left( \dfrac{n^2}{r^2} + k^2 \right)
+\lim_{x\to\infty} H_n^{+}(x) &= (-i)^{n+1} \dfrac{e^{ix}}{x} \\
+\lim_{x\to\infty} H_n^{+}(x) &= i^{n+1}    \dfrac{e^{-ix}}{x}
 \end{align*}
 
-To solve this homogeneous equation, we seek an exponential solution of the form:
 
-\newcommand\expsoln{e^{\lambda r}}
-\begin{equation} \label{homosolnform}
-P = e^{\lambda r}
-\end{equation}
-
-Substituting the solution form into the homogeneous equation, we obtain the quadratic equation:
-
-\begin{equation}
-\begin{split}
-\lambda^2 \expsoln + B \lambda \expsoln & + C \expsoln = 0 \\
-\lambda^2 + B \lambda&+ C = 0
-\end{split}
-\end{equation}
-
-The solutions to the quadratic equation can be found using the following relation:
-
-\begin{equation}
-\lambda = \dfrac{-B \pm \sqrt{B^2-4C}}{2}
-\end{equation}
-
-Solving for the term inside the radical:
-
-\begin{align*}
-B^2-4C
-=& \left( \dfrac{1}{r} \right)^2
-  -4 \left[ \dfrac{\omega^2\overline{\rho_0}}{\gamma \overline{p}}
-    - \left( \dfrac{n^2}{r^2} + k^2 \right) \right] \\
-=& \dfrac{1}{r^2}
-  - 4\dfrac{\omega^2\overline{\rho_0}}{\gamma \overline{p}}
-     + \dfrac{4n^2}{r^2} + 4k^2
-\end{align*}
 
 
 
