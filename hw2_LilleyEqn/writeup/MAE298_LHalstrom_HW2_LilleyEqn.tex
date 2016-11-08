@@ -516,21 +516,33 @@ Since this is far-field, ambient flow, we will assume that the mean velocity and
     - k^2 }_{\lambda^2}
     - \dfrac{n^2}{r^2}
 \right\} P = 0      \\
-\dfrac{d^2P}{dr^2}
-  + \left\{
-    \dfrac{1}{r}
-  \right\} \dfrac{dP}{dr}
-+ \left\{
-    \lambda^2
-    - \dfrac{n^2}{r^2}
-\right\} P = 0 \\
+% \dfrac{d^2P}{dr^2}
+%   + \left\{
+%     \dfrac{1}{r}
+%   \right\} \dfrac{dP}{dr}
+% + \left\{
+%     \lambda^2
+%     - \dfrac{n^2}{r^2}
+% \right\} P = 0 \\
 \end{align*}
 
-\noindent where the constant term is collected in $\lambda$, which is expressed in terms of wavenumber $k=\dfrac{\omega}{\overline{a}}$:
+Resulting in the homogeneous Bessel equation:
+
+\begin{equation} \label{BesselEqn}
+\boxed{ \dfrac{d^2P}{dr^2} + \left\{ \dfrac{1}{r} \right\} \dfrac{dP}{dr}
+      + \left\{ \lambda_{\infty}^2 - \dfrac{n^2}{r^2} \right\} P = 0 }
+\end{equation}
+
+\noindent where the constant term is collected in $\lambda_{\infty}$:
 
 \begin{align*}
-\lambda &= \sqrt{\dfrac{(\omega - k W_{\infty} )^2}{\overline{a^2} } - k^2} \\
-&= \sqrt{
+\lambda_{\infty} &= \sqrt{\dfrac{(\omega - k W_{\infty} )^2}{\overline{a^2} } - k^2} \\
+\end{align*}
+
+Substituting the definition of wavenumber $k=\dfrac{\omega}{\overline{a}}$, the expression can be reduced:
+
+\begin{align*}
+\lambda_{\infty} &= \sqrt{
   \dfrac{ \left(\omega -\dfrac{\omega}{\overline{a}} W_{\infty} \right)^2}{\overline{a^2}}
   - \dfrac{\omega^2}{\overline{a^2}}
   } \\
@@ -545,23 +557,29 @@ Since this is far-field, ambient flow, we will assume that the mean velocity and
     \left( 1 -2\dfrac{W_{\infty}}{\overline{a}} + \dfrac{W_{\infty}^2}{\overline{a^2}} - 1  \right) } \\
 &= \sqrt{ \dfrac{\omega^2}{\overline{a^2}}
     \left( \dfrac{W_{\infty}^2}{\overline{a^2}} -2\dfrac{W_{\infty}}{\overline{a}} \right) } \\
-&= \sqrt{ \dfrac{\omega^2}{\overline{a^2}}
-    ( M_{\infty}^2 -2M_{\infty} ) } \\
-&= \sqrt{ \dfrac{\omega^2}{\overline{a^2}} M_{\infty}
-    ( M_{\infty} - 2 ) } \\
+&= \sqrt{ \dfrac{\omega^2}{\overline{a^2}} \dfrac{W_{\infty}}{\overline{a}}
+    \left( \dfrac{W_{\infty}}{\overline{a}} - 2 \right) } \\
 \end{align*}
 
-This equation is of the same form as Bessel's ordinary differential equation and can be solved using the first $H_n^{(1)}(\lambda r)$ and second $H_n^{(2)}(\lambda r)$ order Hankel functions:
+Substituting the definition of Mach number $M_{\infty} = \dfrac{W_{\infty}}{\overline{a}}$, we obtain:
 
-\begin{equation}
-P = C H_n^{(1)}(\lambda r) + D H_n^{(2)}(\lambda r)
+\begin{equation} \label{lambda}
+\lambda_{\infty} = \sqrt{ \dfrac{\omega^2}{\overline{a^2}} M_{\infty} ( M_{\infty} - 2 ) }
 \end{equation}
 
-\noindent where $C$ and $D$ are arbitrary constants and the first and second order Hankel functions are equal to the outgoing $H_n^{+}(x)$ and incoming $H_n^{+}(x)$ wave solutions, respectively, and $x = \lambda r$:
+\noindent where $M_{\infty}$ is the freestream Mach number and $\lambda_{\infty}$ is an imaginary quantity for $M_{\infty} < 2$.
+
+Eqn~\ref{BesselEqn} is of the same form as Bessel's ordinary differential equation and can be solved using the first $H_n^{(1)}(\lambda_{\infty} r)$ and second $H_n^{(2)}(\lambda_{\infty} r)$ order Hankel functions:
+
+\begin{equation}
+P = C H_n^{(1)}(\lambda_{\infty} r) + D H_n^{(2)}(\lambda_{\infty} r)
+\end{equation}
+
+\noindent where $C$ and $D$ are arbitrary constants and the first and second order Hankel functions are equal to the outgoing $H_n^{+}(x)$ and incoming $H_n^{+}(x)$ wave solutions, respectively, and $x = \lambda_{\infty} r$:
 
 \begin{align}
-H_n^{(1)}(\lambda r) = H_n^{+}(x) = J_n(x) + i Y_n(x) \\
-H_n^{(2)}(\lambda r) = H_n^{-}(x) = J_n(x) - i Y_n(x)
+H_n^{(1)}(\lambda_{\infty} r) = H_n^{+}(x) = J_n(x) + i Y_n(x) \\
+H_n^{(2)}(\lambda_{\infty} r) = H_n^{-}(x) = J_n(x) - i Y_n(x)
 \end{align}
 
 \noindent where the Hankel functions are composed of the first and second order Bessel functions $J_n$ and $Y_n$, respectively.
@@ -573,6 +591,11 @@ Taking the limit of $H_n^{+}(x)$ and $H_n^{-}(x)$ as $x$ and $r$ approach infini
 \lim_{x\to\infty} H_n^{+}(x) &= i^{n+1}    \dfrac{e^{-ix}}{x}
 \end{align*}
 
+In the far-field, flow velocity is subsonic ($M_{\infty}<1$), making $\lambda_{\infty}$ imaginary according to Eqn~\ref{lambda}.  This, in turn, makes the limit of $H_n^{+}(x)$ a diminishing exponential and the limit of $H_n^{-}(x)$ an increasing exponential, which is impossible.  Thus, Eqn~\ref{BesselEqn} reduces to Eqn~\ref{BesselFar} for the far-field:
+
+\begin{equation} \label{BesselFar}
+P = C H_n^{(1)}(\lambda_{\infty} r)
+\end{equation}
 
 
 
