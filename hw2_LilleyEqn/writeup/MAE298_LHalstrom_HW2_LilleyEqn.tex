@@ -132,24 +132,24 @@ $W(r)$ is the radial distribution of axial velocity and $\overline{a^2}(r)$ is t
 After a general solution is derived, it will be applied to find homogeneous solutions to the far-field and potential core regions of an axial jet.  Finally, the conditions for matching the solutions for this regions will be discussed.
 
 
-
+\clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Problem 1 -- Solution to Lilley's Equation} \label{SecLilley}%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Seek solutions of Lilley's equation in the form:
+In this section, we will seek solutions of Lilley's equation in the form:
 
 \begin{equation} \label{SolnForm}
 p'(r, \theta, z, t) \sim P(r) \exp\left[ i(kz + n\theta -\omega t) \right]
 \end{equation}
 
-\noindent Assume:
+\noindent We will assume isentropic flow and constant mean pressure:
 \begin{enumerate}
   \item $\overline{a^2} = \dfrac{\gamma \overline{p}}{\overline{\rho}}$
   \item $\overline{p} = const$
 \end{enumerate}
 
-\noindent where $\overline{\rho}(r)$ is the radial distribution of the mean density.  Show that Lilley's equation reduces to (Eqn~\ref{LilleySoln}):
+\noindent where $\overline{\rho}(r)$ is the radial distribution of the mean density.  With these assumptions, we will show that Lilley's equation reduces to (Eqn~\ref{LilleySoln}):
 
 \begin{equation} \label{LilleySoln}
 \dfrac{d^2 P}{dr^2}
@@ -282,7 +282,7 @@ The cubed imaginary number $i^3$ simplifies to $-i$ and the $-1$ is distributed 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Term 2}
 
-Application of the solution form to second term (Eqn~\ref{term2}) of Lilley's equation is slightly more involved.
+Application of the solution form to the second term (Eqn~\ref{term2}) of Lilley's equation is slightly more involved.
 
 \begin{equation}\label{term2}
 \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) (\overline{a^2}\nabla^2p')
@@ -316,7 +316,7 @@ Thus, the double divergence of $p'$ can be expressed in the following expression
     - \left( \dfrac{n^2}{r^2} + k^2 \right) P \right] }
 \end{equation}
 
-Substituting Eqn~\ref{doubledivp} into Term 2 (Eqn~\ref{term2}), we can perform the multi-derivative expression to derive the final term.  All terms grouped with $P$ as well as $a$ are constant WRT $t$ and $z$ and can be carried outside of the derivative expression.
+Substituting Eqn~\ref{doubledivp} into Term 2 (Eqn~\ref{term2}), we can perform the multi-derivative expression to derive the final term.  All terms grouped with $P$ along with $a$ are constant WRT $t$ and $z$ and can be carried outside of the derivative expression.
 
 \begin{align*}
 \left( \dfrac{\partial}{\partial t}
@@ -363,7 +363,7 @@ This results in the final expression for Term 2:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Term 3}
 
-Applying the solution form to third term of Lilley's equation:
+Now, we apply the solution form to third term of Lilley's equation:
 
 \begin{align*}
 \dfrac{d \overline{a^2}}{dr} \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) \dfrac{dp'}{dr}
@@ -376,7 +376,7 @@ Applying the solution form to third term of Lilley's equation:
     i(-\omega + kW) e^{iE}
 \end{align*}
 
-Applying the isentropic relationship assumption for speed of sound and taking the derivative WRT $r$:
+Apply the isentropic relationship assumption for speed of sound and taking the derivative WRT $r$:
 
 \begin{align*}
 \dfrac{d \overline{a^2}}{dr} \dfrac{dP}{dr}
@@ -402,7 +402,7 @@ This results in the final expression for Term 3:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Term 4}
 
-Apply solution form to fourth term of Lilley's equation:
+Finally, we will apply the solution form to fourth term of Lilley's equation:
 
 
 \begin{align*}
@@ -576,6 +576,8 @@ Substituting the definition of wavenumber $k=\dfrac{\omega}{\overline{a}}$, the 
     \left( \dfrac{W_{\infty}}{\overline{a}} - 2 \right) }
 \end{align*}
 
+
+
 Substituting the definition of Mach number $M_{\infty} = \dfrac{W_{\infty}}{\overline{a}}$, we obtain:
 
 \begin{equation} \label{lambda}
@@ -666,7 +668,7 @@ The second order Bessel function $Y_n$ is defined as having a singularity where 
 
 In Section~\ref{secprob2} we derived a solution for the pressure fluctuations ($P^+$) outside of the jet potential core in the far-field (Eqn~\ref{BesselFar}) and in Section~\ref{SecProb3} we derived a solution for the pressure fluctuations ($P^-$) inside the jet potential core (Eqn~\ref{BesselCore}).  Ideally, we would like to combine these near and far solutions by joining them at the edge of the potential core.
 
-One method of accomplishing this solution is to replace the potential core boundary with a vortex sheet located at $r = R_j$.  To successfully join the two solutions, we must match them at this vortex sheet according the two following conditions:
+One method of accomplishing this solution is to replace the potential core boundary with a vortex sheet located at $r = R_j$.  To successfully join the two solutions, we require two matching boundary conditions at this vortex sheet, which can be described according the two following conditions:
 
 \begin{enumerate}
   \item Pressure fluctuations on either edge of the vortex sheet must match:
@@ -827,10 +829,7 @@ C(\omega - kW_{j})^2 \dfrac{d}{dr}\left[H_n^{(1)}(\lambda_{\infty} r)\right]
 
 This system of ordinary differential equations can be solved to correctly determine $A$ and $C$ and thus provide an explicit solution for the combined interior and exterior axial jet flow.
 
-
-
-
-
+It should be noted that this solution only applies for subsonic and supersonic jet flows with $M<2$ as previously demonstrated in Eqn~\ref{lambda}.
 
 
 
