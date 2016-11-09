@@ -1,0 +1,845 @@
+
+\typeout{}\typeout{If latex fails to find aiaa-tc, read the README file!}
+%
+
+
+\documentclass[]{aiaa-tc}% insert '[draft]' option to show overfull boxes
+
+
+\usepackage{amsmath}          % for formula writing (i.e. 'split', etc)
+\usepackage{rotate}           %rotate/mirror images
+\usepackage{cancel}           %draw lines through math to show "goes to zero"
+\usepackage{xfrac}            %allows slated and side fractions
+\usepackage{subcaption}       %allows captioning individual subfigures
+\usepackage{multicol}         %enable environment with multiple columns
+\usepackage[mode=buildnew]{standalone}% requires -shell-escape
+  % compile with `pdflatex -shell-escape main` or `xelatex  -shell-escape main`
+
+
+\usepackage{tikz}             %for creating vector graphics diagrams
+\usetikzlibrary{backgrounds}  %put backgrounds behind tikz figures
+\usetikzlibrary{calc}         %perform calculations within $$
+\usetikzlibrary{positioning}  %position tikz elements using "right of, etc"
+\usetikzlibrary{angles}       %label angles between lines with arcs
+\usetikzlibrary{quotes}       %Put angle label in quotes
+\usetikzlibrary{patterns}     %Patterns to fill shapes with
+
+
+
+
+
+
+  \title{MAE 298 Aeroacoustics -- Homework \#2 \\ Lilley's Equation Solution and Application to Jet Noise}
+
+\author{
+  Logan D. Halstrom \\
+  {\normalsize\itshape Graduate Student} \\
+  {\normalsize\itshape Department of Mechanical and Aerospace Engineering} \\
+  {\normalsize\itshape University of California, Davis, CA 95616}
+       }
+
+
+ % Define commands to assure consistent treatment throughout document
+ \newcommand{\eqnref}[1]{(\ref{#1})}
+ \newcommand{\class}[1]{\texttt{#1}}
+ \newcommand{\package}[1]{\texttt{#1}}
+ \newcommand{\file}[1]{\texttt{#1}}
+ \newcommand{\BibTeX}{\textsc{Bib}\TeX}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\maketitle
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{abstract}
+
+% Abstract about homework
+
+% \end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Nomenclature}
+
+\begin{multicols}{2}
+
+\begin{tabbing}
+  XXX \= \kill% this line sets tab stop
+  $\infty$            \> Ambient flow parameter subscript \\
+  $j$                 \> Jet exit flow parameter subscript \\
+  $r$                 \> Radial location in flow \\
+  $R_j$               \> Axisymmetric jet radius \\
+  $\theta$            \> Angular location in flow \\
+  $z$                 \> Axial location in flow \\
+  $M$                 \> Mach number \\
+  $W(r)$              \> Radial distribution of mean axial velocity \\
+  $\overline{a^2}(r)$ \> Radial distribution of speed of sound squared\\
+  $\overline{\rho}$   \> Mean density \\
+  $\gamma$            \> Specific heat ratio \\
+  $\overline{p}$      \> Mean pressure \\
+  $p'$                \> Perturbation pressure \\
+  $P(r)$              \> Pressure profile in radial direction  \\
+  $k$                 \> Wavenumber \\
+  $\omega$            \> Wave oscillating frequency \\
+  $n$                 \> Characteristic integer \\
+  $i$                 \> Imaginary number $\sqrt{-1}$ \\
+  $\exp$              \> Exponential ($e$) \\
+  $E$                 \> Exponential term: $kz + n\theta -\omega t$ \\
+  $\lambda$           \> Constant term in Bessel equation \\
+  $J$                 \> First-order Bessel function \\
+  $Y$                 \> Second-order Bessel function \\
+  $H^{(n)}$           \> nth-order Hankel function \\
+  $x$                 \> Placeholder variable for $\lambda r$ \\
+  $A,B$               \> Arbitrary Bessel function constants \\
+  $C,D$               \> Arbitrary Hankel constants \\
+  $\vec{V}$           \> General velocity vector \\
+  $V_r$               \> Velocity component in radial direction \\
+  $\nu$               \> Constant velocity parameter \\
+  $\chi$              \> Constant position parameter \\
+  $\zeta$             \> Position of vortex sheet dividing inner/outer solution \\
+  $+/-$               \> Outer/Inner solution, respectively \\
+
+
+
+
+\end{tabbing}
+
+\end{multicols}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Background} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The following analysis will derive solutions to Lilley's equation for parallel axisymmetric flow (Eqn~\ref{Lilley}):
+
+\begin{equation} \label{Lilley}
+\left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right)^3 p'
+- \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) \left( \overline{a^2} \nabla^2p' \right)
+- \dfrac{d \overline{a^2}}{dr} \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) \dfrac{dp'}{dr}
++ 2\overline{a^2} \dfrac{dW}{dr}\dfrac{\partial^2 p'}{\partial z \partial r}
+= S(\vec{x}, t)
+\end{equation}
+
+\begin{center}
+where $\nabla^2 \equiv \dfrac{1}{r}\dfrac{\partial}{\partial r} \left( r\dfrac{\partial}{\partial r} \right)
++ \dfrac{1}{r^2}\dfrac{\partial^2}{\partial \theta^2}
++ \dfrac{\partial^2}{\partial z^2}$
+\end{center}
+
+
+$W(r)$ is the radial distribution of axial velocity and $\overline{a^2}(r)$ is the radial distribution of speed of sound squared.
+
+After a general solution is derived, it will be applied to find homogeneous solutions to the far-field and potential core regions of an axial jet.  Finally, the conditions for matching the solutions for this regions will be discussed.
+
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Problem 1 -- Solution to Lilley's Equation} \label{SecLilley}%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In this section, we will seek solutions of Lilley's equation in the form:
+
+\begin{equation} \label{SolnForm}
+p'(r, \theta, z, t) \sim P(r) \exp\left[ i(kz + n\theta -\omega t) \right]
+\end{equation}
+
+\noindent We will assume isentropic flow and constant mean pressure:
+\begin{enumerate}
+  \item $\overline{a^2} = \dfrac{\gamma \overline{p}}{\overline{\rho}}$
+  \item $\overline{p} = const$
+\end{enumerate}
+
+\noindent where $\overline{\rho}(r)$ is the radial distribution of the mean density.  With these assumptions, we will show that Lilley's equation reduces to (Eqn~\ref{LilleySoln}):
+
+\begin{equation} \label{LilleySoln}
+\dfrac{d^2 P}{dr^2}
++ \left\{ \dfrac{1}{r}
+  - \dfrac{1}{\overline{\rho}} \dfrac{d\overline{\rho}}{dr}
+  + \dfrac{2k}{(\omega - kW)} \dfrac{dW}{dr}
+\right\} \dfrac{dP}{dr}
++ \left\{ \dfrac{(\omega - kW)^2}{\overline{a^2}} - k^2 - \dfrac{n^2}{r^2}
+\right\} P = RHS
+\end{equation}
+
+To aid in this derivation, we find the results for the first-order partial derivatives of parameters relevant to the solution.  First, we compute the derivative of the perturbation pressure $p'$ with respect to (WRT) time $t$:
+
+\newcommand\expterm{i(kz + n\theta -\omega t)}%terms in exponential
+
+\begin{align*}
+\dfrac{\partial p'}{\partial t} &= \dfrac{\partial}{\partial t}
+  \left\{ P(r) \exp\left[ \expterm \right]\right\} \\
+&= P \dfrac{\partial}{\partial t} [\expterm] \exp[\expterm] \\
+&= iP \left[\cancelto{0}{\dfrac{\partial}{\partial t}(kz)      }
+          + \cancelto{0}{\dfrac{\partial}{\partial t}(n\theta)}
+                       - \dfrac{\partial}{\partial t}(\omega t)
+    \right] \exp[\expterm]
+\end{align*}
+
+\begin{equation} \label{dpdt}
+\boxed{\dfrac{\partial p'}{\partial t}
+  = -iP\omega \exp[\expterm] = -iP\omega e^{iE} }
+\end{equation}
+
+\noindent where $E=kz + n\theta -\omega t$, $\dfrac{\partial E}{\partial t} = -\omega$, and $\dfrac{\partial E}{\partial z} = k$.  Next, we compute the derivative of $p'$ WRT the angular direction $\theta$:
+
+\begin{align*}
+\dfrac{\partial p'}{\partial \theta} &= \dfrac{\partial}{\partial \theta}
+  \left\{ P(r) \exp\left[ \expterm \right]\right\} \\
+&= P \dfrac{\partial}{\partial \theta} [\expterm] \exp[\expterm] \\
+&= iP \left[\cancelto{0}{\dfrac{\partial}{\partial \theta}(kz)      }
+                      + \dfrac{\partial}{\partial \theta}(n\theta)
+          - \cancelto{0}{\dfrac{\partial}{\partial \theta}(\omega t)}
+    \right] \exp[\expterm]
+\end{align*}
+
+\begin{equation} \label{dpdtheta}
+\boxed{\dfrac{\partial p'}{\partial \theta} = iPn \exp[\expterm] = iPn e^{iE} }
+\end{equation}
+
+
+Next, we compute the derivative of $p'$ WRT the axial flow direction $z$:
+
+
+
+\begin{align*}
+\dfrac{\partial p'}{\partial z} &= \dfrac{\partial}{\partial z}
+  \left\{ P(r) \exp\left[ \expterm \right]\right\} \\
+&= P \dfrac{\partial}{\partial z} [\expterm] \exp[\expterm] \\
+&= iP \left[             \dfrac{\partial}{\partial z}(kz)
+          + \cancelto{0}{\dfrac{\partial}{\partial z}(n\theta)}
+          - \cancelto{0}{\dfrac{\partial}{\partial z}(\omega t)}
+    \right] \exp[\expterm]
+\end{align*}
+
+\begin{equation} \label{dpdz}
+\boxed{\dfrac{\partial p'}{\partial z} = iPk \exp[\expterm] = iPk e^{iE} }
+\end{equation}
+
+
+Next, we compute the derivative of $p'$ WRT the radial direction $r$:
+
+\begin{align*}
+\dfrac{\partial p'}{\partial r} &= \dfrac{\partial}{\partial r}
+  \left\{ P(r) \exp\left[ \expterm \right]\right\}
+\end{align*}
+
+\begin{equation} \label{dpdr}
+\boxed{\dfrac{\partial p'}{\partial r} = \dfrac{dP}{dr} \exp[\expterm] = \dfrac{dP}{dr} e^{iE} }
+\end{equation}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Term 1}
+
+To simplify the derivation, we will apply the solution form individually to each term in Lilley's equation.  For the first term, we must apply the multi-derivative operator a total of three times:
+
+% \begin{equation} \label{LilleyTerm1}
+% \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right)^3 p'
+% \end{equation}
+
+
+\begin{align*}
+\left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right)^3 p'
+&= \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}
+   \right)^2
+   \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}
+   \right)p' \\
+&= \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}
+   \right)^2
+   \left( \dfrac{\partial p'}{\partial t} + W \dfrac{\partial p'}{\partial z}
+   \right) \\
+&= \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}
+   \right)^2
+   \left( -P\omega ie^{iE} + PkW ie^{iE}
+   \right) \\
+&= \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}
+   \right)
+   \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}
+   \right) (-\omega + kW)P i (e^{iE}) \\
+&= \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}
+   \right) (-\omega + kW)P i
+   (-i\omega e^{iE} + ikW e^{iE}) \\
+&= \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}
+   \right) (-\omega + kW)^2 P i^2 (e^{iE}) \\
+&= (-\omega + kW)^3 P i^3(e^{iE}) = (-\omega + kW)^3P(-i) (e^{iE}) \\
+&= (\omega - kW)^3iP (e^{iE})
+\end{align*}
+
+The cubed imaginary number $i^3$ simplifies to $-i$ and the $-1$ is distributed into the cubed factor.  This results in the final expression for Term 1:
+
+\begin{equation} \label{term1soln}
+\boxed{ \left( \dfrac{\partial}{\partial t}
+          + W \dfrac{\partial}{\partial z} \right)^3 p'
+    =  i\exp[i(kz + n\theta -\omega t)] (\omega - kW)^3 P}
+\end{equation}
+
+
+
+
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Term 2}
+
+Application of the solution form to the second term (Eqn~\ref{term2}) of Lilley's equation is slightly more involved.
+
+\begin{equation}\label{term2}
+\left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) (\overline{a^2}\nabla^2p')
+\end{equation}
+
+Term 2 requires computing the double divergence of perturbation pressure $\nabla^2 p'$:
+
+\begin{align*}
+\nabla^2p'
+  &= \dfrac{1}{r}\dfrac{\partial}{\partial r} \left( r\dfrac{\partial p'}{\partial r} \right)
+      + \dfrac{1}{r^2} \dfrac{\partial^2 p'}{\partial \theta^2}
+      + \dfrac{\partial^2 p'}{\partial z^2} \\
+&= \dfrac{1}{r}\dfrac{\partial}{\partial r} \left( r \dfrac{dP}{dr} e^{iE} \right)
+      + \dfrac{1}{r^2} \dfrac{\partial }{\partial \theta} \left( Pn ie^{iE} \right)
+      + \dfrac{\partial}{\partial z} \left( Pk ie^{iE} \right) \\
+&= \dfrac{1}{r} e^{iE} \left(
+    \dfrac{dP}{dr} + r \dfrac{d^2P}{dr^2} \right)
+      + \dfrac{1}{r^2} Pn^2 i^2 e^{iE}
+      + Pk^2 i^2  e^{iE} \\
+&= e^{iE} \dfrac{d^2P}{dr^2}
+    + e^{iE} \dfrac{1}{r} \dfrac{dP}{dr}
+    + i^2 e^{iE} \left( \dfrac{n^2}{r^2} + k^2 \right) P
+\end{align*}
+
+Thus, the double divergence of $p'$ can be expressed in the following expression, which is separated into like differential terms of $P$:
+
+\begin{equation} \label{doubledivp}
+\boxed{ \nabla^2p'= \exp[i(kz + n\theta -\omega t)] \left[
+      \dfrac{d^2P}{dr^2}
+    + \dfrac{1}{r} \dfrac{dP}{dr}
+    - \left( \dfrac{n^2}{r^2} + k^2 \right) P \right] }
+\end{equation}
+
+Substituting Eqn~\ref{doubledivp} into Term 2 (Eqn~\ref{term2}), we can perform the multi-derivative expression to derive the final term.  All terms grouped with $P$ along with $a$ are constant WRT $t$ and $z$ and can be carried outside of the derivative expression.
+
+\begin{align*}
+\left( \dfrac{\partial}{\partial t}
+  + W \dfrac{\partial}{\partial z} \right)
+  (\overline{a^2}\nabla^2p')
+&= \left( \dfrac{\partial}{\partial t}
+  + W \dfrac{\partial}{\partial z}
+  \right) \overline{a^2} e^{iE} \left[
+      \dfrac{d^2P}{dr^2}
+    + \dfrac{1}{r} \dfrac{dP}{dr}
+    - \left( \dfrac{n^2}{r^2} + k^2 \right) P \right] \\
+&= \overline{a^2} \left[ \dfrac{d^2P}{dr^2}
+          + \dfrac{1}{r} \dfrac{dP}{dr}
+          - \left( \dfrac{n^2}{r^2} + k^2 \right) P \right]
+    \left( \dfrac{\partial}{\partial t}
+  + W \dfrac{\partial}{\partial z}
+  \right) e^{iE} \\
+&= \overline{a^2} \left[ \dfrac{d^2P}{dr^2}
+          + \dfrac{1}{r} \dfrac{dP}{dr}
+          - \left( \dfrac{n^2}{r^2} + k^2 \right) P \right]
+  \left( -\omega ie^{iE} + kW ie^{iE}\right) \\
+&= - \overline{a^2} ie^{iE} (\omega - kW) \left[ \dfrac{d^2P}{dr^2}
+          + \dfrac{1}{r} \dfrac{dP}{dr}
+          - \left( \dfrac{n^2}{r^2} + k^2 \right) P \right]
+\end{align*}
+
+This results in the final expression for Term 2:
+
+\begin{equation} \label{term2soln}
+\boxed{ \left( \dfrac{\partial}{\partial t}
+  + W \dfrac{\partial}{\partial z} \right)
+  (\overline{a^2}\nabla^2p')
+= - \overline{a^2} i\exp[i(kz + n\theta -\omega t)]
+    (\omega - kW) \left[ \dfrac{d^2P}{dr^2}
+    + \dfrac{1}{r} \dfrac{dP}{dr}
+    - \left( \dfrac{n^2}{r^2} + k^2 \right) P \right] }
+\end{equation}
+
+
+
+
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Term 3}
+
+Now, we apply the solution form to third term of Lilley's equation:
+
+\begin{align*}
+\dfrac{d \overline{a^2}}{dr} \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) \dfrac{dp'}{dr}
+&= \dfrac{d \overline{a^2}}{dr}
+   \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right)
+   \dfrac{dP}{dr} e^{iE}  \\
+&= \dfrac{d \overline{a^2}}{dr} \dfrac{dP}{dr}
+   \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) e^{iE} \\
+&= \dfrac{d \overline{a^2}}{dr} \dfrac{dP}{dr}
+    i(-\omega + kW) e^{iE}
+\end{align*}
+
+Apply the isentropic relationship assumption for speed of sound and taking the derivative WRT $r$:
+
+\begin{align*}
+\dfrac{d \overline{a^2}}{dr} \dfrac{dP}{dr}
+    i(-\omega + kW) e^{iE}
+&= \dfrac{d}{dr} \left(\dfrac{\gamma \overline{p}}{\overline{\rho}}\right)
+    \dfrac{dP}{dr} i(-\omega + kW) e^{iE} \\
+&= -\left(\dfrac{\gamma \overline{p}}{\overline{\rho}^2}\right) \frac{d \overline{\rho}}{dr}
+    \dfrac{dP}{dr} i(-\omega + kW) e^{iE} \\
+&= \left(\dfrac{\overline{a^2}}{\overline{\rho}}\right) \frac{d \overline{\rho}}{dr} \dfrac{dP}{dr} i(\omega - kW) e^{iE}
+\end{align*}
+
+This results in the final expression for Term 3:
+
+\begin{equation} \label{term3soln}
+\boxed{\dfrac{d \overline{a^2}}{dr} \left( \dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z} \right) \dfrac{dp'}{dr}
+= \overline{a^2} i\exp[i(kz + n\theta -\omega t)] (\omega - kW)
+    \dfrac{1}{\overline{\rho}}\frac{d \overline{\rho}}{dr} \dfrac{dP}{dr} }
+\end{equation}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Term 4}
+
+Finally, we will apply the solution form to fourth term of Lilley's equation:
+
+
+\begin{align*}
+2\overline{a^2} \dfrac{dW}{dr}\dfrac{\partial^2 p'}{\partial z \partial r}
+  &= 2\overline{a^2} \dfrac{dW}{dr} \dfrac{\partial }{\partial z}
+    \dfrac{\partial p'}{\partial r}
+    = 2\overline{a^2} \dfrac{dW}{dr} \dfrac{\partial }{\partial z}
+    \left( \dfrac{dP}{dr} e^{iE} \right) \\
+&= 2\overline{a^2} \dfrac{dW}{dr} \dfrac{dP}{dr}
+    \dfrac{\partial }{\partial z} \left( e^{iE} \right)
+    = 2\overline{a^2} \dfrac{dW}{dr} \dfrac{dP}{dr} ike^{iE}
+\end{align*}
+
+This results in the final expression for Term 4:
+
+\begin{equation} \label{term4soln}
+\boxed{2\overline{a^2} \dfrac{dW}{dr}\dfrac{\partial^2p'}{\partial z\partial r}
+  = \overline{a^2} i\exp[i(kz + n\theta -\omega t)]
+    2k \dfrac{dW}{dr} \dfrac{dP}{dr} }
+\end{equation}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Lilley's Equation Solution}
+
+To derive the final form of Lilley's equation, we combine Terms 1 through 4:
+
+\begin{align*}
+Eqn~\ref{term1soln} - Eqn~\ref{term2soln} - Eqn~\ref{term3soln} + Eqn~\ref{term4soln} = S(\vec{x}, t)
+\end{align*}
+
+Which becomes the following in expanded form:
+
+\begin{align*}
+\left\{ ie^{iE} (\omega - kW)^3 P \right\}
+- \left\{ - \overline{a^2} ie^{iE}
+    (\omega - kW) \left[ \dfrac{d^2P}{dr^2}
+    + \dfrac{1}{r} \dfrac{dP}{dr}
+    - \left( \dfrac{n^2}{r^2} + k^2 \right) P \right] \right\} \\
+- \left\{ \overline{a^2} ie^{iE} (\omega - kW)
+    \dfrac{1}{\overline{\rho}}\frac{d \overline{\rho}}{dr} \dfrac{dP}{dr} \right\}
++ \left\{ \overline{a^2} ie^{iE} 2k \dfrac{dW}{dr} \dfrac{dP}{dr} \right\}
+= S(\vec{x}, t)
+\end{align*}
+
+Dividing both sides of the equation by the term $\overline{a^2} ie^{iE} (\omega - kW)$:
+
+\begin{align*}
+\dfrac{(\omega - kW)^2}{\overline{a^2}} P
++ \dfrac{d^2P}{dr^2}
++ \dfrac{1}{r} \dfrac{dP}{dr}
+- \left( \dfrac{n^2}{r^2} + k^2 \right) P
+- \dfrac{1}{\overline{\rho}}\frac{d \overline{\rho}}{dr} \dfrac{dP}{dr}
++ \dfrac{1}{\omega - kW} 2k \dfrac{dW}{dr} \dfrac{dP}{dr}
+= \dfrac{S(\vec{x}, t)}{\overline{a^2} ie^{iE} (\omega - kW)} \\
+\dfrac{d^2P}{dr^2}
++ \dfrac{1}{r} \dfrac{dP}{dr}
+- \dfrac{1}{\overline{\rho}}\frac{d \overline{\rho}}{dr} \dfrac{dP}{dr}
++ \dfrac{1}{\omega - kW} 2k \dfrac{dW}{dr} \dfrac{dP}{dr}
++ \dfrac{(\omega - kW)^2}{\overline{a^2}} P
+- \left( \dfrac{n^2}{r^2} + k^2 \right) P
+= \dfrac{S(\vec{x}, t)}{\overline{a^2} ie^{iE} (\omega - kW)} \\
+\end{align*}
+
+Grouping like terms of $P$, we obtain the final form of the general solution of Lilley's Equation:
+
+\begin{equation} \label{lilleysoln}
+\boxed{
+\dfrac{d^2P}{dr^2}
++ \left\{
+    \dfrac{1}{r}
+    - \dfrac{1}{\overline{\rho}}\frac{d \overline{\rho}}{dr}
+    + \dfrac{1}{\omega - kW} 2k \dfrac{dW}{dr}
+\right\} \dfrac{dP}{dr}
++ \left\{
+    \dfrac{(\omega - kW)^2}{\overline{a^2}}
+    - \left( \dfrac{n^2}{r^2} + k^2 \right)
+\right\} P
+= \dfrac{S(\vec{x}, t)}{\overline{a^2} ie^{iE} (\omega - kW)} }
+\end{equation}
+
+\noindent where $E=kz + n\theta -\omega t$.
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Problem 2 -- General Solution for Jet Flow Far-Field} \label{secprob2}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Next, we will solve the homogeneous form of Lilley's equation (Eqn~\ref{lilleysoln}) to determine the general solution for the pressure fluctuation outside of the jet in the ambient medium where the sources vanish.  This region can be considered to be the far-field of the jet, so the solution must be chosen to ensure decaying solutions (outgoing waves).
+
+Since this is far-field, ambient flow, we will assume that the mean velocity and density in this region are equal to the ambient mean values:
+
+\begin{equation}
+\begin{split}
+&W(r)= W_{\infty}=const \\
+&\overline{\rho} = \overline{\rho_0} = const
+\end{split}
+\end{equation}
+
+\noindent which allows us to simplify the homogeneous equation:
+
+\begin{align*}
+\dfrac{d^2P}{dr^2}
++ \left\{
+    \dfrac{1}{r}
+    - \dfrac{1}{\overline{\rho}}\frac{d \overline{\rho}}{dr}
+    + \dfrac{1}{\omega - kW} 2k \dfrac{dW}{dr}
+\right\} \dfrac{dP}{dr}
++ \left\{
+    \dfrac{(\omega - kW)^2}{\overline{a^2}}
+    - \left( \dfrac{n^2}{r^2} + k^2 \right)
+\right\} P = 0 \\
+\dfrac{d^2P}{dr^2}
+  + \left\{
+    \dfrac{1}{r}
+    - \dfrac{1}{\overline{\rho_0}} \cancelto{0}{\frac{d \overline{\rho_0}}{dr}}
+    + \dfrac{1}{\omega - kW_{\infty}} 2k \cancelto{0}{\dfrac{dW}{dr}}
+\right\} \dfrac{dP}{dr}
+ + \left\{
+    \underbrace{ \dfrac{(\omega - k W_{\infty} )^2}{\overline{a^2} }
+    - k^2 }_{\lambda^2}
+    - \dfrac{n^2}{r^2}
+\right\} P = 0
+% \dfrac{d^2P}{dr^2}
+%   + \left\{
+%     \dfrac{1}{r}
+%   \right\} \dfrac{dP}{dr}
+% + \left\{
+%     \lambda^2
+%     - \dfrac{n^2}{r^2}
+% \right\} P = 0 \\
+\end{align*}
+
+Resulting in the homogeneous Bessel equation:
+
+\begin{equation} \label{BesselEqn}
+\boxed{ \dfrac{d^2P}{dr^2} + \left\{ \dfrac{1}{r} \right\} \dfrac{dP}{dr}
+      + \left\{ \lambda_{\infty}^2 - \dfrac{n^2}{r^2} \right\} P = 0 }
+\end{equation}
+
+\noindent where the constant term is collected in $\lambda_{\infty}$:
+
+\begin{align*}
+\lambda_{\infty} &= \sqrt{\dfrac{(\omega - k W_{\infty} )^2}{\overline{a^2} } - k^2}
+\end{align*}
+
+Substituting the definition of wavenumber $k=\dfrac{\omega}{\overline{a}}$, the expression can be reduced:
+
+\begin{align*}
+\lambda_{\infty} &= \sqrt{
+  \dfrac{ \left(\omega -\dfrac{\omega}{\overline{a}} W_{\infty} \right)^2}{\overline{a^2}}
+  - \dfrac{\omega^2}{\overline{a^2}}
+  } \\
+&= \sqrt{
+  \dfrac{ \omega^2 \left(1 -\dfrac{W_{\infty}}{\overline{a}} \right)^2}{\overline{a^2}}
+  - \dfrac{\omega^2}{\overline{a^2}}
+  } \\
+&= \sqrt{ \dfrac{\omega^2}{\overline{a^2}}
+    \left[ \left(1 -\dfrac{W_{\infty}}{\overline{a}} \right)^2 - 1  \right]
+  } \\
+&= \sqrt{ \dfrac{\omega^2}{\overline{a^2}}
+    \left( 1 -2\dfrac{W_{\infty}}{\overline{a}} + \dfrac{W_{\infty}^2}{\overline{a^2}} - 1  \right) } \\
+&= \sqrt{ \dfrac{\omega^2}{\overline{a^2}}
+    \left( \dfrac{W_{\infty}^2}{\overline{a^2}} -2\dfrac{W_{\infty}}{\overline{a}} \right) } \\
+&= \sqrt{ \dfrac{\omega^2}{\overline{a^2}} \dfrac{W_{\infty}}{\overline{a}}
+    \left( \dfrac{W_{\infty}}{\overline{a}} - 2 \right) }
+\end{align*}
+
+
+
+Substituting the definition of Mach number $M_{\infty} = \dfrac{W_{\infty}}{\overline{a}}$, we obtain:
+
+\begin{equation} \label{lambda}
+\lambda_{\infty} = \sqrt{ \dfrac{\omega^2}{\overline{a^2}} M_{\infty} ( M_{\infty} - 2 ) }
+\end{equation}
+
+\noindent where $M_{\infty}$ is the freestream Mach number and $\lambda_{\infty}$ is an imaginary quantity for $M_{\infty} < 2$.
+
+Eqn~\ref{BesselEqn} is of the same form as Bessel's ordinary differential equation and can be solved using the first $H_n^{(1)}(\lambda_{\infty} r)$ and second $H_n^{(2)}(\lambda_{\infty} r)$ order Hankel functions:
+
+\begin{equation}
+P = C H_n^{(1)}(\lambda_{\infty} r) + D H_n^{(2)}(\lambda_{\infty} r)
+\end{equation}
+
+\noindent where $C$ and $D$ are arbitrary constants and the first and second order Hankel functions are equal to the outgoing $H_n^{+}(x)$ and incoming $H_n^{+}(x)$ wave solutions, respectively, and $x = \lambda_{\infty} r$:
+
+\begin{align}
+H_n^{(1)}(\lambda_{\infty} r) = H_n^{+}(x) = J_n(x) + i Y_n(x) \\
+H_n^{(2)}(\lambda_{\infty} r) = H_n^{-}(x) = J_n(x) - i Y_n(x)
+\end{align}
+
+\noindent where the Hankel functions are composed of the first and second order Bessel functions $J_n$ and $Y_n$, respectively.
+
+Taking the limit of $H_n^{+}(x)$ and $H_n^{-}(x)$ as $x$ and $r$ approach infinity (far-field condition):
+
+\begin{align*}
+\lim_{x\to\infty} H_n^{+}(x) &= (-i)^{n+1} \dfrac{e^{ix}}{x} \\
+\lim_{x\to\infty} H_n^{+}(x) &= i^{n+1}    \dfrac{e^{-ix}}{x}
+\end{align*}
+
+In the far-field, flow velocity is subsonic ($M_{\infty}<1$), making $\lambda_{\infty}$ imaginary according to Eqn~\ref{lambda}.  This, in turn, makes the limit of $H_n^{+}(x)$ a diminishing exponential and the limit of $H_n^{-}(x)$ an increasing exponential, which is impossible.  Thus, Eqn~\ref{BesselEqn} reduces to Eqn~\ref{BesselFar} for final solution of the far-field outside of the potential core of the jet:
+
+\begin{equation} \label{BesselFar}
+\boxed{P = C H_n^{(1)}(\lambda_{\infty} r)}
+\end{equation}
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Problem 3 -- General Solution for Jet Potential Core} \label{SecProb3}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In this section, we will solve the homogeneous form of Lilley's equation (Eqn~\ref{lilleysoln}) to determine the general solution for the potential core region of the jet.  We will assume that the mean velocity and density in this region are constant and equal to the jet exit values:
+
+\begin{align}
+W(r)=W_j=const \\
+\overline{\rho} = \overline{\rho_j} = const
+\end{align}
+
+These assumptions are similar to those made in Section~\ref{secprob2}, which allows the reduction of Eqn~\ref{lilleysoln} to the Bessel equation:
+
+\begin{equation} \label{BesselEqnJet}
+\boxed{ \dfrac{d^2P}{dr^2} + \left\{ \dfrac{1}{r} \right\} \dfrac{dP}{dr}
+      + \left\{ \lambda_{j}^2 - \dfrac{n^2}{r^2} \right\} P = 0 }
+\end{equation}
+
+\noindent with
+
+\begin{equation} \label{lambdaJ}
+\lambda_{j} = \sqrt{ \dfrac{\omega^2}{\overline{a^2}} M_{j} ( M_{j} - 2 ) }
+\end{equation}
+
+\noindent where $M_{j}=\dfrac{W_j}{\overline{a}}$ is the jet exit Mach number and $\lambda_{j}$ is an imaginary quantity for $M_{j} < 2$.
+
+For this potential core solution, we assume the Bessel equation is equivalent to the first $J_n$ and second $Y_n$ order Bessel functions:
+
+\begin{equation}
+P = A J_n(\lambda_j r) + B Y_n(\lambda_j r)
+\end{equation}
+
+\noindent where $A$ and $B$ are arbitrary constants.
+
+The second order Bessel function $Y_n$ is defined as having a singularity where $\lambda_j r = 0$, so inside the potential core region where $0<r<R_j$, we can leave the singular $Y_n$ out of Eqn~\ref{BesselEqnJet}, resulting in the final expression for the solution inside of the potential core:
+
+\begin{equation} \label{BesselCore}
+\boxed{P = A J_n(\lambda_j r)}
+\end{equation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Problem 4 -- Matching of Far-Field and Potential Core Solutions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In Section~\ref{secprob2} we derived a solution for the pressure fluctuations ($P^+$) outside of the jet potential core in the far-field (Eqn~\ref{BesselFar}) and in Section~\ref{SecProb3} we derived a solution for the pressure fluctuations ($P^-$) inside the jet potential core (Eqn~\ref{BesselCore}).  Ideally, we would like to combine these near and far solutions by joining them at the edge of the potential core.
+
+One method of accomplishing this solution is to replace the potential core boundary with a vortex sheet located at $r = R_j$.  To successfully join the two solutions, we require two matching boundary conditions at this vortex sheet, which can be described according the two following conditions:
+
+\begin{enumerate}
+  \item Pressure fluctuations on either edge of the vortex sheet must match:
+        \begin{align} \label{constraint1}
+          P^+ = P^-
+        \end{align}
+  \item Radial velocity fluctuations across the vortex sheet must match:
+        \begin{align} \label{constraint2}
+          V_r^+ = V_r^-
+        \end{align}
+\end{enumerate}
+
+The first constraint (Eqn~\ref{constraint1}) of matched pressure fluctuation can be written using the Bessel equation solutions for the outer flow (Eqn~\ref{BesselFar}) and inner flow (Eqn~\ref{BesselCore}):
+
+\begin{equation} \label{constantsEqn1}
+\boxed{C H_n^{(1)}(\lambda_{\infty} r) = A J_n(\lambda_j r)}
+\end{equation}
+
+The second constraint will be achieved by relating the radial gradient of pressure $\dfrac{dP}{dr}$ with the radial velocity at the vortex sheet $V_r$:
+
+\begin{equation}
+V_r = \nu \exp[i(-\omega t + kz)]
+\end{equation}
+
+\noindent where $\nu$ is a constant value of velocity in the radial direction that is modulated by the expression $\exp[i(-\omega t + kz)]$, which is a function of time and the jet flow direction $z$.
+
+We will first obtain an expression relating $V_r$ and the pressure fluctuation using the momentum equation:
+
+\begin{equation} \label{momentum}
+\overline{\rho_0} \dfrac{D\vec{V} }{Dt} = - \nabla P
+\end{equation}
+
+Because the matching conditions apply only across the vortex sheet in the radial direction, we look at the radial component of Eqn~\ref{momentum} by taking the dot product of both sides WRT the radial unit vector $\hat{r}$:
+
+\begin{align*}
+\overline{\rho_0} \dfrac{D\vec{V}}{Dt} \cdot \hat{r}
+    &= - \nabla P \cdot \hat{r} \\
+\overline{\rho_0} \dfrac{D V_r}{Dt} &= - \dfrac{\partial P}{\partial r}
+\end{align*}
+
+The total time derivative of $V_r$ is (see Section~\ref{SecLilley}):
+
+\begin{align*}
+\dfrac{D V_r}{Dt}
+  &= \left(\dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}\right)
+  V_r \\
+  &= \left(\dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}\right)
+  \nu \exp[i(-\omega t + kz)] \\
+  &= - i( \omega - kW ) \nu\exp[i(-\omega t + kz)] \\
+  &= - i( \omega - kW ) V_r
+\end{align*}
+
+Substituting $\dfrac{D V_r}{Dt}$ into Eqn~\ref{momentum}, we obtain:
+
+\begin{align}
+\overline{\rho_0} i( \omega - kW ) V_r = \dfrac{d P}{d r}
+\end{align}
+
+\noindent which can be rearranged in terms of $V_r$, allowing us to satisfy our second constraint:
+
+\begin{align} \label{VrMomentum}
+\boxed{V_r = \dfrac{\dfrac{d P}{d r}}{\overline{\rho_0} i( \omega - kW )}}
+\end{align}
+
+
+Next, we will define the radial velocity fluctuation $V_r$ instead as the time derivative of the radial displacement $\zeta$ of fluid particles located at the vortex sheet.
+
+\begin{equation}
+V_r = \dfrac{D\zeta}{Dt}
+\end{equation}
+
+\noindent where
+
+\begin{equation}
+\zeta(z,t) = \chi \exp[i(-\omega t + kz)]
+\end{equation}
+
+\noindent and where $\chi$ is a constant value of radial position that is modulated by the same expression $\exp[i(-\omega t + kz)]$, which governs the oscillation of the vortex sheet.
+
+Taking the time derivative of $\zeta$ (see Section~\ref{SecLilley}):
+
+\begin{align*}
+V_r &= \dfrac{D\zeta}{Dt} =
+    \left(\dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}\right)
+    \zeta \\
+    &=\left(\dfrac{\partial}{\partial t} + W \dfrac{\partial}{\partial z}\right)
+    \chi \exp[i(-\omega t + kz)]  \\
+&= -\chi \exp[i(-\omega t + kz)] i ( \omega - kW )  \\
+&= -\zeta i ( \omega - kW )
+\end{align*}
+
+Applying the solution for $V_r$ to the outer and inner vortex sheet velocity fluctuations:
+
+\begin{align}
+V_r^+ &= -i(\omega - kW_{\infty} )\zeta  \label{Vplus}\\
+V_r^- &= -i(\omega - kW_j )       \zeta  \label{Vminus}
+\end{align}
+
+Rearranging the solution of $V_r$ for $\zeta$, and setting Eqns~\ref{Vplus} and~\ref{Vminus} equal to each other:
+
+\begin{align} \label{VrVel}
+\boxed{\zeta = \dfrac{V_r^+}{-i(\omega - kW_{\infty})}
+    = \dfrac{V_r^-}{-i(\omega - kW_{j})}}
+\end{align}
+
+Next, the second constraint (Eqn~\ref{constraint2}) can be put into terms of pressure rather than $V_r$ by substituting Eqn~\ref{VrMomentum} applied to the inner and outer solutions:
+
+\begin{align*}
+V_r^+ &=\dfrac{\dfrac{dP}{dr}^+}{\overline{\rho_0} i( \omega - kW_{\infty})} \\
+V_r^- &= \dfrac{\dfrac{dP}{dr}^-}{\overline{\rho_0} i( \omega - kW_{j})}
+\end{align*}
+
+\noindent into Eqn~\ref{VrVel}:
+
+\begin{align*}
+\dfrac{V_r^+}{-i(\omega - kW_{\infty})}
+    &= \dfrac{V_r^-}{-i(\omega - kW_{j})} \\
+\dfrac{\dfrac{dP}{dr}^+}{-i^2(\omega - kW_{\infty})^2}
+    &= \dfrac{\dfrac{dP}{dr}^-}{-i^2(\omega - kW_{j})^2} \\
+\end{align*}
+
+\begin{equation} \label{constraints}
+\boxed{\dfrac{\dfrac{dP}{dr}^+}{(\omega - kW_{\infty})^2}
+    = \dfrac{\dfrac{dP}{dr}^-}{(\omega - kW_{j})^2}}
+\end{equation}
+
+Finally, we can calculate the pressure differentials from the solutions for the outer flow (Eqn~\ref{BesselFar}) and inner flow (Eqn~\ref{BesselCore}):
+
+\begin{align*}
+\dfrac{dP}{dr}^+ &= \dfrac{d}{dr} \left[C H_n^{(1)}(\lambda_{\infty} r) \right]
+    = C \dfrac{d}{dr}\left[H_n^{(1)}(\lambda_{\infty} r)\right] \\
+\dfrac{dP}{dr}^- &= \dfrac{d}{dr} \left[A J_n(\lambda_j r) \right]
+    = A \dfrac{d}{dr}\left[ J_n(\lambda_j r) \right]
+\end{align*}
+
+\noindent and substitute the resulting expressions into Eqn~\ref{constraints}:
+
+\begin{align*}
+\dfrac{C \dfrac{d}{dr}\left[H_n^{(1)}(\lambda_{\infty} r)\right]}{(\omega - kW_{\infty})^2}
+    = \dfrac{A \dfrac{d}{dr}\left[ J_n(\lambda_j r) \right]}{(\omega - kW_{j})^2}
+\end{align*}
+
+\noindent Rearranging, we obtain a second equation containing the unknown constants $A$ and $C$.
+
+\begin{equation} \label{constantsEqn2}
+\boxed{
+C(\omega - kW_{j})^2 \dfrac{d}{dr}\left[H_n^{(1)}(\lambda_{\infty} r)\right]
+    = A(\omega - kW_{\infty})^2 \dfrac{d}{dr}\left[ J_n(\lambda_j r) \right]}
+\end{equation}
+
+Thus, achieving the two constraints set at the beginning of this section and substituting the known equations for pressure fluctuations inside and outside the potential core, we rewrite the resulting two equations (Eqns~\ref{constantsEqn1} and~\ref{constantsEqn2}) with two constant unknowns:
+
+\begin{align*}
+C H_n^{(1)}(\lambda_{\infty} r) &= A J_n(\lambda_j r) \\
+C(\omega - kW_{j})^2 \dfrac{d}{dr}\left[H_n^{(1)}(\lambda_{\infty} r)\right]
+    &= A(\omega - kW_{\infty})^2 \dfrac{d}{dr}\left[ J_n(\lambda_j r) \right]
+\end{align*}
+
+This system of ordinary differential equations can be solved to correctly determine $A$ and $C$ and thus provide an explicit solution for the combined interior and exterior axial jet flow.
+
+It should be noted that this solution only applies for subsonic and supersonic jet flows with $M<2$ as previously demonstrated in Eqn~\ref{lambda}.
+
+
+
+
+
+
+
+
+
+
+\end{document}
+
+
