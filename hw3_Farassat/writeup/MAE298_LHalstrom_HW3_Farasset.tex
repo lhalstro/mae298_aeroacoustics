@@ -85,6 +85,7 @@
   $\overline{p}$      \> Mean pressure \\
   $p'$                \> Perturbation pressure \\
   $\Delta P$          \> Pressure difference from CFD solution \\
+  $\Phi$              \> Piecewise-continuous variable \\
   $k$                 \> Wavenumber \\
   $\overline{\partial}$ \> Generalized derivative \\
   $\delta$            \> Dirac delta function \\
@@ -198,12 +199,44 @@ We will solve for the sound field in the exterior region, but we will assume tha
 
 Due to the discontinuity in $\widetilde{p}$ at the data surface $f=0$, we will not be able to use standard differentiation to solve for the sound field and must instead use a technique called generalized differentiation, which will be denoted with a bar over the differential operator (e.g. $\overline{d}, \overline{\partial}, \overline{\nabla}$, etc).
 
-To illustrate the principles of generalized differentiation, consider the piecewise-continuous function $\Phi$, which is defined in all regions of space but is discontinuous at $f=0$ (equivalent to the definition of $\widetilde{p}$).
+To illustrate the principles of generalized differentiation, we will use the piecewise-continuous pressure $\widetilde{p}$.  The following rules will also apply to other piecewise-continuous fluid properties such as density $\widetilde{\rho}$. Without a formal proof, we can state the rules of generalized differentiation as:
 
+\begin{equation} \label{GenDiff}
+\dfrac{\overline{d}\widetilde{p}}{dx}
+    = \dfrac{d\widetilde{p}}{dx} + \Delta\widetilde{p} \delta(x - c)
+\end{equation}
 
+\noindent where $x$ is an arbitrary variable of differentiation, $\delta$ is the Dirac delta function, $x=c$ is the location of the discontinuity in $\widetilde{p}$, and $\Delta\widetilde{p}=\widetilde{p}(c^+)-\widetilde{p}(c^-)=p - p_0$ is the discontinuous difference in $\widetilde{p}$ at the location of the discontinuity, or the difference in the parameter between the exterior and interior regions of the defined space.
 
+For the case of the arbitrary moving body $f=0$, where $x=f$ and $c=0$, the Dirac delta function $\delta(x-c)$ becomes $\delta(f)$.  Applying Eqn~\ref{GenDiff} to the gradient operator $\nabla$ and using the chain rule, we obtain:
 
+\begin{align*}
+\overline{\nabla} \widetilde{p}
+&= \dfrac{\overline{\partial}\widetilde{p}}{\partial x_i}
+= \dfrac{\overline{\partial}\widetilde{p}}{\partial f}
+    \dfrac{\partial f}{\partial x_i} \\
+&= \left( \dfrac{\partial\widetilde{p}}{\partial f}
+    + \Delta \widetilde{p} \delta(f) \right)
+    \dfrac{\partial f}{\partial x_i} \\
+&= \dfrac{\partial\widetilde{p}}{\partial f} \dfrac{\partial f}{\partial x_i}
+    + \Delta \widetilde{p} \dfrac{\partial f}{\partial x_i} \delta(f) \\
+&= \dfrac{\partial\widetilde{p}}{\partial x_i}
+    + \Delta \widetilde{p} \dfrac{\partial f}{\partial x_i} \delta(f)
+\end{align*}
 
+\noindent Substituting the gradient operator $\nabla = \dfrac{\partial}{\partial x_i}$:
+
+\begin{equation} \label{GenGrad}
+\overline{\nabla} \widetilde{p}
+= \nabla\widetilde{p} + \Delta\widetilde{p} \nabla f \delta(f)
+\end{equation}
+
+Recall the assumption that gradient of $f$ is the outward normal vector, as summarized in Eqn~\ref{Gradfnormal}.  Additionally, we can apply the definition of $\widetilde{p}$ to the pressure difference at the discontinuity $\Delta\widetilde{p} = p - p_0 = p - 0 = p$.  Making these substitutions, we can rewrite Eqn~\ref{GenGrad}:
+
+\begin{equation} \label{GenGradAssume}
+\overline{\nabla} \widetilde{p}
+= \nabla\widetilde{p} + p \cdot \hat{n} \delta(f)
+\end{equation}
 
 
 
