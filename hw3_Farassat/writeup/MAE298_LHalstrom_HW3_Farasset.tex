@@ -66,10 +66,12 @@
 \begin{tabbing}
   XXX \= \kill% this line sets tab stop
   $0$                 \> Subscript for undisturbed, quiescent parameters \\
+  $e$                 \> Subscript for emission parameters \\
   $L$                 \> Subscript for loading parameters \\
   $n$                 \> Surface normal direction \\
   $s$                 \> Surface coordinate variable \\
-  $t$                 \> time \\
+  $t$                 \> Time \\
+  $\tau$              \> Retarded time \\
   $\vec{x}$           \> Observer location vector \\
   $r$                 \> Distance between source and observer \\
   $\hat{r}$           \> Unit vector between source and observer \\
@@ -379,35 +381,87 @@ The terms grouped in the bracket are exactly equal to the Right Hand Side (RHS) 
 
 
 
-
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Problem 2 -- Farassat Formulation 1A for Loading Noise} \label{SecFarassat}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+In Section~\ref{SecGenDiff}, we derived Eqn~\ref{AcousticWaveBody} for the sound field produced by an arbitrary moving body.  To solve equations of this form, we must apply Green's function.  This was achieved for the FW-H equation by Farassat, first in his ``Formulation 1'', which transformed the spatial derivatives into terms of observer time $t$ and then into ``Formulation 1A'', which further transformed $t$ into terms of retarded time $\tau$.
 
-Farassat’s formulation 1 for the loading noise is given as
+Separating the FW-H equation into separate source terms of thickness, loading, and quadrupole volume, we can look specifically at Farassat’s Formulation 1 for the loading noise, which is given as:
 
 \begin{equation} \label{FarassatForm1Loading}
-4\pi p_{L}' = \dfrac{1}{c} \dfrac{\partial}{\partial t}
+\boxed{4\pi p_{L}' = \dfrac{1}{c} \dfrac{\partial}{\partial t}
       \int_{f=0} \left[ \dfrac{L_r}{r   (1 - M_r)} \right]_{ret} ds
-    + \int_{f=0} \left[ \dfrac{L_r}{r^2 (1 - M_r)} \right]_{ret} ds
+    + \int_{f=0} \left[ \dfrac{L_r}{r^2 (1 - M_r)} \right]_{ret} ds}
 \end{equation}
 
 
-\noindent where $L_r = \Delta P \vec{n} \cdot \hat{r} = \Delta P \cos\theta$. This formulation 1 is difficult to compute since the observer time differentiation is outside the integrals. A much more efficient and practical formulation can be derived by carrying the observer time derivate inside the integrals (formulation 1A). Show that formulation 1A for the loading noise becomes
+\noindent where $L_r = \Delta P \vec{n} \cdot \hat{r} = \Delta P \cos\theta$ is the loading in the radial direction and $ret$ denotes that the expression is evaluated at the retarded time $\tau=\tau_e$.
+
+In practice, Formulation 1 is difficult to compute since the observer time differentiation is outside the integrals. Farassat's Formulation 1A presents a much more efficient and practical approach, which can be derived by carrying the observer time derivate inside the integrals. In the following section, we will show that Formulation 1A for the loading noise becomes:
 
 \begin{equation} \label{FarassatForm1ALoadingEx}
+\begin{split}
 4\pi p_{L}' = \dfrac{1}{c}
       \int_{f=0} \left[ \dfrac{\dot{L}_r}{r (1 - M_r)^2} \right]_{ret} ds
-    + \int_{f=0} \left[ \dfrac{L_r - L_M}{r^2 (1 - M_r)} \right]_{ret} ds
+    + \int_{f=0} \left[ \dfrac{L_r - L_M}{r^2 (1 - M_r)} \right]_{ret} ds \\
 + \dfrac{1}{c} \int_{f=0} \left[
-    \dfrac{ L_r[r \dot{M}_r + c(M_r - M^2)] }{r^2 (1 - M_r)^3} \right]_{ret} ds
+    \dfrac{L_r[r \dot{M}_r + c(M_r - M^2)] }{r^2 (1 - M_r)^3} \right]_{ret} ds
+\end{split}
 \end{equation}
 
 \noindent where $L_M = \vec{L} \cdot \vec{M} $.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Formulation 1A Transformation}
+
+It can be shown that \color{red} (ADD DERIVATION LATER) \color{black}
+
+\begin{equation} \label{t2tau}
+\left. \dfrac{\partial}{\partial t} \right|_x
+= \left[ \dfrac{1}{1 - M_r} \dfrac{\partial}{\partial \tau} \right]_{ret}
+\end{equation}
+
+\noindent where $\dfrac{\partial}{\partial t}$ is evaluated along some surface $x$.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Loading Noise Formulation 1A}
+
+Now that we have defined the transformation between Formulation 1 and Formulation 1A, we can apply Eqn~\ref{t2tau} to Eqn~\ref{FarassatForm1Loading} to derive Formulation 1A of the loading noise.  Specifically, we will perform the transformation on the first term of the RHS of Eqn~\ref{FarassatForm1Loading}, which contains a time derivative:
+
+\begin{align*}
+\dfrac{\partial}{\partial t}
+      \int_{f=0} \left[ \dfrac{L_r}{r   (1 - M_r)} \right]_{ret} ds
+&= \int_{f=0} \left[
+    \dfrac{1}{1 - M_r} \dfrac{\partial}{\partial \tau}
+    \left( \dfrac{L_r}{r   (1 - M_r)}  \right)
+    \right]_{ret} ds
+\end{align*}
+
+Focusing on the term contained in the $\tau$ differential, we see that both the numerator and denominator contain functions of $\tau$, so the product rule of differentiation will be required to complete this derivation.  Before that, however, let us compute the derivatives of the individual components to simplify the final derivation.
+
+The time derivative of the numerator is straightforward, as shown below:
+
+\begin{equation} \label{Ldot}
+\dfrac{\partial}{\partial\tau} \left( L_r \right)
+    = \dfrac{\partial L_r}{\partial\tau}
+    = \dot{L}_r
+\end{equation}
+
+\noindent where the dot over $L_r$ denotes the time derivative, or the rate of change of the pressure loading with respect time time.
+
+
+
+
+
+
+
+
+
+
+
 
 
 
