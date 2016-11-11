@@ -431,14 +431,14 @@ It can be shown that \color{red} (ADD DERIVATION LATER) \color{black}
 
 Now that we have defined the transformation between Formulation 1 and Formulation 1A, we can apply Eqn~\ref{t2tau} to Eqn~\ref{FarassatForm1Loading} to derive Formulation 1A of the loading noise.  Specifically, we will perform the transformation on the first term of the RHS of Eqn~\ref{FarassatForm1Loading}, which contains a time derivative:
 
-\begin{align*}
+\begin{align} \label{DerInt}
 \dfrac{\partial}{\partial t}
       \int_{f=0} \left[ \dfrac{L_r}{r   (1 - M_r)} \right]_{ret} ds
 &= \int_{f=0} \left[
     \dfrac{1}{1 - M_r} \dfrac{\partial}{\partial \tau}
     \left( \dfrac{L_r}{r   (1 - M_r)}  \right)
     \right]_{ret} ds
-\end{align*}
+\end{align}
 
 Focusing on the term contained in the $\tau$ differential, we see that both the numerator and denominator contain functions of $\tau$, so the product rule of differentiation will be required to complete this derivation.  Before that, however, let us compute the derivatives of the individual components to simplify the final derivation.
 
@@ -572,7 +572,7 @@ At long last, we have finally computed all of the necessary terms to complete th
         {r^2 (1 - M_r)^2}
 \end{align*}
 
-\noindent Recalling that any unit vector $\hat{r}$ that is multiplied itself must equal unity due to the property:
+\noindent Recalling that any unit vector $\hat{r}$ that is multiplied by itself must equal unity due to the property:
 
 \begin{equation} \label{UnitSquared}
 \hat{r}\cdot\hat{r}
@@ -590,6 +590,115 @@ At long last, we have finally computed all of the necessary terms to complete th
     + \dfrac{ L_r \left[
         r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) \right] }
         {r^2 (1 - M_r)^2}
+\end{equation}
+
+Now that we have computed the derivative WRT $\tau$, we can substitute Eqn~\ref{TauDer} into Eqn~\ref{DerInt}:
+
+\begin{align*}
+\dfrac{\partial}{\partial t}
+      \int_{f=0} \left[ \dfrac{L_r}{r   (1 - M_r)} \right]_{ret} ds
+&= \int_{f=0} \left\{
+    \dfrac{1}{1 - M_r} \left[
+    \dfrac{\dot{L}_r}{r (1 - M_r)}
+    + \dfrac{\vec{L}\cdot\vec{V}}{r^2 (1 - M_r)}
+    + \dfrac{ L_r \left[
+        r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) \right] }
+        {r^2 (1 - M_r)^2} \right]
+    \right\}_{ret} ds \\
+&= \int_{f=0} \left[
+    \dfrac{\dot{L}_r}{r (1 - M_r)^2}
+    + \dfrac{\vec{L}\cdot\vec{V}}{r^2 (1 - M_r)^2}
+    + \dfrac{ L_r \left[
+        r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) \right] }
+        {r^2 (1 - M_r)^3}
+    \right]_{ret} ds
+\end{align*}
+
+\noindent resulting in the Formulation 1A version of the derivative integral term:
+
+\begin{equation} \label{Form1aInt}
+\dfrac{\partial}{\partial t}
+      \int_{f=0} \left[ \dfrac{L_r}{r   (1 - M_r)} \right]_{ret} ds
+= \int_{f=0} \left[
+    \dfrac{\dot{L}_r}{r (1 - M_r)^2}
+    + \dfrac{\vec{L}\cdot\vec{V}}{r^2 (1 - M_r)^2}
+    + \dfrac{ L_r \left[
+        r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) \right] }
+        {r^2 (1 - M_r)^3}
+    \right]_{ret} ds
+\end{equation}
+
+The final step in deriving Formulation 1A is to substitute Eqn~\ref{Form1aInt} into Eqn~\ref{FarassatForm1Loading} (Loading Noise Formulation 1):
+
+\begin{align*}
+4\pi p_{L}' &= \dfrac{1}{c} \dfrac{\partial}{\partial t}
+      \int_{f=0} \left[ \dfrac{L_r}{r   (1 - M_r)} \right]_{ret} ds
+    + \int_{f=0} \left[ \dfrac{L_r}{r^2 (1 - M_r)} \right]_{ret} ds \\
+&= \dfrac{1}{c} \int_{f=0} \left[
+    \dfrac{\dot{L}_r}{r (1 - M_r)^2}
+    + \dfrac{\vec{L}\cdot\vec{V}}{r^2 (1 - M_r)^2}
+    + \dfrac{ L_r \left[
+        r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) \right] }
+        {r^2 (1 - M_r)^3}
+    \right]_{ret} ds
+    + \int_{f=0} \left[ \dfrac{L_r}{r^2 (1 - M_r)} \right]_{ret} ds
+\end{align*}
+
+\noindent Distributing the integral across summed terms:
+
+\begin{align*}
+% 4\pi p_{L}'
+= \dfrac{1}{c} \int_{f=0} \left[
+        \dfrac{\dot{L}_r}{r (1 - M_r)^2} \right]_{ret} ds
+    &+ \int_{f=0} \left[ \dfrac{L_r}{r^2 (1 - M_r)} \right]_{ret} ds
+    + \dfrac{1}{c} \int_{f=0} \left[
+        \dfrac{\vec{L}\cdot\vec{V}}{r^2 (1 - M_r)^2} \right]_{ret} ds
+    \\ &+ \dfrac{1}{c} \int_{f=0} \left[
+        \dfrac{ L_r \left[
+        r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) \right] }
+        {r^2 (1 - M_r)^3} \right]_{ret} ds
+\end{align*}
+
+\noindent Distributing the speed of sound term and combining like integrals:
+
+\begin{align*}
+% 4\pi p_{L}'
+&= \dfrac{1}{c} \int_{f=0} \left[
+        \dfrac{\dot{L}_r}{r (1 - M_r)^2} \right]_{ret} ds
+    + \int_{f=0} \left[ \dfrac{L_r}{r^2 (1 - M_r)}
+        + \dfrac{\frac{1}{c} (\vec{L}\cdot\vec{V})}{r^2 (1 - M_r)^2}
+        \right]_{ret} ds
+    + \dfrac{1}{c} \int_{f=0} \left[
+        \dfrac{ L_r \left[
+        r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) \right] }
+        {r^2 (1 - M_r)^3} \right]_{ret} ds \\
+&= \dfrac{1}{c} \int_{f=0} \left[
+        \dfrac{\dot{L}_r}{r (1 - M_r)^2} \right]_{ret} ds
+    + \int_{f=0} \left[
+        + \dfrac{L_r + \vec{L}\cdot\vec{M}}{r^2 (1 - M_r)^2}
+        \right]_{ret} ds
+    + \dfrac{1}{c} \int_{f=0} \left[
+        \dfrac{ L_r \left[
+        r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) \right] }
+        {r^2 (1 - M_r)^3} \right]_{ret} ds
+\end{align*}
+
+
+\noindent Substituting the definition $L_M = \vec{L}\cdot\vec{M}$, we derive the final expression for Formulation 1A of Loading Noise:
+
+\begin{equation}
+\begin{split}
+4\pi p_{L}'
+= \dfrac{1}{c} \int_{f=0} \left[
+        \dfrac{\dot{L}_r}{r (1 - M_r)^2} \right]_{ret} ds
+    &+ \int_{f=0} \left[
+        + \dfrac{L_r + L_M}{r^2 (1 - M_r)^2}
+        \right]_{ret} ds \\
+    &+ \dfrac{1}{c} \int_{f=0} \left[
+        \dfrac{ L_r \left[
+        r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) \right] }
+        {r^2 (1 - M_r)^3} \right]_{ret} ds
+\end{split}
 \end{equation}
 
 
