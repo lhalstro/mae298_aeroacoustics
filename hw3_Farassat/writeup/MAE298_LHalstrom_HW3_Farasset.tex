@@ -526,7 +526,7 @@ Now, we now have all of the derivative components required to calculate the time
 
 \begin{equation} \label{DerMrDenom}
 \dfrac{\partial}{\partial\tau} \left( \dfrac{1}{1 - M_r} \right)
-= \dfrac{ r\dot{\vec{M}}_r + c \left( -|\vec{M}|^2 + M_r^2 \right) }
+= \dfrac{ r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) }
     {r (1 - M_r)^2}
 \end{equation}
 
@@ -546,18 +546,51 @@ At long last, we have finally computed all of the necessary terms to complete th
     + L_r \left[
     \dfrac{1}{1 - M_r} \dfrac{V_r}{r^2}
     + \dfrac{1}{r}
-    \dfrac{ r\dot{\vec{M}}_r + c \left( -|\vec{M}|^2 + M_r^2 \right) }
+    \dfrac{ r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) }
     {r (1 - M_r)^2}
     \right] \\
 & = \dfrac{\dot{L}_r}{r (1 - M_r)}
     + L_r \left[
     \dfrac{V_r}{r^2 (1 - M_r)}
-    + \dfrac{ r\dot{\vec{M}}_r + c \left( -|\vec{M}|^2 + M_r^2 \right) }
+    + \dfrac{ r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) }
         {r^2 (1 - M_r)^2}
     \right] \\
+&= \dfrac{\dot{L}_r}{r (1 - M_r)}
+    + \dfrac{L_r V_r}{r^2 (1 - M_r)}
+    + \dfrac{ L_r \left[
+        r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) \right] }
+        {r^2 (1 - M_r)^2} \\
+&= \dfrac{\dot{L}_r}{r (1 - M_r)}
+    + \dfrac{(\vec{L}\cdot\hat{r}) (\vec{V}\cdot\hat{r})}{r^2 (1 - M_r)}
+    + \dfrac{ L_r \left[
+        r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) \right] }
+        {r^2 (1 - M_r)^2} \\
+&= \dfrac{\dot{L}_r}{r (1 - M_r)}
+    + \dfrac{(\vec{L}\cdot\vec{V}) (\hat{r}\cdot\hat{r})}{r^2 (1 - M_r)}
+    + \dfrac{ L_r \left[
+        r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) \right] }
+        {r^2 (1 - M_r)^2}
 \end{align*}
 
+\noindent Recalling that any unit vector $\hat{r}$ that is multiplied itself must equal unity due to the property:
 
+\begin{equation} \label{UnitSquared}
+\hat{r}\cdot\hat{r}
+= \dfrac{\vec{r}}{|\vec{r}|}\cdot\dfrac{\vec{r}}{|\vec{r}|}
+= \dfrac{\vec{r}\cdot\vec{r}}{|\vec{r}|\cdot|\vec{r}|}
+= \dfrac{|\vec{r}|^2}{|\vec{r}|^2} = 1
+\end{equation}
+
+\noindent we can write our derivative term as such:
+
+\begin{equation} \label{TauDer}
+\dfrac{\partial}{\partial \tau} \left( \dfrac{L_r}{r (1 - M_r)}  \right)
+= \dfrac{\dot{L}_r}{r (1 - M_r)}
+    + \dfrac{\vec{L}\cdot\vec{V}}{r^2 (1 - M_r)}
+    + \dfrac{ L_r \left[
+        r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) \right] }
+        {r^2 (1 - M_r)^2}
+\end{equation}
 
 
 
