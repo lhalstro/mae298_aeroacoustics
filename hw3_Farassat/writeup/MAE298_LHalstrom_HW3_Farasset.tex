@@ -293,11 +293,11 @@ Applying the second partial derivative WRT time to the first term of Eqn~\ref{Ac
 &= \dfrac{1}{c} \left[
     \dfrac{1}{c} \dfrac{\partial}{\partial f} \left(
     \dfrac{\partial\widetilde{p}}{\partial t} \right)
-    + \dfrac{\partial\Delta\widetilde{p}}{\partial t} \dfrac{1}{c}\delta(f)
+    + \dfrac{1}{c} \dfrac{\partial\Delta\widetilde{p}}{\partial t} \delta(f)
     \right] \dfrac{\partial f}{\partial t} \\
 &=  \dfrac{1}{c^2} \dfrac{\partial}{\partial t} \left(
     \dfrac{\partial\widetilde{p}}{\partial t} \right)
-    + \dfrac{\partial p}{\partial t} \dfrac{V_n}{c} \dfrac{1}{c}\delta(f)
+    + \dfrac{\partial p}{\partial t} \dfrac{1}{c}\dfrac{V_n}{c} \delta(f)
 \end{align*}
 
 \noindent which results in the final expression for the first term of the second general derivative of pressure WRT time:
@@ -309,6 +309,22 @@ Applying the second partial derivative WRT time to the first term of Eqn~\ref{Ac
     + \dfrac{M_n}{c} \dfrac{\partial p}{\partial t}  \delta(f)
 \end{equation}
 
+
+Now, distributing the differential to the second term, we notice that all three parameters are continuous at the surface $f=0$, thus making the generalized differentiation identical to standard differentiation $\left(\dfrac{\overline{\partial}}{\partial t} = \dfrac{\partial}{\partial t} \right)$
+
+\begin{equation} \label{2ndDerTerm2}
+\dfrac{1}{c}\dfrac{\overline{\partial}}{\partial t}\left[ M_n p\delta(f)\right]
+    = \dfrac{1}{c}\dfrac{\partial}{\partial t} \left[ M_n p\delta(f) \right]
+\end{equation}
+
+Finally, applying the results for the first (Eqn~\ref{2ndDerTerm1}) and second (Eqn~\ref{2ndDerTerm2}) terms to the second derivative, we derive the final expression:
+
+\begin{equation} \label{2ndDer}
+\dfrac{1}{c^2}\dfrac{\overline{\partial}^2\widetilde{p}}{\partial t^2}
+= \dfrac{1}{c^2} \dfrac{\partial^2\widetilde{p}}{\partial t^2}
+    + \dfrac{M_n}{c} \dfrac{\partial p}{\partial t}  \delta(f)
++ \dfrac{1}{c}\dfrac{\partial}{\partial t} \left[ M_n p\delta(f) \right]
+\end{equation}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
