@@ -444,7 +444,7 @@ Focusing on the term contained in the $\tau$ differential, we see that both the 
 
 The time derivative of the numerator is straightforward, as shown below:
 
-\begin{equation} \label{Ldot}
+\begin{equation} \label{DerL}
 \dfrac{\partial}{\partial\tau} \left( L_r \right)
     = \dfrac{\partial L_r}{\partial\tau}
     = \dot{L}_r
@@ -452,12 +452,73 @@ The time derivative of the numerator is straightforward, as shown below:
 
 \noindent where the dot over $L_r$ denotes the time derivative, or the rate of change of the pressure loading with respect time time.
 
+Next, we compute the time derivative of $\dfrac{1}{r}$ using the chain rule:
+
+\begin{equation} \label{DerR}
+\dfrac{\partial}{\partial\tau} \left( \dfrac{1}{r} \right)
+= \dfrac{\partial}{\partial r} \left( \dfrac{1}{r} \right)
+    \dfrac{\partial r}{\partial\tau}
+= -\dfrac{1}{r^2} (-V_r)
+= \dfrac{V_r}{r^2}
+\end{equation}
+
+\noindent where $V_r$ is the velocity component in the radial direction and is calculated as:
+
+\begin{equation} \label{Vr}
+-V_r = \underbrace{\dfrac{\partial r}{\partial y_i}}_{-1}
+    \underbrace{\dfrac{\partial y_i}{\partial \tau}}_{V_r}
+= (-1) (V_r)
+\end{equation}
+
+We will next compute the time derivative of $\dfrac{1}{1 - M_r}$, but will first calculate two derivatives on which it depends.  First, we calculate the derivative of the radial unit vector $\hat{r}$, substituting the results and assumptions of Eqn~\ref{DerR}:
+
+\begin{align*}
+\dfrac{\partial}{\partial\tau} \left( \hat{r} \right)
+&= \dfrac{\partial}{\partial\tau} \left( \dfrac{\vec{r}}{r} \right)
+    = \dfrac{1}{r} \dfrac{\partial \vec{r}}{\partial\tau}
+    + \vec{r}\dfrac{\partial\vec{r}}{\partial\tau} \left(\dfrac{1}{r} \right)\\
+&= \dfrac{-\vec{V}}{r} + \vec{r} \cdot \dfrac{V_r}{r^2}
+    = \dfrac{-\vec{V}}{r} + \dfrac{1}{r} \dfrac{\vec{r}}{r} \cdot V_r \\
+&= -\dfrac{\vec{V}}{r} + \dfrac{1}{r} \hat{r} \cdot V_r
+\end{align*}
+
+\noindent where $r = |\vec{r}|$ is the magnitude of the radial vector.  Finally, multiplying the equation by $c/c$ allows expression in terms of Mach number:
+
+\begin{equation} \label{DerRhat}
+\dfrac{\partial}{\partial\tau} \left( \hat{r} \right)
+= -\dfrac{c}{r} \left( \vec{M} - \vec{r} \cdot M_r \right)
+\end{equation}
+
+
+Secondly, the derivative of Mach number in the radial direction can be expressed as:
+
+\begin{align*}
+\dfrac{\partial}{\partial\tau} \left( M_r \right)
+&= \dfrac{\partial}{\partial\tau} \left( \vec{M} \cdot \hat{r} \right)
+= \dfrac{\partial\vec{M}}{\partial\tau}
+    \cdot\hat{r} + \vec{M} \dfrac{\partial\hat{r}}{\partial\tau} \\
+&= \dot{\vec{M}}\cdot\hat{r} + \vec{M} \dfrac{c}{r}
+    \left( -\vec{M} + \vec{r} \cdot M_r \right) \\
+&= \dot{\vec{M}}\cdot\hat{r} + \dfrac{c}{r}
+    \left( -\vec{M}\cdot\vec{M} + \vec{r} \cdot\vec{M}\cdot M_r \right)
+\end{align*}
+
+\noindent where Eqn~\ref{DerRhat} was substituted in for the time derivative of $\hat{r}$.  Letting $\dot{\vec{M}} = \dfrac{\partial \vec{M}}{\partial \tau}$ denote the time derivative of Mach number, we obtain the final expression for the derivative of radial Mach number:
+
+\begin{equation} \label{DerMr}
+\dfrac{\partial}{\partial\tau} \left( M_r \right)
+= \dot{\vec{M}}_r + \dfrac{c}{r}
+    \left( -|\vec{M}|^2 + M_r^2 \right)
+\end{equation}
 
 
 
 
-
-
+\begin{equation} \label{DerMrDenom}
+\dfrac{\partial}{\partial\tau} \left( \dfrac{1}{1 - M_r} \right)
+    = -\dfrac{1}{(1 - M_r)^2} \dfrac{\partial}{\partial\tau}(-M_r)
+    = -\dfrac{1}{(1 - M_r)^2} \dfrac{\partial}{\partial\tau}(-M_r)
+\end{equation}
 
 
 
