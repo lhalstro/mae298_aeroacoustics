@@ -503,7 +503,7 @@ Secondly, the derivative of Mach number in the radial direction can be expressed
     \left( -\vec{M}\cdot\vec{M} + \vec{r} \cdot\vec{M}\cdot M_r \right)
 \end{align*}
 
-\noindent where Eqn~\ref{DerRhat} was substituted in for the time derivative of $\hat{r}$.  Letting $\dot{\vec{M}} = \dfrac{\partial \vec{M}}{\partial \tau}$ denote the time derivative of Mach number, we obtain the final expression for the derivative of radial Mach number:
+\noindent where Eqn~\ref{DerRhat} was substituted in for the time derivative of $\hat{r}$.  Letting $\dot{\vec{M}} = \dfrac{\partial \vec{M}}{\partial \tau}$ denote the time derivative of Mach number or the acceleration in terms of Mach, we obtain the final expression for the derivative of radial Mach number:
 
 \begin{equation} \label{DerMr}
 \dfrac{\partial}{\partial\tau} \left( M_r \right)
@@ -511,16 +511,51 @@ Secondly, the derivative of Mach number in the radial direction can be expressed
     \left( -|\vec{M}|^2 + M_r^2 \right)
 \end{equation}
 
+Now, we now have all of the derivative components required to calculate the time derivative of $\dfrac{1}{1 - M_r}$:
 
+\begin{align*}
+\dfrac{\partial}{\partial\tau} \left( \dfrac{1}{1 - M_r} \right)
+&= -\dfrac{1}{(1 - M_r)^2} \dfrac{\partial}{\partial\tau}(-M_r) \\
+&= -\dfrac{1}{(1 - M_r)^2}(-1) \left[
+    \dot{\vec{M}}_r +\dfrac{c}{r}\left( -|\vec{M}|^2 + M_r^2 \right) \right] \\
+&= \dfrac{ \dot{\vec{M}}_r + \dfrac{c}{r} \left( -|\vec{M}|^2 + M_r^2 \right) }
+    {(1 - M_r)^2}
+\end{align*}
 
+\noindent Multiplying by $r/r$:
 
 \begin{equation} \label{DerMrDenom}
 \dfrac{\partial}{\partial\tau} \left( \dfrac{1}{1 - M_r} \right)
-    = -\dfrac{1}{(1 - M_r)^2} \dfrac{\partial}{\partial\tau}(-M_r)
-    = -\dfrac{1}{(1 - M_r)^2} \dfrac{\partial}{\partial\tau}(-M_r)
+= \dfrac{ r\dot{\vec{M}}_r + c \left( -|\vec{M}|^2 + M_r^2 \right) }
+    {r (1 - M_r)^2}
 \end{equation}
 
+At long last, we have finally computed all of the necessary terms to complete the transformation of the first term in Eqn~\ref{FarassatForm1Loading}.  The time derivative must be performed using the product rule, as follows:
 
+\begin{align*}
+\dfrac{\partial}{\partial \tau} \left( \dfrac{L_r}{r (1 - M_r)}  \right)
+& = \dfrac{\partial}{\partial \tau} \left\{ L_r \dfrac{1}{r (1 - M_r)}  \right\} \\
+& = \dfrac{\partial L_r}{\partial \tau} \dfrac{1}{r (1 - M_r)}
+    + L_r\dfrac{\partial}{\partial \tau} \left[ \dfrac{1}{r (1 - M_r)} \right] \\
+& = \dfrac{\dot{L}_r}{r (1 - M_r)}
+    + L_r \left[
+    \dfrac{\partial}{\partial\tau} \left(\dfrac{1}{r}\right) \dfrac{1}{1 - M_r}
+    + \dfrac{1}{r} \dfrac{\partial}{\partial\tau} \left(\dfrac{1}{1-M_r}\right)
+    \right] \\
+& = \dfrac{\dot{L}_r}{r (1 - M_r)}
+    + L_r \left[
+    \dfrac{1}{1 - M_r} \dfrac{V_r}{r^2}
+    + \dfrac{1}{r}
+    \dfrac{ r\dot{\vec{M}}_r + c \left( -|\vec{M}|^2 + M_r^2 \right) }
+    {r (1 - M_r)^2}
+    \right] \\
+& = \dfrac{\dot{L}_r}{r (1 - M_r)}
+    + L_r \left[
+    \dfrac{V_r}{r^2 (1 - M_r)}
+    + \dfrac{ r\dot{\vec{M}}_r + c \left( -|\vec{M}|^2 + M_r^2 \right) }
+        {r^2 (1 - M_r)^2}
+    \right] \\
+\end{align*}
 
 
 
