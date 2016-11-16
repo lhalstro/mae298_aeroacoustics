@@ -1,0 +1,8 @@
+IMPROVEMENTS:
+Derivations:
+    Df/Dt
+    retared time derivative transformation
+state that dot product is commutative
+update table of derivatives
+improve overview: Real life examples, history
+general formatting
