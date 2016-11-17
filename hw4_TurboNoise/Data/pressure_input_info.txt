@@ -1,0 +1,2 @@
+	
+'pressure_input.dat' contains pressure data at a z=0 plane. The format of the pressure data is first column (radius), second column (real part of the pressure), third column (imaginary part of the pressure). This pressure file is the Fourier transformed pressure in the theta direction for m=18 or 1 BPF.
