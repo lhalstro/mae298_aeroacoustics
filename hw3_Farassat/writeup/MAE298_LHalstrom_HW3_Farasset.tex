@@ -68,47 +68,30 @@
   $0$                 \> Subscript for undisturbed, quiescent parameters \\
   $e$                 \> Subscript for emission parameters \\
   $L$                 \> Subscript for loading parameters \\
-  $n$                 \> Surface normal direction \\
-  $s$                 \> Surface coordinate variable \\
   $t$                 \> Time \\
   $\tau$              \> Retarded time \\
-  $\vec{x}$           \> Observer location vector \\
-  $r$                 \> Distance between source and observer \\
-  $\hat{r}$           \> Unit vector between source and observer \\
-  $\theta$            \> Angle between $\hat{r}$ and $\vec{x}$ \\
+  $ret$               \> Evaluated at retarded time \\
+  $\hat{n}$           \> Unit surface normal vector \\
+  $\vec{r}$           \> Radial direction vector \\
+  $\hat{r}$           \> Radial unit vector \\
+  $r$                 \> Magnitude of radial vector $|\vec{r}|$ \\
+  $\theta$            \> Angle between $\hat{n}$ and $\hat{r}$ \\
   $f$                 \> Function of surfaces within a fluid space \\
+  $\vec{V}$           \> General velocity vector \\
+  $V_r$               \> Velocity component in radial direction \\
+  $V_n$               \> Velocity component in surface normal direction \\
   $M$                 \> Mach number \\
-  $W(r)$              \> Radial distribution of mean axial velocity \\
   $c$                 \> Speed of Sound\\
   $\overline{\rho}$   \> Mean density \\
-  $\gamma$            \> Specific heat ratio \\
   $p$                 \> Pressure  \\
   $\widetilde{p}$     \> Pressure (Discontinuous across data surface)  \\
   $\overline{p}$      \> Mean pressure \\
   $p'$                \> Perturbation pressure \\
   $\Delta P$          \> Pressure difference from CFD solution \\
-  $\Phi$              \> Piecewise-continuous variable \\
-  $k$                 \> Wavenumber \\
   $\overline{\partial}$ \> Generalized derivative \\
   $\delta$            \> Dirac delta function \\
   \scriptsize{FW-H}   \> Ffowcs Williams-Hawkings\\
-  $\omega$            \> Wave oscillating frequency \\
-  $i$                 \> Imaginary number $\sqrt{-1}$ \\
-  $\exp$              \> Exponential ($e$) \\
-  $E$                 \> Exponential term: $kz + n\theta -\omega t$ \\
-  $\lambda$           \> Constant term in Bessel equation \\
-  $J$                 \> First-order Bessel function \\
-  $Y$                 \> Second-order Bessel function \\
-  $H^{(n)}$           \> nth-order Hankel function \\
-  $x$                 \> Placeholder variable for $\lambda r$ \\
-  $A,B$               \> Arbitrary Bessel function constants \\
-  $C,D$               \> Arbitrary Hankel constants \\
-  $\vec{V}$           \> General velocity vector \\
-  $V_r$               \> Velocity component in radial direction \\
-  $\nu$               \> Constant velocity parameter \\
-  $\chi$              \> Constant position parameter \\
-  $\zeta$             \> Position of vortex sheet dividing inner/outer solution \\
-  $+/-$               \> Outer/Inner solution, respectively \\
+
 
 
 
@@ -128,7 +111,7 @@ Secondly, we will derive Farassat's Formulation 1A of the Ffowcs Williams-Hawkin
 
 
 
-$r=|\vec{x} - \vec{y}|$
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -153,13 +136,13 @@ We will used generalized differentiation to show that the wave equation whose so
 
 \noindent where $\hat{n}$ is the unit normal vector on the surface and $p_n = \nabla p \cdot \hat{n}$.
 
-Now we can use the Green’s function of the wave equation in the unbounded space, the so-called free-space Green’s function, to find the unknown function $p(\vec{x},t)$   everywhere in space. The result is the Kirchhoff formula for moving surfaces.
+We will use Green’s function of the wave equation in the unbounded space to find the unknown function $p(\vec{x},t)$, which exists everywhere in space. This result is called the Kirchhoff formula for moving surfaces.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Data Surface Definition}
 
-To solve for the sound field of a moving surface, we will need to derive a source term to create the inhomogeneous version of Eqn~\ref{AcousticWaveHomo}.  The moving surface will be defined as $f(\vec{x},t) = 0$ and will be referred to as a ``data surface''.  The definition of $f$ allows the fluid to be defined at all points in space, which can be divided into three regions:
+The moving surface generating acoustic effects will be defined as $f(\vec{x},t) = 0$ and will be referred to as a ``data surface''.  The definition of $f$ allows the fluid to be defined at all points in space, which can be divided into three regions:
 
 \begin{center}
 \begin{tabular}{| r  l |}
@@ -179,7 +162,7 @@ To solve for the sound field of a moving surface, we will need to derive a sourc
 
 Under this definition of $f$, the fluid will exist in all regions of unbounded space and thus enable the usage of Green's function to solve for the sound field.
 
-We will solve for the sound field in the exterior region, but we will assume that the fluid that extends into the interior region has the same conditions as an undisturbed, quiescent medium.  We can define a pressure variable with these properties as $\widetilde{p}$ using the embedding technique as follows:
+We will solve for the sound field in the surface exterior region, but we will assume that the fluid that extends into the interior region has the same conditions as an undisturbed, quiescent medium.  We can define a pressure variable with these properties as $\widetilde{p}$ using the embedding technique as follows:
 
 \begin{equation} \label{Ptilde}
 \begin{split}
@@ -244,7 +227,7 @@ Recall the assumption that gradient of $f$ is the outward normal vector, as summ
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Kirchhoff Formula Derivation}
 
-We will now apply the principles of generalized differentiation to Eqn~\ref{AcousticWaveHomo} to derive the general equation for the sound field generated by a moving surface.  Beginning with the first term on the LHS of Eqn~\ref{AcousticWaveHomo}:
+We will now apply the principles of generalized differentiation to Eqn~\ref{AcousticWaveHomo} to derive the general equation for the sound field generated by a moving surface.  Beginning with the first term on the LHS of Eqn~\ref{AcousticWaveHomo}, we will first take a single partial derivative WRT time and then perform another derivative on the resulting term:
 
 \begin{align*}
 \dfrac{1}{c}\dfrac{\overline{\partial}\widetilde{p}}{\partial t}
@@ -259,7 +242,20 @@ We will now apply the principles of generalized differentiation to Eqn~\ref{Acou
     + p \dfrac{\partial f / \partial t}{c} \delta(f)
 \end{align*}
 
-\noindent \color{red} Letting $\dfrac{\partial f}{\partial t} = -V_n$ \color{black}, where $V_n$ is the local normal velocity component along the data surface $f=0$, and recalling that Mach number $M = \dfrac{V}{c}$:
+Recalling the total time derivative of $f$, which is equal to zero by definition, we can write the time derivative of $f$ in terms of normal velocity $V_n$:
+
+\begin{gather*}
+\dfrac{Df}{Dt} = 0 = \dfrac{\partial f}{\partial t} + \overline{V} \cdot \nabla f \\
+\dfrac{\partial f}{\partial t} + \overline{V} \cdot \hat{n} = 0 \\
+\boxed{\dfrac{\partial f}{\partial t} = -V_n}
+\end{gather*}
+
+\noindent where $V_n$ is the local normal velocity component along the data surface $f=0$. Now, recalling that Mach number $M = \dfrac{V}{c}$, we can rewrite the previous expression of the first derivative WRT time in terms of Mach number:
+
+
+
+
+
 
 \begin{align*}
 \dfrac{1}{c}\dfrac{\overline{\partial}\widetilde{p}}{\partial t}
@@ -273,7 +269,7 @@ We will now apply the principles of generalized differentiation to Eqn~\ref{Acou
     - M_n p\delta(f)
 \end{equation}
 
-Applying the second partial derivative WRT time to the first term of Eqn~\ref{AcousticWaveHomo}:
+Applying the second partial derivative WRT time to Eqn~\ref{GenTimeP}, we can derive the first term of Eqn~\ref{AcousticWaveHomo}:
 
 \begin{align*}
 \dfrac{1}{c^2}\dfrac{\overline{\partial}^2\widetilde{p}}{\partial t^2}
@@ -396,7 +392,7 @@ Separating the FW-H equation into separate source terms of thickness, loading, a
 \end{equation}
 
 
-\noindent where $L_r = \Delta P \vec{n} \cdot \hat{r} = \Delta P \cos\theta$ is the loading in the radial direction and $ret$ denotes that the expression is evaluated at the retarded time $\tau=\tau_e$.
+\noindent where $L_r = \Delta P \hat{n} \cdot \hat{r} = \Delta P \cos\theta$ is the loading in the radial direction and $ret$ denotes that the expression is evaluated at the retarded time $\tau=\tau_e$.
 
 In practice, Formulation 1 is difficult to compute since the observer time differentiation is outside the integrals. Farassat's Formulation 1A presents a much more efficient and practical approach, which can be derived by carrying the observer time derivate inside the integrals. In the following section, we will show that Formulation 1A for the loading noise becomes:
 
@@ -458,8 +454,8 @@ Next, we compute the time derivative of $\dfrac{1}{r}$ using the chain rule:
 \dfrac{\partial}{\partial\tau} \left( \dfrac{1}{r} \right)
 = \dfrac{\partial}{\partial r} \left( \dfrac{1}{r} \right)
     \dfrac{\partial r}{\partial\tau}
-= -\dfrac{1}{r^2} (-V_r)
-= \dfrac{V_r}{r^2}
+= -\dfrac{1}{r^2} (V_r)
+= -\dfrac{V_r}{r^2}
 \end{equation}
 
 \noindent where $V_r$ is the velocity component in the radial direction and is calculated as:
@@ -692,7 +688,7 @@ The final step in deriving Formulation 1A is to substitute Eqn~\ref{Form1aInt} i
 = \dfrac{1}{c} \int_{f=0} \left[
         \dfrac{\dot{L}_r}{r (1 - M_r)^2} \right]_{ret} ds
     &+ \int_{f=0} \left[
-        + \dfrac{L_r + L_M}{r^2 (1 - M_r)^2}
+         \dfrac{L_r + L_M}{r^2 (1 - M_r)^2}
         \right]_{ret} ds \\
     &+ \dfrac{1}{c} \int_{f=0} \left[
         \dfrac{ L_r \left[
