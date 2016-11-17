@@ -245,8 +245,10 @@ We will now apply the principles of generalized differentiation to Eqn~\ref{Acou
 Recalling the total time derivative of $f$, which is equal to zero by definition, we can write the time derivative of $f$ in terms of normal velocity $V_n$:
 
 \begin{gather*}
-\dfrac{Df}{Dt} = 0 = \dfrac{\partial f}{\partial t} + \overline{V} \cdot \nabla f \\
-\dfrac{\partial f}{\partial t} + \overline{V} \cdot \hat{n} = 0 \\
+\dfrac{df}{dt}
+= \dfrac{\partial f}{\partial t} \cancelto{1}{\dfrac{dt}{dt}}
+  + \dfrac{\partial f}{\partial x_i} \dfrac{\partial x_i}{\partial t} = 0 \\
+\dfrac{\partial f}{\partial t} + \hat{n} \cdot \overline{V} = 0 \\
 \boxed{\dfrac{\partial f}{\partial t} = -V_n}
 \end{gather*}
 
