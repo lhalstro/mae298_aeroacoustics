@@ -18,7 +18,6 @@ import hw1_01_plot as plot
 def main(source):
     """input description
     source --> path to file containing source pressure data at z=0 plane
-    inspace--> distance between engine inlet and z=0 plane (inches)
     """
 
     print('\nProcessing Data')
@@ -30,8 +29,6 @@ def main(source):
 if __name__ == "__main__":
 
     Source = '{}/pressure_input.dat'.format(datadir)
-
-    InletSpacing = 4 #distance between engine inlet and z=0 plane [in]
 
     main(Source, InletSpacing)
 

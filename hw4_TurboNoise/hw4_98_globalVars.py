@@ -8,6 +8,31 @@ MODIFIY: 17 NOV 2016
 DESCRIPTION: Provide global variables for all scripts including wrapper.
 """
 
+import numpy as np
+
+#INPUTS
+
+#CFD Engine Model Parameters
+scale = 1/6 #CFD engine model scale
+Nblade = 18 #Number of blades in engine fan
+Nvane  = 1  #Uneven gust loading modeled as single vane
+Re = 13     #Model engine radius [in]
+Rh = 3      #Model hub radius [in]
+Linlet = 4  #Distace between inlet and z=0 plane [in]
+
+#Flow Parameters
+M = 0.525        #Engine flow mach number
+a = 13503.937009 #Speed of Sound [in/s]
+rho = 1.4988e-5 #density [slug/in^3]
+RPM = 8326.3042  #Fan RPM
+omega = RPM * (2 * np.pi / 60) * Nblade #angular frequency [rad/s]
+
+
+
+
+
+
+
 #DATA OVERWRITE SWITCHES
 datoverwrite = 1 #Overwrite data = 1
 
