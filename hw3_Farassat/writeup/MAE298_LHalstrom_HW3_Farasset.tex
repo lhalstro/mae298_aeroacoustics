@@ -454,17 +454,20 @@ Next, we compute the time derivative of $\dfrac{1}{r}$ using the chain rule:
 \dfrac{\partial}{\partial\tau} \left( \dfrac{1}{r} \right)
 = \dfrac{\partial}{\partial r} \left( \dfrac{1}{r} \right)
     \dfrac{\partial r}{\partial\tau}
-= -\dfrac{1}{r^2} (V_r)
-= -\dfrac{V_r}{r^2}
+= -\dfrac{1}{r^2} (-V_r)
+= \dfrac{V_r}{r^2}
 \end{equation}
 
-\noindent where $V_r$ is the velocity component in the radial direction and is calculated as:
+\noindent where $\dfrac{\partial r}{\partial\tau}$ is:
 
-\begin{equation} \label{Vr}
--V_r = \underbrace{\dfrac{\partial r}{\partial y_i}}_{-1}
-    \underbrace{\dfrac{\partial y_i}{\partial \tau}}_{V_r}
-= (-1) (V_r)
+\begin{equation} \label{drdtau}
+\dfrac{\partial r}{\partial\tau}
+= \dfrac{\partial r}{\partial y_i}\dfrac{\partial y_i}{\partial\tau}
+= (-\hat{r})(\vec{V})
+= -V_r
 \end{equation}
+
+\noindent where $V_r$ is the velocity component in the radial direction:
 
 We will next compute the time derivative of $\dfrac{1}{1 - M_r}$, but will first calculate two derivatives on which it depends.  First, we calculate the derivative of the radial unit vector $\hat{r}$, substituting the results and assumptions of Eqn~\ref{DerR}:
 
@@ -540,29 +543,29 @@ At long last, we have finally computed all of the necessary terms to complete th
     \right] \\
 & = \dfrac{\dot{L}_r}{r (1 - M_r)}
     + L_r \left[
-    \dfrac{1}{1 - M_r} \dfrac{V_r}{r^2}
+    \dfrac{1}{1 - M_r} \dfrac{-V_r}{r^2}
     + \dfrac{1}{r}
     \dfrac{ r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) }
     {r (1 - M_r)^2}
     \right] \\
 & = \dfrac{\dot{L}_r}{r (1 - M_r)}
     + L_r \left[
-    \dfrac{V_r}{r^2 (1 - M_r)}
+    \dfrac{-V_r}{r^2 (1 - M_r)}
     + \dfrac{ r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) }
         {r^2 (1 - M_r)^2}
     \right] \\
 &= \dfrac{\dot{L}_r}{r (1 - M_r)}
-    + \dfrac{L_r V_r}{r^2 (1 - M_r)}
+    + \dfrac{-L_r V_r}{r^2 (1 - M_r)}
     + \dfrac{ L_r \left[
         r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) \right] }
         {r^2 (1 - M_r)^2} \\
 &= \dfrac{\dot{L}_r}{r (1 - M_r)}
-    + \dfrac{(\vec{L}\cdot\hat{r}) (\vec{V}\cdot\hat{r})}{r^2 (1 - M_r)}
+    + \dfrac{-(\vec{L}\cdot\hat{r}) (\vec{V}\cdot\hat{r})}{r^2 (1 - M_r)}
     + \dfrac{ L_r \left[
         r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) \right] }
         {r^2 (1 - M_r)^2} \\
 &= \dfrac{\dot{L}_r}{r (1 - M_r)}
-    + \dfrac{(\vec{L}\cdot\vec{V}) (\hat{r}\cdot\hat{r})}{r^2 (1 - M_r)}
+    + \dfrac{-(\vec{L}\cdot\vec{V}) (\hat{r}\cdot\hat{r})}{r^2 (1 - M_r)}
     + \dfrac{ L_r \left[
         r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) \right] }
         {r^2 (1 - M_r)^2}
@@ -582,7 +585,7 @@ At long last, we have finally computed all of the necessary terms to complete th
 \begin{equation} \label{TauDer}
 \dfrac{\partial}{\partial \tau} \left( \dfrac{L_r}{r (1 - M_r)}  \right)
 = \dfrac{\dot{L}_r}{r (1 - M_r)}
-    + \dfrac{\vec{L}\cdot\vec{V}}{r^2 (1 - M_r)}
+    + \dfrac{-\vec{L}\cdot\vec{V}}{r^2 (1 - M_r)}
     + \dfrac{ L_r \left[
         r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) \right] }
         {r^2 (1 - M_r)^2}
@@ -596,14 +599,14 @@ Now that we have computed the derivative WRT $\tau$, we can substitute Eqn~\ref{
 &= \int_{f=0} \left\{
     \dfrac{1}{1 - M_r} \left[
     \dfrac{\dot{L}_r}{r (1 - M_r)}
-    + \dfrac{\vec{L}\cdot\vec{V}}{r^2 (1 - M_r)}
+    + \dfrac{-\vec{L}\cdot\vec{V}}{r^2 (1 - M_r)}
     + \dfrac{ L_r \left[
         r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) \right] }
         {r^2 (1 - M_r)^2} \right]
     \right\}_{ret} ds \\
 &= \int_{f=0} \left[
     \dfrac{\dot{L}_r}{r (1 - M_r)^2}
-    + \dfrac{\vec{L}\cdot\vec{V}}{r^2 (1 - M_r)^2}
+    + \dfrac{-\vec{L}\cdot\vec{V}}{r^2 (1 - M_r)^2}
     + \dfrac{ L_r \left[
         r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) \right] }
         {r^2 (1 - M_r)^3}
@@ -617,7 +620,7 @@ Now that we have computed the derivative WRT $\tau$, we can substitute Eqn~\ref{
       \int_{f=0} \left[ \dfrac{L_r}{r   (1 - M_r)} \right]_{ret} ds
 = \int_{f=0} \left[
     \dfrac{\dot{L}_r}{r (1 - M_r)^2}
-    + \dfrac{\vec{L}\cdot\vec{V}}{r^2 (1 - M_r)^2}
+    + \dfrac{-\vec{L}\cdot\vec{V}}{r^2 (1 - M_r)^2}
     + \dfrac{ L_r \left[
         r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) \right] }
         {r^2 (1 - M_r)^3}
@@ -632,7 +635,7 @@ The final step in deriving Formulation 1A is to substitute Eqn~\ref{Form1aInt} i
     + \int_{f=0} \left[ \dfrac{L_r}{r^2 (1 - M_r)} \right]_{ret} ds \\
 &= \dfrac{1}{c} \int_{f=0} \left[
     \dfrac{\dot{L}_r}{r (1 - M_r)^2}
-    + \dfrac{\vec{L}\cdot\vec{V}}{r^2 (1 - M_r)^2}
+    + \dfrac{-\vec{L}\cdot\vec{V}}{r^2 (1 - M_r)^2}
     + \dfrac{ L_r \left[
         r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) \right] }
         {r^2 (1 - M_r)^3}
@@ -648,7 +651,7 @@ The final step in deriving Formulation 1A is to substitute Eqn~\ref{Form1aInt} i
         \dfrac{\dot{L}_r}{r (1 - M_r)^2} \right]_{ret} ds
     &+ \int_{f=0} \left[ \dfrac{L_r}{r^2 (1 - M_r)} \right]_{ret} ds
     + \dfrac{1}{c} \int_{f=0} \left[
-        \dfrac{\vec{L}\cdot\vec{V}}{r^2 (1 - M_r)^2} \right]_{ret} ds
+        \dfrac{-\vec{L}\cdot\vec{V}}{r^2 (1 - M_r)^2} \right]_{ret} ds
     \\ &+ \dfrac{1}{c} \int_{f=0} \left[
         \dfrac{ L_r \left[
         r\dot{\vec{M}}_r + c \left( M_r^2 - |\vec{M}|^2 \right) \right] }
@@ -662,7 +665,7 @@ The final step in deriving Formulation 1A is to substitute Eqn~\ref{Form1aInt} i
 &= \dfrac{1}{c} \int_{f=0} \left[
         \dfrac{\dot{L}_r}{r (1 - M_r)^2} \right]_{ret} ds
     + \int_{f=0} \left[ \dfrac{L_r}{r^2 (1 - M_r)}
-        + \dfrac{\frac{1}{c} (\vec{L}\cdot\vec{V})}{r^2 (1 - M_r)^2}
+        - \dfrac{\frac{1}{c} (\vec{L}\cdot\vec{V})}{r^2 (1 - M_r)^2}
         \right]_{ret} ds
     + \dfrac{1}{c} \int_{f=0} \left[
         \dfrac{ L_r \left[
@@ -671,7 +674,7 @@ The final step in deriving Formulation 1A is to substitute Eqn~\ref{Form1aInt} i
 &= \dfrac{1}{c} \int_{f=0} \left[
         \dfrac{\dot{L}_r}{r (1 - M_r)^2} \right]_{ret} ds
     + \int_{f=0} \left[
-        + \dfrac{L_r + \vec{L}\cdot\vec{M}}{r^2 (1 - M_r)^2}
+        + \dfrac{L_r - \vec{L}\cdot\vec{M}}{r^2 (1 - M_r)^2}
         \right]_{ret} ds
     + \dfrac{1}{c} \int_{f=0} \left[
         \dfrac{ L_r \left[
@@ -688,7 +691,7 @@ The final step in deriving Formulation 1A is to substitute Eqn~\ref{Form1aInt} i
 = \dfrac{1}{c} \int_{f=0} \left[
         \dfrac{\dot{L}_r}{r (1 - M_r)^2} \right]_{ret} ds
     &+ \int_{f=0} \left[
-         \dfrac{L_r + L_M}{r^2 (1 - M_r)^2}
+         \dfrac{L_r - L_M}{r^2 (1 - M_r)^2}
         \right]_{ret} ds \\
     &+ \dfrac{1}{c} \int_{f=0} \left[
         \dfrac{ L_r \left[
