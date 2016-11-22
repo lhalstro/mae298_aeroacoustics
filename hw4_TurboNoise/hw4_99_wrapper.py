@@ -16,7 +16,8 @@ import hw1_01_plot as plot
 
 
 def main(source):
-    """input description
+    """Wrapper script for project.  First compute and save relevant data.
+    Then load and plot data.
     source --> path to file containing source pressure data at z=0 plane
     """
 
