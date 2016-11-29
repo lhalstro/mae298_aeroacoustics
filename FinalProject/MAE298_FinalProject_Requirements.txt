@@ -1,0 +1,21 @@
+Choose one area in aeroacoustics, write down a literature survey, and present the summary in class
+
+Avoid too broad or too narrow topics
+
+Good examples:
+    Helicopter blade-vortex interaction noise
+    Amplitude modulation of wind turbine noise
+    Jet broadband noise
+    Slat noise
+    Landing gear noise
+    Trailing edge noise
+    Leading edge noise
+
+Send me an email about your topic by Oct. 13th
+
+Format:
+    Margin: 1 in
+    Font: Times New Roman
+    Font size: 12 in
+    Line spacing: single line
+    Page limit: maximum 10 pages excluding references
