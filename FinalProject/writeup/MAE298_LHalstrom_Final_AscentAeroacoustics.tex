@@ -141,15 +141,7 @@ The paper specifically addresses the effectiveness of vibrational testing versus
 
 The most straight-forward of testing methods described by Himelblau is the free-field test, where the test article is subjected to an outdoor, unconstrained aeroacoustic field produced by some source, an example of which is shown in Fig~\ref{FreeFieldTest}.  The acoustic source in this example is the exhaust of a blowdown wind tunnel, where a fluid upstream of the wind tunnel is pressurized and then released at supersonic speeds through the test section.\cite{BlowdownWindTunnel}  This high pressure fluid then exits the wind tunnel at high speeds, creating conditions similar to that of ascent.
 
-%%\vspace{-2em}
-\begin{figure}[htb]
-\begin{center}
-\includegraphics[width=0.7\textwidth]{Images/Himelblau_Fig36.png}
-\caption{Acoustic test of the OGO spacecraft near the discharge nozzle of a large blowdown wind tunnel\cite{SpaceVehicleAeroacousticVibrationPrediction}}
-\label{FreeFieldTest}
-\end{center}
-\end{figure}
-%%\vspace{-2em}
+
 
 In addition to supersonic wind tunnels, static-fire rocket engine tests can also be used as an acoustic source.  Thus, in the early days of aeroacoustic testing, test could be performed for reduced cost by ``free-riding'' an already existing wind tunnel or rocket engine test.
 
@@ -157,38 +149,33 @@ Acoustic tests can also be performed in more contained facilities.  One example 
 
 Another method of testing, which was utilized in the ascent certification of the Apollo program lunar and command modules, is the progressive wave facility.  This facility is a chamber with a large number of ducts connecting the test chamber to the outside of the structure, which is excited by an acoustic source (See Fig~\ref{ReverberantTest}).  The ducts are independently operable to allow control of the acoustic conditions inside the test chamber.\cite{ProgressiveWaveChamber}.  This method combines the realistic acoustic source advantages of the free-field test method with some level of source control as found in the reverberant chamber method.
 
-%%\vspace{-2em}
-\begin{figure}[htb]
-\begin{center}
-\includegraphics[width=0.5\textwidth]{Images/Himelblau_Fig37.png}
-\caption{A Laboratory acoustic test of the thrust structure, aft skirt, and interstage of the S-II stage, Saturn V launch vehicle in a reverberant test facility \cite{SpaceVehicleAeroacousticVibrationPrediction}}
-\label{ReverberantTest}
-\end{center}
-\end{figure}
-%%\vspace{-2em}
-
-
-%%\vspace{-2em}
-\begin{figure}[htb]
-\begin{center}
-\includegraphics[width=0.5\textwidth]{Images/Himelblau_Fig38.png}
-\caption{Laboratory acoustic test of the Apollo spacecraft in a progressive test facility \cite{SpaceVehicleAeroacousticVibrationPrediction}}
-\label{ProgressiveTest}
-\end{center}
-\end{figure}
-%%\vspace{-2em}
 
 
 
-limitations
 
+Himelblau demonstrates that these aforementioned acoustic testing methods are superior to traditional vibrational testing methods due to a number of factors:
+\begin{enumerate}
+  \item Vibration spectra that are more similar to flight conditions
+  \item Test article is not constrained at vibration force application points
+  \item Ability to test large structural article allows more similar modal characteristics to flight
+\end{enumerate}
 
+However, he also states that there are still some limitations when it comes to acoustic testing.  First, it can be difficult to select the proper vibration spectrum for flight condition matching, especially when the acoustic source is a ``free-ride'' wind tunnel or rocket engine test that is not specifically designed for the acoustic experiment.  Additionally, free-field and progressive wave tests may be sufficient in the longitudinal direction parallel to the flow direction, but may not achieve the correct flow characteristics in the circumferential direction perpendicular to the flow.  Finally, the propagation speed of the acoustic test are most likely not identical to that of the flight condition.
 
+For these reasons, it is usually necessary to perform a full-scale flight test as the final certification, which Himelblau details and which is summarized in the next section.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Flight Testing}
 
-lots of sensors, bandwidth issues
+A full-scale test flight of an aerospace vehicle is a very expensive operation.  For this reason, Himelblau states that it is highly important to have sufficient instrumentation onboard in order to clearly determine the cause and location of a failure if one occurs.  This is vital in minimizing redesign costs in the case of a failure.
+
+Himelblau reveals that calculations of aeroacoustic effects on structural integrity require a vast amount of data sampling, which was especially constraining in 1970 with limited bandwidth telemetry computers.  For modern tests, the transmission limitation is somewhat alleviated by modern computers, but there is still the additional consideration that many different tests will be running simultaneously during the test flight (e.g. structural, aerodynamic, etc.), and sensor bandwidth must be budgeted between all of these.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Microphone Phased-Array}
+
+A more modern approach to flight test measurements is detailed in the paper by Panda et al. (2013) \cite{MicrophonePhasedArray}, which describes how a microphone phased-array can be used to observe launch aeroacoustic conditions accurately from a distance.
 
 
 
@@ -240,7 +227,49 @@ lots of sensors, bandwidth issues
 \section{Conclusions}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-We have now completed the derivation of an aeroacoustic equation describing the pressure fluctuations around a moving body and then demonstrated a method of solving equations such as these.  In a real life application, the equation being solved would be more complicated and include more source terms, like the complete FW-H equation does.  This equation can be solved by applying Farassat's Formulation 1A and implementing the solution numerically.  Source inputs for loading noise ($\Delta P$) would be obtained from an unsteady CFD simulation and used to inform the aeroacoustic solution.
+
+
+
+
+
+
+
+
+
+
+%%\vspace{-2em}
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{Images/Himelblau_Fig36.png}
+\caption{Acoustic test of the OGO spacecraft near the discharge nozzle of a large blowdown wind tunnel\cite{SpaceVehicleAeroacousticVibrationPrediction}}
+\label{FreeFieldTest}
+\end{center}
+\end{figure}
+%%\vspace{-2em}
+
+
+%%\vspace{-2em}
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=0.5\textwidth]{Images/Himelblau_Fig37.png}
+\caption{A Laboratory acoustic test of the thrust structure, aft skirt, and interstage of the S-II stage, Saturn V launch vehicle in a reverberant test facility \cite{SpaceVehicleAeroacousticVibrationPrediction}}
+\label{ReverberantTest}
+\end{center}
+\end{figure}
+%%\vspace{-2em}
+
+
+%%\vspace{-2em}
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=0.5\textwidth]{Images/Himelblau_Fig38.png}
+\caption{Laboratory acoustic test of the Apollo spacecraft in a progressive test facility \cite{SpaceVehicleAeroacousticVibrationPrediction}}
+\label{ProgressiveTest}
+\end{center}
+\end{figure}
+%%\vspace{-2em}
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -284,34 +313,6 @@ Vicker, D. J., Childs, R. E., Rogers, S. E., McMullen, M. S., Garcia, J. A., and
 \bibitem{ProgressiveWaveChamber}
 Wren, R.J., Dorland, W.D., and Eldred, K.M., ``Concept, Design and Performance of the Spacecraft Acoustic Laboratory'', {\it The Shock and Vibration Bull.} No. 37, P. 5, Jan. 1968, pp. 25-54.
 
-
-
-
-
-
- % \bibitem{ray:15}
- % E. S. Ray and R. A. Machin, ``Pendulum Motion in Main Parachute Clusters,'' in {\it 23rd AIAA Aerodynamic Decelerator Systems Technology Conference}, Submitted, 2015.
-
- % \bibitem{menter_sst}
- % F. R. Menter and Christopher L. Rumsey, ``Assessment of Two-Equation Turbulence Models for Transonic Flows,'' in {\it 25th AIAA Fluid Dynamics Conference}, Submitted, 1994.
-
- % \bibitem{schwing15}
- % J. S. Greathouse and A. M. Schwing, ``Study of Geometric Porosity on Static Stability and Drag using Computational Fluid Dynamics for Rigid Parachute Shapes,'' in {\it 23rd AIAA Aerodynamic Decelerator Systems Technology Conference}, Submitted, 2015.
-
- % \bibitem{overflow}
- % R. H. Nichols, R. W. Tramel, and P. G. Buning, “Solver and Turbulence Model Upgrades to OVERFLOW 2 for Unsteady and High-Speed Applications,” No. AIAA 2006-2824, 2006.
-
- % \bibitem{peg5}
- % S. E. Rogers, K. Roth, M. Field, S. M. Nash, M. D. Baker, J. P. Slotnick, M. Whitlock, L. Beach, and H. V. Cao, ``Advances in Overset CFD Processes Applied to Subsonic High-Lift Aircraft'', No. AIAA 2000-4216, 2000.
-
- % \bibitem{dcf}
- % W. M. Chan, N. Kim, and S. A. Pandya, ``Advances in Domain Connectivity for Overset Grids Using the X-rays Approach,'' in {\it Seventh International Conference on Computational Fluid Dynamics}, Submitted, 2012.
-
- % \bibitem{gmp}
- % S. M. Murman, W. M. Chan, M. J. Aftosmis, and R. L. Meakin, ``An Interface for Specifying Rigid-Body Motions for CFD Applications,'' AIAA Paper 2003-1237, 2003.
-
- % \bibitem{blockage}
- % J. M. Macha and R. J. Buffington, ``Wall-Interference Corrections for Parachutes in a Closed Wind Tunnel,'' {\it Journal of Aircraft}, Vol. 27, No. 4, pp. 320-325, April 1990.
 
 
 
