@@ -258,10 +258,13 @@ These results are similar to those produced by the corresponding wind tunnel tes
 Still, the caveat to this analysis is that the CFD cannot resolve the unsteady pressure fluctuations created by aeroacoustic noise.  In this aspect, the wind tunnel test is superior.  However, aeroacoustic effects may not always be out of reach of computational methods, as will be discussed in the next section.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Computational Aeroacoustic Analysis}
+\subsection{Computational Aero-Acoustics}
 
+The cutting-edge of the aeroacoustic field is Computational Aero-Acoustics (CAA).  The paper by Kiris et al. 2014 \cite{LAVA} details the development of one of these such solvers, which is called the Launch Ascent and Vehicle Aerodynamics (LAVA) solver and is developed at NASA Ames.
 
+It is capable of solving both structured, overset grids like OVERFLOW but also unstructured grids if desired.  Like many CFD solvers, LAVA utilizes the discretized forms of the mass, momentum, and energy equations in a finite volume solution scheme.
 
+To solve aeroacoustic problems, LAVA uses a coupled CFD/CAA approach.
 
 
 
@@ -284,7 +287,7 @@ Still, the caveat to this analysis is that the CFD cannot resolve the unsteady p
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{thebibliography}{9}% maximum number of references (for label width)
+\begin{thebibliography}{99}% maximum number of references (for label width)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \bibitem{OverflowOrionAbortGuidelines}
