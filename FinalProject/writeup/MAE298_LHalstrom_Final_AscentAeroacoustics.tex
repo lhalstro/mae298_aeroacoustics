@@ -116,20 +116,19 @@
 \section{Introduction} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+Aerospace vehicles designed to reach space are subjected to severe aeroacoustic environments as they leave the Earth's atmosphere.  These pressure fluctuations on the surface of the vehicle cause vibrations that compound with vibrations due to the rocket motors and machinery and can present a threat to the structural integrity of the vehicle if designed incorrectly.  Examples of potential failure modes due to acoustic vibrations include\cite{AcousticPropulsionLoads}:
 
+\begin{itemize}
+  \item Failure of electronic or mechanical components inside vehicle due to vibration
+  \item Fatigue failure of internal and exterior structural components
+  \item Fatigue failure of ascent vehicle payload
+\end{itemize}
 
+In order to minimize the risk of these failures, it is necessary to be able to understand the aeroacoustic environments a launch vehicle produces to better inform its design as all stages of flight.
 
+At launch, rocket rocket engine plumes are reflected by the ground and launchpad back at the launch vehicle, creating very strong acoustic effects.  These effects can be minimized through launchpad structure, ducting the plum away from the vehicle and using water suppression systems to dampen acoustic effects.\cite{MicrophonePhasedArray}  During ascent, the vehicle travels through transonic and supersonic conditions, creating unsteady shock waves that change location with respect to time and interact with the turbulent boundary layers of the vehicle, producing noise.  And in the event of a rocket failure, modern spacecraft are designed to abort the crew to safety through the use of additional rockets, whose plumes impinge on the vehicle and interact with the surrounding flow and shocks, adding their own contribution to the aeroacoustic noise.
 
-
-Define launch vs ascent vs abort
-
-
-
-History of aeroacoustic testing in aerospace vehicles. \cite{SpaceVehicleAeroacousticVibrationPrediction}
-
-analytic modeling for propulsion acoustics.\cite{AcousticPropulsionLoads}
-
-
+To understand these effects for specific vehicle geometries and flight conditions, it is necessary to have accurate aeroacoustic modeling techniques.  One approach is to develop analytic models, like those for rocket plumes\cite{AcousticPropulsionLoads}.  However, analytic models are mostly limited to simple geometries, so this review will instead focus on experimental and computational methods for predicting acoustic effects of launch vehicles.  The review proceed chronologically, starting with the first methods experimental methods conceived for acoustic testing and then move forward to more sophisticated and modern methods such as wind tunnel testing and Computational Aero-Acoustics (CAA).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
