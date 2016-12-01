@@ -25,12 +25,12 @@
 \usetikzlibrary{quotes}       %Put angle label in quotes
 \usetikzlibrary{patterns}     %Patterns to fill shapes with
 
+\usepackage[nomarkers,figuresonly]{endfloat} %make table of figures
 
 
 
 
-
-  \title{MAE 298 Aeroacoustics -- Final Project \\ Review of Techniques for Predicting Aeroacoustics of Aerospace Vehicles During Launch, Ascent, and Abort}
+  \title{MAE 298 Aeroacoustics -- Final Project \\ Review of Aeroacoustic Prediction Techniques for Launch Vehicles}
 
 
 \author{
@@ -47,6 +47,8 @@
  \newcommand{\package}[1]{\texttt{#1}}
  \newcommand{\file}[1]{\texttt{#1}}
  \newcommand{\BibTeX}{\textsc{Bib}\TeX}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
@@ -143,7 +145,7 @@ The paper specifically addresses the effectiveness of vibrational testing versus
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Ground Testing}
 
-The most straight-forward of testing methods described by Himelblau is the free-field test, where the test article is subjected to an outdoor, unconstrained aeroacoustic field produced by some source, an example of which is shown in Fig~\ref{FreeFieldTest}.  The acoustic source in this example is the exhaust of a blowdown wind tunnel, where a fluid upstream of the wind tunnel is pressurized and then released at supersonic speeds through the test section.\cite{BlowdownWindTunnel}  This high pressure fluid then exits the wind tunnel at high speeds, creating conditions similar to that of ascent.
+The most straight-forward of testing methods described by Himelblau is the free-field test, where the test article is subjected to an outdoor, unconstrained aeroacoustic field produced by some source, an example of which is shown in Fig~\ref{FreeFieldTest} (NOTE: All Figures can be found at the end of the document).  The acoustic source in this example is the exhaust of a blowdown wind tunnel, where a fluid upstream of the wind tunnel is pressurized and then released at supersonic speeds through the test section.\cite{BlowdownWindTunnel}  This high pressure fluid then exits the wind tunnel at high speeds, creating conditions similar to that of ascent.
 
 
 
@@ -282,9 +284,9 @@ These insights are crucial in informing the design that will ultimately be teste
 
 Still, creating a full-scale test article is very expensive, so modern technology has allowed the development of another crucial simulation method in the high fidelity wind tunnel test.  Advanced machining techniques and complex sensing apparati allow scaled-down simulations of flight that are majoritively representative of the real case.
 
-And though it is hard to match the accuracy of wind tunnels, there is still a place in modern spacecraft design for computers, in that the cost of operating a wind tunnel, which, itself, is a fraction of that of the flight test, is still orders of magnitude more than that of simulating the same system on many computational processors.  Thus CFD and CAA have a strong place in the future of aeroacoustics.
+And though it is difficult to match the accuracy of wind tunnels, there is still a place in modern spacecraft design for computers, in that the cost of operating a wind tunnel, which, itself, is a fraction of that of the flight test, is still orders of magnitude more than simply simulating the same system on many computational processors.  Thus CFD and CAA have a strong place in the future of aeroacoustics.
 
-Overall, it appears that the role of computational methods will expand to fill some of those of wind tunnel testing as accuracy improves, but it is unlikely that CFD/CAA will ever completely replace these testing methods as the need for validation will always be present.  Similarly, fluid-structure interaction coupled with CAA may also make a worth competitor to the other experimental methods in the future, but there will always be some requirement of real structural-acoustic testing.
+Overall, it appears that the role of computational methods will expand to fill some of those of wind tunnel testing as accuracy improves, but it is unlikely that CFD/CAA will ever completely replace these testing methods as the need for validation will always be present.  Similarly, fluid-structure interaction coupled with CAA may also make a worthy competitor to the other experimental methods in the future, but there will always be some requirement of real structural-acoustic testing.
 
 
 
@@ -348,9 +350,9 @@ Wren, R.J., Dorland, W.D., and Eldred, K.M., ``Concept, Design and Performance o
 
 
 %%\vspace{-2em}
-\begin{figure}[htb]
+\begin{figure}[tb!]
 \begin{center}
-\includegraphics[width=0.7\textwidth]{Images/Himelblau_Fig36.png}
+\includegraphics[width=\textwidth]{Images/Himelblau_Fig36.png}
 \caption{Acoustic test of the OGO spacecraft near the discharge nozzle of a large blowdown wind tunnel\cite{SpaceVehicleAeroacousticVibrationPrediction}}
 \label{FreeFieldTest}
 \end{center}
@@ -359,9 +361,9 @@ Wren, R.J., Dorland, W.D., and Eldred, K.M., ``Concept, Design and Performance o
 
 
 %%\vspace{-2em}
-\begin{figure}[htb]
+\begin{figure}[tb!]
 \begin{center}
-\includegraphics[width=0.7\textwidth]{Images/Himelblau_Fig37.png}
+\includegraphics[width=\textwidth]{Images/Himelblau_Fig37.png}
 \caption{A Laboratory acoustic test of the thrust structure, aft skirt, and interstage of the S-II stage, Saturn V launch vehicle in a reverberant test facility \cite{SpaceVehicleAeroacousticVibrationPrediction}}
 \label{ReverberantTest}
 \end{center}
@@ -370,9 +372,9 @@ Wren, R.J., Dorland, W.D., and Eldred, K.M., ``Concept, Design and Performance o
 
 
 %%\vspace{-2em}
-\begin{figure}[htb]
+\begin{figure}[tb!]
 \begin{center}
-\includegraphics[width=0.7\textwidth]{Images/Himelblau_Fig38.png}
+\includegraphics[width=\textwidth]{Images/Himelblau_Fig38.png}
 \caption{Laboratory acoustic test of the Apollo spacecraft in a progressive test facility \cite{SpaceVehicleAeroacousticVibrationPrediction}}
 \label{ProgressiveTest}
 \end{center}
@@ -380,7 +382,7 @@ Wren, R.J., Dorland, W.D., and Eldred, K.M., ``Concept, Design and Performance o
 %%\vspace{-2em}
 
 %%\vspace{-2em}
-\begin{figure}[htb]
+\begin{figure}[tb!]
 \begin{center}
 \includegraphics[width=1\textwidth]{Images/MicrophonePhasedArray.png}
 \caption{A microphone phased-array observing an Antares rocket launch \cite{MicrophonePhasedArray}}
@@ -390,9 +392,9 @@ Wren, R.J., Dorland, W.D., and Eldred, K.M., ``Concept, Design and Performance o
 %%\vspace{-2em}
 
 %%\vspace{-2em}
-\begin{figure}[htb]
+\begin{figure}[tb!]
 \begin{center}
-\includegraphics[width=0.95\textwidth]{Images/SLS_WTT_MPCV.png}
+\includegraphics[width=\textwidth]{Images/SLS_WTT_MPCV.png}
 \caption{SLS 2.5\% scale wind tunnel model \cite{SLSAscentWTT}}
 \label{SLSWTT}
 \end{center}
@@ -400,9 +402,9 @@ Wren, R.J., Dorland, W.D., and Eldred, K.M., ``Concept, Design and Performance o
 %%\vspace{-2em}
 
 %%\vspace{-2em}
-\begin{figure}[htb]
+\begin{figure}[tb!]
 \begin{center}
-\includegraphics[width=0.95\textwidth]{Images/SLS_WTT_MPCV_SensorLocation.png}
+\includegraphics[width=\textwidth]{Images/SLS_WTT_MPCV_SensorLocation.png}
 \caption{SLS 2.5\% scale wind tunnel model sensor locations \cite{SLSAscentWTT}}
 \label{SLSWTTsensor}
 \end{center}
@@ -410,9 +412,9 @@ Wren, R.J., Dorland, W.D., and Eldred, K.M., ``Concept, Design and Performance o
 %%\vspace{-2em}
 
 %%\vspace{-2em}
-\begin{figure}[htb]
+\begin{figure}[tb!]
 \begin{center}
-\includegraphics[width=0.95\textwidth]{Images/SLS_WTT_Shadowgraph.png}
+\includegraphics[width=\textwidth]{Images/SLS_WTT_Shadowgraph.png}
 \caption{SLS 2.5\% scale wind tunnel shadowgraph during transonic flight\cite{SLSAscentWTT}}
 \label{SLSWTTshadowgraph}
 \end{center}
@@ -420,9 +422,9 @@ Wren, R.J., Dorland, W.D., and Eldred, K.M., ``Concept, Design and Performance o
 %%\vspace{-2em}
 
 %%\vspace{-2em}
-\begin{figure}[htb]
+\begin{figure}[tb!]
 \begin{center}
-\includegraphics[width=0.95\textwidth]{Images/SLS_WTT_Abort_Model.png}
+\includegraphics[width=\textwidth]{Images/SLS_WTT_Abort_Model.png}
 \caption{Orion Launch Abort System sub-scale wind tunnel model with hot helium taps for exhaust plume simulation \cite{HeatedHeliumWTT}}
 \label{SLSWTTHeliumTaps}
 \end{center}
@@ -430,9 +432,9 @@ Wren, R.J., Dorland, W.D., and Eldred, K.M., ``Concept, Design and Performance o
 %%\vspace{-2em}
 
 %%\vspace{-2em}
-\begin{figure}[htb]
+\begin{figure}[tb!]
 \begin{center}
-\includegraphics[width=0.95\textwidth]{Images/SLS_WTT_Abort_Shadowgraph.png}
+\includegraphics[width=\textwidth]{Images/SLS_WTT_Abort_Shadowgraph.png}
 \caption{Orion Launch Abort System sub-scale model shadowgraph with hot helium plumes creating unsteady effects \cite{HeatedHeliumWTT}}
 \label{SLSWTTAbortshadowgraph}
 \end{center}
@@ -440,9 +442,9 @@ Wren, R.J., Dorland, W.D., and Eldred, K.M., ``Concept, Design and Performance o
 %%\vspace{-2em}
 
 %%\vspace{-2em}
-\begin{figure}[htb]
+\begin{figure}[tb!]
 \begin{center}
-\includegraphics[width=0.35\textwidth]{Images/LAS_Grid.png}
+\includegraphics[width=\textwidth]{Images/LAS_Grid.png}
 \caption{Orion Launch Abort System CFD grid showing fine geometry features \cite{OrionAbortPlumesControllability}}
 \label{LASgrid}
 \end{center}
@@ -450,9 +452,9 @@ Wren, R.J., Dorland, W.D., and Eldred, K.M., ``Concept, Design and Performance o
 %%\vspace{-2em}
 
 %%\vspace{-2em}
-\begin{figure}[htb]
+\begin{figure}[tb!]
 \begin{center}
-\includegraphics[width=0.6\textwidth]{Images/LAS_CFD.png}
+\includegraphics[width=\textwidth]{Images/LAS_CFD.png}
 \caption{Orion Launch Abort System CFD modeling of plume impingement \cite{OrionAbortPlumesControllability}}
 \label{LASCFD}
 \end{center}
@@ -460,9 +462,9 @@ Wren, R.J., Dorland, W.D., and Eldred, K.M., ``Concept, Design and Performance o
 %%\vspace{-2em}
 
 %%\vspace{-2em}
-\begin{figure}[htb]
+\begin{figure}[tb!]
 \begin{center}
-\includegraphics[width=0.75\textwidth]{Images/LAS_CFD_Shadowgraph.png}
+\includegraphics[width=\textwidth]{Images/LAS_CFD_Shadowgraph.png}
 \caption{Orion Launch Abort System CFD shadowgraph that is remarkably comparable to the corresponding wind tunnel test \cite{OverflowOrionAbortGuidelines}}
 \label{LASCFDshadowgraph}
 \end{center}
@@ -470,9 +472,9 @@ Wren, R.J., Dorland, W.D., and Eldred, K.M., ``Concept, Design and Performance o
 %%\vspace{-2em}
 
 %%\vspace{-2em}
-\begin{figure}[htb]
+\begin{figure}[tb!]
 \begin{center}
-\includegraphics[width=0.75\textwidth]{Images/LAVA_SLS.png}
+\includegraphics[width=\textwidth]{Images/LAVA_SLS.png}
 \caption{LAVA CAA solver solution for unsteady, fluctuating flow caused by SLS exhaust plumes on launch pad \cite{LAVA}}
 \label{LAVASLS}
 \end{center}
