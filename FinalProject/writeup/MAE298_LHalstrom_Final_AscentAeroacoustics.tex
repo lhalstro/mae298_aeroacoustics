@@ -175,7 +175,13 @@ Himelblau reveals that calculations of aeroacoustic effects on structural integr
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Microphone Phased-Array}
 
-A more modern approach to flight test measurements is detailed in the paper by Panda et al. (2013) \cite{MicrophonePhasedArray}, which describes how a microphone phased-array can be used to observe launch aeroacoustic conditions accurately from a distance.
+A more modern approach to flight test measurements is detailed in the paper by Panda et al. (2013) \cite{MicrophonePhasedArray}, which describes how a microphone phased-array (MPA) can be used to observe launch aeroacoustic conditions accurately from a distance.  A MPA is a device that consists of many microphones spread out over some area (e.g. 70 microphones on a 10ft x 10ft area).  The multiplicity of the microphones allows the device to sense not only noise source strength but also location, which is vastly superior functionality to that of traditional single-microphone sensors.
+
+For the test described by Panda, the MPA was designed to maximize lower frequency resolution while adhering to manufacturability constraints.  Microphones were constrained from being to close to one another and also could not occupy the center where a camera was located.  Adhering to these constraints, sensors were placed in logarithmic spirals traveling outward from a center ellipse, and the empty corners were filled in with additional sensors.  The MPA was mounted to a lift about 400 ft away from the rocket, which was raised 40ft in the air and secured by guy wires to prevent motion of the MPA during launch.
+
+During the static fire and actual launch of the Anteres rocket, the MPA was able to determine very specific information about the acoustic sources, greatest of interest being the dominant noise sources.  It was found that during the static fire, the duct exit was the primary noise source, not the duct exit plume as suggested by previous models.  During launch, the dominant source varied with time, starting with the duct exit, but transitioning to the top of the launch pad as the rocket rotated to avoid the service mast.
+
+Specific source information such as the data produced in this experiment can be extremely useful in determining design improvements that will minimize aeroacoustic effects.
 
 
 
@@ -237,37 +243,6 @@ A more modern approach to flight test measurements is detailed in the paper by P
 
 
 
-%%\vspace{-2em}
-\begin{figure}[htb]
-\begin{center}
-\includegraphics[width=0.7\textwidth]{Images/Himelblau_Fig36.png}
-\caption{Acoustic test of the OGO spacecraft near the discharge nozzle of a large blowdown wind tunnel\cite{SpaceVehicleAeroacousticVibrationPrediction}}
-\label{FreeFieldTest}
-\end{center}
-\end{figure}
-%%\vspace{-2em}
-
-
-%%\vspace{-2em}
-\begin{figure}[htb]
-\begin{center}
-\includegraphics[width=0.5\textwidth]{Images/Himelblau_Fig37.png}
-\caption{A Laboratory acoustic test of the thrust structure, aft skirt, and interstage of the S-II stage, Saturn V launch vehicle in a reverberant test facility \cite{SpaceVehicleAeroacousticVibrationPrediction}}
-\label{ReverberantTest}
-\end{center}
-\end{figure}
-%%\vspace{-2em}
-
-
-%%\vspace{-2em}
-\begin{figure}[htb]
-\begin{center}
-\includegraphics[width=0.5\textwidth]{Images/Himelblau_Fig38.png}
-\caption{Laboratory acoustic test of the Apollo spacecraft in a progressive test facility \cite{SpaceVehicleAeroacousticVibrationPrediction}}
-\label{ProgressiveTest}
-\end{center}
-\end{figure}
-%%\vspace{-2em}
 
 
 
@@ -318,6 +293,50 @@ Wren, R.J., Dorland, W.D., and Eldred, K.M., ``Concept, Design and Performance o
 
 \end{thebibliography}
 
+
+
+
+%%\vspace{-2em}
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{Images/Himelblau_Fig36.png}
+\caption{Acoustic test of the OGO spacecraft near the discharge nozzle of a large blowdown wind tunnel\cite{SpaceVehicleAeroacousticVibrationPrediction}}
+\label{FreeFieldTest}
+\end{center}
+\end{figure}
+%%\vspace{-2em}
+
+
+%%\vspace{-2em}
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{Images/Himelblau_Fig37.png}
+\caption{A Laboratory acoustic test of the thrust structure, aft skirt, and interstage of the S-II stage, Saturn V launch vehicle in a reverberant test facility \cite{SpaceVehicleAeroacousticVibrationPrediction}}
+\label{ReverberantTest}
+\end{center}
+\end{figure}
+%%\vspace{-2em}
+
+
+%%\vspace{-2em}
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{Images/Himelblau_Fig38.png}
+\caption{Laboratory acoustic test of the Apollo spacecraft in a progressive test facility \cite{SpaceVehicleAeroacousticVibrationPrediction}}
+\label{ProgressiveTest}
+\end{center}
+\end{figure}
+%%\vspace{-2em}
+
+%%\vspace{-2em}
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=0.95\textwidth]{Images/MicrophonePhasedArray.png}
+\caption{A microphone phased-array observing an Antares rocket launch \cite{MicrophonePhasedArray}}
+\label{MicrophoneArrayPic}
+\end{center}
+\end{figure}
+%%\vspace{-2em}
 
 
 
