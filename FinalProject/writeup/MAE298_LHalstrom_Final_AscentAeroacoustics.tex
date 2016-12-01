@@ -116,6 +116,11 @@
 \section{Introduction} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+
+
+
+
 Define launch vs ascent vs abort
 
 
@@ -264,9 +269,9 @@ The cutting-edge of the aeroacoustic field is Computational Aero-Acoustics (CAA)
 
 It is capable of solving both structured, overset grids like OVERFLOW but also unstructured grids if desired.  Like many CFD solvers, LAVA utilizes the discretized forms of the mass, momentum, and energy equations in a finite volume solution scheme.
 
-To solve aeroacoustic problems, LAVA uses a coupled CFD/CAA approach.
+To solve aeroacoustic problems, LAVA uses a coupled CFD/CAA approach.  First, an unsteady CFD solution is derived, similar to the process described previously for the OVERFLOW simulation.  An embedded acoustic surface surrounding the noise source is used to integrate solution time histories.  This information is converted into the frequency domain using Fast Fourier Transform and then applied to a linear Helmholtz Boundary Value Problem.  Ultimately, solving the system of equations this produces will result in the acoustic pressure.
 
-
+Results like Fig~\ref{LAVASLS}, which shows the fluctuating pressure field on the launch pad due to the SLS rocket plumes, demonstrate the modeling capabilities of the LAVA code.  However, there is still much to be developed such as code optimization and multi-phase and combustion chemistry, as well as CAA solver validation by comparison to experimental results.  This tool represents a promising look at the future of aeroacoustics.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
@@ -453,6 +458,16 @@ Wren, R.J., Dorland, W.D., and Eldred, K.M., ``Concept, Design and Performance o
 \includegraphics[width=0.75\textwidth]{Images/LAS_CFD_Shadowgraph.png}
 \caption{Orion Launch Abort System CFD shadowgraph that is remarkably comparable to the corresponding wind tunnel test \cite{OverflowOrionAbortGuidelines}}
 \label{LASCFDshadowgraph}
+\end{center}
+\end{figure}
+%%\vspace{-2em}
+
+%%\vspace{-2em}
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=0.75\textwidth]{Images/LAVA_SLS.png}
+\caption{LAVA CAA solver solution for unsteady, fluctuating flow caused by SLS exhaust plumes on launch pad \cite{LAVA}}
+\label{LAVASLS}
 \end{center}
 \end{figure}
 %%\vspace{-2em}
