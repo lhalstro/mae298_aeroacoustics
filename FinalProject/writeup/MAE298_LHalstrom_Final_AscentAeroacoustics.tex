@@ -217,8 +217,26 @@ The data produced in this testing campaign were used to supply the design databa
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Abort Wind Tunnel Testing}
 
-During crewed launches of SLS
+During crewed launches of SLS, the crew module will be capable of abort separation during the event of a rocket failure.  This process involves a tractor rocket motor call the Launch Abort System (LAS) that pulls the crew capsule away from the main rocket in the direction of the rocket's motion.  Because the rocket motor is located upstream of the vehicle structure, the unsteady plumes of the rockets will interact directly with the structure as well as with the surrounding flow and shocks, creating additional aeroacoustic effects that are extremely difficult to model.
 
+Testing the effect of live solid rocket motors in a wind tunnel can be very expensive.  For this reason, Panda instead chose to add taps to the 6\% Orion model (see Fig~\ref{SLSWTTHeliumTaps}) which would supply heated Helium gas to the model rocket nozzles in the LAS.  In general, the molecular properties of Helium are very different than those of solid rocket motor exhaust compositions.  However, looking at the Lighthill stress tensor (Eqn~\ref{LighthillStressTensor}), which is considered to be the primary contributer to aeroacoustic noise in this type of flow, we can see that the noise source is dependent on changes in $\rho u u$, which depends on local dynamic pressure, and changes in $p - c^2\rho$, which corresponds to entropy fluctuations.  These two expressions are not entirely dependent on the chemical nature of the fluid and thus, high-pressure Helium heated to $700^oF$ can be made to behave like solid rocket exhaust (acoustically, at least).
+
+\begin{equation}
+\overline{T}_{ij} = \rho u_i u_j + \delta_{ij} \left( p - c^2\rho \right)
+\label{LighthillStressTensor}
+\end{equation}
+
+There are some inconsistencies with this technique that cannot be avoided, which must be considered as a caveat when utilizing the test data.  Specific insufficiencies in heated Helium as a replacement of rocket exhaust are:
+
+\begin{enumerate}
+  \item No after-burning of unburnt fuel
+  \item No particle-damping
+  \item Incorrect specific heat ratio
+\end{enumerate}
+
+\noindent Despite these deviations, it is assumed that Helium will otherwise behave sufficiently as an exhaust plume substitute.
+
+Tests were conducted in the Unitary Wind Tunnel at NASA Ames at Mach numbers ranging from 0.3 to 1.2.  Shadowgraph images were taken to visualize the flow and an infra-red camera was used to map model surface temperatures.  To measure pressure fluctuations during the wind tunnel test, the model was fitted with 237 pressure transducers similar to those used in the previously described wind tunnel test.
 
 
 
@@ -380,7 +398,25 @@ Wren, R.J., Dorland, W.D., and Eldred, K.M., ``Concept, Design and Performance o
 \end{figure}
 %%\vspace{-2em}
 
+%%\vspace{-2em}
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=0.95\textwidth]{Images/SLS_WTT_Abort_Model.png}
+\caption{Orion Launch Abort System sub-scale wind tunnel model with hot helium taps for exhaust plume simulation \cite{HeatedHeliumWTT}}
+\label{SLSWTTHeliumTaps}
+\end{center}
+\end{figure}
+%%\vspace{-2em}
 
+%%\vspace{-2em}
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=0.95\textwidth]{Images/SLS_WTT_Abort_Shadowgraph.png}
+\caption{Orion Launch Abort System sub-scale model shadowgraph with hot helium plumes creating unsteady effects \cite{HeatedHeliumWTT}}
+\label{SLSWTTAbortshadowgraph}
+\end{center}
+\end{figure}
+%%\vspace{-2em}
 
 
 \end{document}
