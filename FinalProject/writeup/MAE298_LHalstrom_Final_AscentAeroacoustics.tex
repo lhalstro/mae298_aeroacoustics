@@ -175,7 +175,7 @@ Himelblau reveals that calculations of aeroacoustic effects on structural integr
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Microphone Phased-Array}
 
-A more modern approach to flight test measurements is detailed in the paper by Panda et al. (2013) \cite{MicrophonePhasedArray}, which describes how a microphone phased-array (MPA) can be used to observe launch aeroacoustic conditions accurately from a distance.  A MPA is a device that consists of many microphones spread out over some area (e.g. 70 microphones on a 10ft x 10ft area).  The multiplicity of the microphones allows the device to sense not only noise source strength but also location, which is vastly superior functionality to that of traditional single-microphone sensors.
+A more modern approach to flight test measurements is detailed in the paper by Panda et al. (2013) \cite{MicrophonePhasedArray}, which describes how a microphone phased-array (MPA) can be used to observe launch aeroacoustic conditions accurately from a distance, an example of which is shown in Fig~\ref{MicrophoneArrayPic}.  A MPA is a device that consists of many microphones spread out over some area (e.g. 70 microphones on a 10ft x 10ft area).  The multiplicity of the microphones allows the device to sense not only noise source strength but also location, which is vastly superior functionality to that of traditional single-microphone sensors.
 
 For the test described by Panda, the MPA was designed to maximize lower frequency resolution while adhering to manufacturability constraints.  Microphones were constrained from being to close to one another and also could not occupy the center where a camera was located.  Adhering to these constraints, sensors were placed in logarithmic spirals traveling outward from a center ellipse, and the empty corners were filled in with additional sensors.  The MPA was mounted to a lift about 400 ft away from the rocket, which was raised 40ft in the air and secured by guy wires to prevent motion of the MPA during launch.
 
@@ -199,13 +199,17 @@ Specific source information such as the data produced in this experiment can be 
 \section{Wind Tunnel Testing}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+Aside from full-scale testing, another method for creating flight-like aeroacoustic conditions is through sub-scale wind tunnel testing.  Modern machining techniques (e.g. laser drilling, additive manufacturing, etc.)\cite{SLSAscentWTT} allow production of orders of magnitude higher fidelity models than in the past.  Fine accuracy modeling of vehicle geometry details is extremely important in recovering the specific aeroacoustic environments that are to be expected on the flight vehicle.
+
+To illustrate modern wind tunnel testing methods for aerospace vehicles, we will look at to analyses for NASA's Space Launch System (SLS) rocket.  The first, Herron et al. 2016 \cite{SLSAscentWTT}, concerns ascent aeroacoustics during transonic flight.  The second, Panda et al. 2011 \cite{HeatedHeliumWTT}, simulates the abort condition, where plumes from the abort rocket motors envelope the vehicle structure, creating additional acoustic effects.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Ascent}
+\subsection{Ascent Wind Tunnel Testing}
 
+For ascent testing of SLS, extremely high fidelity 2.5\% and 4\% models of the rocket were manufactured.  The models could be reconfigured to represent various launch configurations.  The extra-fine geometry details of the model can be admired in Fig~\ref{SLSWTT}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Abort}
+\subsection{Abort Wind Tunnel Testing}
 
 
 
@@ -331,9 +335,19 @@ Wren, R.J., Dorland, W.D., and Eldred, K.M., ``Concept, Design and Performance o
 %%\vspace{-2em}
 \begin{figure}[htb]
 \begin{center}
-\includegraphics[width=0.95\textwidth]{Images/MicrophonePhasedArray.png}
+\includegraphics[width=1\textwidth]{Images/MicrophonePhasedArray.png}
 \caption{A microphone phased-array observing an Antares rocket launch \cite{MicrophonePhasedArray}}
 \label{MicrophoneArrayPic}
+\end{center}
+\end{figure}
+%%\vspace{-2em}
+
+%%\vspace{-2em}
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=0.95\textwidth]{Images/SLS_WTT_MPCV.png}
+\caption{SLS 2.5\% scale wind tunnel model \cite{SLSAscentWTT}}
+\label{SLSWTT}
 \end{center}
 \end{figure}
 %%\vspace{-2em}
