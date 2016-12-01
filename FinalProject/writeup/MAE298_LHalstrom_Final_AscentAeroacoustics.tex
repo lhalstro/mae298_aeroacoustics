@@ -30,7 +30,8 @@
 
 
 
-  \title{MAE 298 Aeroacoustics -- Final Project \\ Aeroacoustics of Aerospace Vehicles During Launch and Ascent}
+  \title{MAE 298 Aeroacoustics -- Final Project \\ Review of Techniques for Predicting Aeroacoustics of Aerospace Vehicles During Launch, Ascent, and Abort}
+
 
 \author{
   Logan D. Halstrom \\
@@ -52,56 +53,64 @@
 
 \maketitle
 
+
+% % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{abstract}
+
+% Abstract about lit study
+
+% \end{abstract}
+
+
+
+
+
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{abstract}
+% \section*{Nomenclature}
 
-Abstract about lit study
+% \begin{multicols}{2}
 
-\end{abstract}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Nomenclature}
-
-\begin{multicols}{2}
-
-\begin{tabbing}
-  XXX \= \kill% this line sets tab stop
-  $0$                 \> Subscript for quiescent parameters \\
-  $e$                 \> Subscript for emission parameters \\
-  $L$                 \> Subscript for loading parameters \\
-  $t$                 \> Time \\
-  $\tau$              \> Retarded time \\
-  $ret$               \> Evaluated at retarded time \\
-  $\hat{n}$           \> Unit surface normal vector \\
-  $\vec{r}$           \> Radial direction vector \\
-  $\hat{r}$           \> Radial unit vector \\
-  $r$                 \> Magnitude of radial vector $|\vec{r}|$ \\
-  $\theta$            \> Angle between $\hat{n}$ and $\hat{r}$ \\
-  $f$                 \> Function of surfaces within a fluid space \\
-  $\vec{V}$           \> General velocity vector \\
-  $V_r$               \> Velocity component in radial direction \\
-  $V_n$               \> Velocity component in surface normal direction \\
-  $M$                 \> Mach number \\
-  $c$                 \> Speed of Sound\\
-  $\overline{\rho}$   \> Mean density \\
-  $p$                 \> Pressure  \\
-  $\widetilde{p}$     \> Pressure (Discontinuous across data surface)  \\
-  $\overline{p}$      \> Mean pressure \\
-  $p'$                \> Perturbation pressure \\
-  $\Delta P$          \> Pressure difference from CFD solution \\
-  $L$                 \> Pressure loading \\
-  $\overline{\partial}$ \> Generalized derivative \\
-  $\delta$            \> Dirac delta function \\
-  \scriptsize{FW-H}   \> Ffowcs Williams-Hawkings\\
+% \begin{tabbing}
+%   XXX \= \kill% this line sets tab stop
+%   $0$                 \> Subscript for quiescent parameters \\
+%   $e$                 \> Subscript for emission parameters \\
+%   $L$                 \> Subscript for loading parameters \\
+%   $t$                 \> Time \\
+%   $\tau$              \> Retarded time \\
+%   $ret$               \> Evaluated at retarded time \\
+%   $\hat{n}$           \> Unit surface normal vector \\
+%   $\vec{r}$           \> Radial direction vector \\
+%   $\hat{r}$           \> Radial unit vector \\
+%   $r$                 \> Magnitude of radial vector $|\vec{r}|$ \\
+%   $\theta$            \> Angle between $\hat{n}$ and $\hat{r}$ \\
+%   $f$                 \> Function of surfaces within a fluid space \\
+%   $\vec{V}$           \> General velocity vector \\
+%   $V_r$               \> Velocity component in radial direction \\
+%   $V_n$               \> Velocity component in surface normal direction \\
+%   $M$                 \> Mach number \\
+%   $c$                 \> Speed of Sound\\
+%   $\overline{\rho}$   \> Mean density \\
+%   $p$                 \> Pressure  \\
+%   $\widetilde{p}$     \> Pressure (Discontinuous across data surface)  \\
+%   $\overline{p}$      \> Mean pressure \\
+%   $p'$                \> Perturbation pressure \\
+%   $\Delta P$          \> Pressure difference from CFD solution \\
+%   $L$                 \> Pressure loading \\
+%   $\overline{\partial}$ \> Generalized derivative \\
+%   $\delta$            \> Dirac delta function \\
+%   \scriptsize{FW-H}   \> Ffowcs Williams-Hawkings\\
 
 
 
 
 
 
-\end{tabbing}
+% \end{tabbing}
 
-\end{multicols}
+% \end{multicols}
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -193,29 +202,60 @@ We have now completed the derivation of an aeroacoustic equation describing the 
 \begin{thebibliography}{9}% maximum number of references (for label width)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
- \bibitem{ray:15}
- E. S. Ray and R. A. Machin, ``Pendulum Motion in Main Parachute Clusters,'' in {\it 23rd AIAA Aerodynamic Decelerator Systems Technology Conference}, Submitted, 2015.
+\bibitem{OverflowOrionAbortGuidelines}
+Childs, R. E., Garcia, J. A., Melton, J. E., Rogers, S. E., Shestopalov, A. J., and Vicker, D. J., ``Overflow Simulation Guidelines for Orion Launch
+Abort Vehicle Aerodynamic Analyses'', in {\it 29th AIAA Applied Aerodynamics Conference}, Submitted, 2011.
 
- \bibitem{menter_sst}
- F. R. Menter and Christopher L. Rumsey, ``Assessment of Two-Equation Turbulence Models for Transonic Flows,'' in {\it 25th AIAA Fluid Dynamics Conference}, Submitted, 1994.
+\bibitem{AcousticPropulsionLoads}
+Eldred, K. M. and Jones, G. W., Jr., ``Acoustic load generated by the propulsion system'', NASA SP-8072, 1971.
 
- \bibitem{schwing15}
- J. S. Greathouse and A. M. Schwing, ``Study of Geometric Porosity on Static Stability and Drag using Computational Fluid Dynamics for Rigid Parachute Shapes,'' in {\it 23rd AIAA Aerodynamic Decelerator Systems Technology Conference}, Submitted, 2015.
+\bibitem{SLSAscentWTT}
+Herron, A. J., Crosby, W. A., and Reed, D. K., ``Overview of the Space Launch System Ascent Aeroacoustic Environment Test Program'', in {\it 54th AIAA Aerospace Sciences Meeting}, Submitted, 2016.
 
- \bibitem{overflow}
- R. H. Nichols, R. W. Tramel, and P. G. Buning, “Solver and Turbulence Model Upgrades to OVERFLOW 2 for Unsteady and High-Speed Applications,” No. AIAA 2006-2824, 2006.
+\bibitem{ShuttlePayloadBayAcoustics}
+Hill, R. E., and Coody, M. C., ``Vibration and Acoustic Environments for Payload/Cargo Integration'', AIAA paper 83-0329, Jan 1983.
 
- \bibitem{peg5}
- S. E. Rogers, K. Roth, M. Field, S. M. Nash, M. D. Baker, J. P. Slotnick, M. Whitlock, L. Beach, and H. V. Cao, ``Advances in Overset CFD Processes Applied to Subsonic High-Lift Aircraft'', No. AIAA 2000-4216, 2000.
+\bibitem{SpaceVehicleAeroacousticVibrationPrediction}
+Himelblau, H., Fuller, C. M., and Scharton, T. D., ``Assessment of Space Vehicle Aeroacoustic-Vibration Prediction, Design and Testing'', NASA CR-1596, July 1970.
 
- \bibitem{dcf}
- W. M. Chan, N. Kim, and S. A. Pandya, ``Advances in Domain Connectivity for Overset Grids Using the X-rays Approach,'' in {\it Seventh International Conference on Computational Fluid Dynamics}, Submitted, 2012.
+\bibitem{LAVA}
+Kiris, C. C., Barad, M. F., Housman, J. A., Sozer, E., Brehm, B., and Moini-Yekta, S.,  ``The LAVA Computational Fluid Dynamics Solver'', in {\it 52nd AIAA Aerospace Sciences Meeting}, Submitted, 2014.
 
- \bibitem{gmp}
- S. M. Murman, W. M. Chan, M. J. Aftosmis, and R. L. Meakin, ``An Interface for Specifying Rigid-Body Motions for CFD Applications,'' AIAA Paper 2003-1237, 2003.
+\bibitem{MicrophonePhasedArray}
+Panda, J., Mosher, R. N., and Porter, B. J., ``Identification of Noise Sources During Rocket Engine Test Firings and a Rocket Launch Using a Microphone Phased Array'', NASA TM-2013-216625, Dec 2013.
 
- \bibitem{blockage}
- J. M. Macha and R. J. Buffington, ``Wall-Interference Corrections for Parachutes in a Closed Wind Tunnel,'' {\it Journal of Aircraft}, Vol. 27, No. 4, pp. 320-325, April 1990.
+\bibitem{HeatedHeliumWTT}
+Panda, J., James, G. H., Burnside, N. J., Fong, R. K., Fogt, V. A., and Ross, J. C., ``Use of Heated Helium to Measure Surface Pressure Fluctuations on the Launch Abort Vehicle During Abort Motor Firing'', AIAA paper 2011-2901.
+
+\bibitem{OrionAbortPlumesControllability}
+Vicker, D. J., Childs, R. E., Rogers, S. E., McMullen, M. S., Garcia, J. A., and Greathouse, J. S.,  ``Effects of the Orion Launch Abort Vehicle Plumes on Aerodynamics and Controllability'', in {\it 51st AIAA Aerospace Sciences Meeting}, Submitted, 2013.
+
+
+
+
+ % \bibitem{ray:15}
+ % E. S. Ray and R. A. Machin, ``Pendulum Motion in Main Parachute Clusters,'' in {\it 23rd AIAA Aerodynamic Decelerator Systems Technology Conference}, Submitted, 2015.
+
+ % \bibitem{menter_sst}
+ % F. R. Menter and Christopher L. Rumsey, ``Assessment of Two-Equation Turbulence Models for Transonic Flows,'' in {\it 25th AIAA Fluid Dynamics Conference}, Submitted, 1994.
+
+ % \bibitem{schwing15}
+ % J. S. Greathouse and A. M. Schwing, ``Study of Geometric Porosity on Static Stability and Drag using Computational Fluid Dynamics for Rigid Parachute Shapes,'' in {\it 23rd AIAA Aerodynamic Decelerator Systems Technology Conference}, Submitted, 2015.
+
+ % \bibitem{overflow}
+ % R. H. Nichols, R. W. Tramel, and P. G. Buning, “Solver and Turbulence Model Upgrades to OVERFLOW 2 for Unsteady and High-Speed Applications,” No. AIAA 2006-2824, 2006.
+
+ % \bibitem{peg5}
+ % S. E. Rogers, K. Roth, M. Field, S. M. Nash, M. D. Baker, J. P. Slotnick, M. Whitlock, L. Beach, and H. V. Cao, ``Advances in Overset CFD Processes Applied to Subsonic High-Lift Aircraft'', No. AIAA 2000-4216, 2000.
+
+ % \bibitem{dcf}
+ % W. M. Chan, N. Kim, and S. A. Pandya, ``Advances in Domain Connectivity for Overset Grids Using the X-rays Approach,'' in {\it Seventh International Conference on Computational Fluid Dynamics}, Submitted, 2012.
+
+ % \bibitem{gmp}
+ % S. M. Murman, W. M. Chan, M. J. Aftosmis, and R. L. Meakin, ``An Interface for Specifying Rigid-Body Motions for CFD Applications,'' AIAA Paper 2003-1237, 2003.
+
+ % \bibitem{blockage}
+ % J. M. Macha and R. J. Buffington, ``Wall-Interference Corrections for Parachutes in a Closed Wind Tunnel,'' {\it Journal of Aircraft}, Vol. 27, No. 4, pp. 320-325, April 1990.
 
 
 
