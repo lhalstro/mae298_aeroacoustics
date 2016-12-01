@@ -187,14 +187,6 @@ Specific source information such as the data produced in this experiment can be 
 
 
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Analytical Methods}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Wind Tunnel Testing}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -250,13 +242,20 @@ Overall, this test demonstrates that masterful manufacturing and clever, high-te
 \section{Computational Methods}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Finally, the latest advent in the field of aerodynamics and aeroacoustics has been the usage of computers to simulate unsteady flows over aerospace vehicle geometries through computational techniques like Computational Fluid Dynamics (CFD) and Computational Aero-Acoustics (CAA).  Though modern CFD currently lacks the ability to resolve many unsteady, fluctuating flow features due to lower-order numerical schemes and reflective boundary conditions, useful information about the flow fields defining the aeroacoustic problem can still be derived using these techniques.
+Finally, the latest advent in the field of aerodynamics and aeroacoustics has been the usage of computers to simulate unsteady flows over aerospace vehicle geometries through computational techniques like Computational Fluid Dynamics (CFD) and Computational Aero-Acoustics (CAA).  These new developments are an exciting trend, because they allow the simulation of many more flight conditions and configurations at a marginal cost in comparison to the wind tunnel and flight testing examples that have been previously discussed.  This cost savings comes with the price of error and inaccuracy due to approximate methods, but the field is ever-improving and even now can produce useful results for the correct applications.
 
-In this section, a CFD simulation of the same Launch Abort System (LAS) analyzed in the previous wind tunnel test will be summarized and then a CAA code that could be used to further pursue aeroacoustical analysis will be discussed.
+Though modern CFD currently lacks the ability to resolve many unsteady, fluctuating flow features due to lower-order numerical schemes and reflective boundary conditions, useful information about the flow fields defining the aeroacoustic problem can still be derived using these techniques.  In this section, a CFD simulation of the same Launch Abort System (LAS) analyzed in the previous wind tunnel test will be summarized and then a CAA code that could be used to further pursue aeroacoustical analysis will be discussed.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Computational Fluid Dynamics}
 
+The paper by Childs et al. 2011 \cite{OverflowOrionAbortGuidelines} demonstrates CFD modeling of the same abort conditions simulated in the previous wind tunnel test.  Simulations were performed using the NASA OVERFLOW CFD tool and grids were constructed using the overset Chimera Grid Tools.  The advantage of using overset grids in this case is that it is relatively easy to construct complex and fine geometries such as the abort motors in Fig~\ref{LASgrid} compared to unstructured grids.  As detailed in the ascent wind tunnel test section, the fine-scale geometries are critical for resolving the specific aeroacoustic effects.
+
+The simulation of rocket plumes in Overflow is as simple as creating the correct boundary conditions inside of the rocket nozzle geometry (which slightly less extravagant than super-heating Helium gas).  After considerable convergence testing to optimize choices of grid spacing, time-accurate settings, and turbulence models, a campaign of test conditions were simulated, producing results like those depicted in Fig~\ref{LASCFD}.
+
+These results are similar to those produced by the corresponding wind tunnel test, but now the surface pressure data is available for the entire surface geometry and flow field, which is a very powerful asset to have when analyzing problems such as LAS dynamic stability.  Comparison to the wind tunnel test can be further supported by comparing plume shadowgraph images, like Fig~\ref{LASCFDshadowgraph}.
+
+Still, the caveat to this analysis is that the CFD cannot resolve the unsteady pressure fluctuations created by aeroacoustic noise.  In this aspect, the wind tunnel test is superior.  However, aeroacoustic effects may not always be out of reach of computational methods, as will be discussed in the next section.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Computational Aeroacoustic Analysis}
@@ -421,6 +420,36 @@ Wren, R.J., Dorland, W.D., and Eldred, K.M., ``Concept, Design and Performance o
 \includegraphics[width=0.95\textwidth]{Images/SLS_WTT_Abort_Shadowgraph.png}
 \caption{Orion Launch Abort System sub-scale model shadowgraph with hot helium plumes creating unsteady effects \cite{HeatedHeliumWTT}}
 \label{SLSWTTAbortshadowgraph}
+\end{center}
+\end{figure}
+%%\vspace{-2em}
+
+%%\vspace{-2em}
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=0.35\textwidth]{Images/LAS_Grid.png}
+\caption{Orion Launch Abort System CFD grid showing fine geometry features \cite{OrionAbortPlumesControllability}}
+\label{LASgrid}
+\end{center}
+\end{figure}
+%%\vspace{-2em}
+
+%%\vspace{-2em}
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=0.6\textwidth]{Images/LAS_CFD.png}
+\caption{Orion Launch Abort System CFD modeling of plume impingement \cite{OrionAbortPlumesControllability}}
+\label{LASCFD}
+\end{center}
+\end{figure}
+%%\vspace{-2em}
+
+%%\vspace{-2em}
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=0.75\textwidth]{Images/LAS_CFD_Shadowgraph.png}
+\caption{Orion Launch Abort System CFD shadowgraph that is remarkably comparable to the corresponding wind tunnel test \cite{OverflowOrionAbortGuidelines}}
+\label{LASCFDshadowgraph}
 \end{center}
 \end{figure}
 %%\vspace{-2em}
