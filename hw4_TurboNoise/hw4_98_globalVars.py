@@ -16,8 +16,8 @@ import numpy as np
 scale = 1/6 #CFD engine model scale
 Nblade = 18 #Number of blades in engine fan
 Nvane  = 1  #Uneven gust loading modeled as single vane
-Re = 13     #Model engine radius [in]
-Rh = 3      #Model hub radius [in]
+Ro = 13     #Model engine (outer) radius [in]
+Ri = 3      #Model hub (inner) radius [in]
 Linlet = 4  #Distace between inlet and z=0 plane [in]
 
 #Flow Parameters
