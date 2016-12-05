@@ -83,6 +83,17 @@ def AxialEigenfunction(r, ri, m, mu):
     """
     return jn(m, mu * r) - jn(m, mu * ri) / yn(m, mu * ri) * yn(m, mu * r)
 
+def AxialWavenumber(mu, omega, c, M):
+    """Calculate z-direction wavenumber (Kz+) for sound mode in axial flow
+    mu --> eigenvalue of current mode
+    omega --> angular frequency of flow
+    c --> speed of sound
+    M --> mach number of flow
+    """
+    K = omega / c #flow wave number
+    Kz = (-M + np.emath.sqrt(1 - (1 - M ** 2) * (mu / K) ** 2 )) / (1 - M ** 2) * K
+    return Kz
+
 
 
 def main(source):
@@ -96,8 +107,6 @@ def main(source):
 
 
     eigenvals = pd.DataFrame() #solutions for eigenvalues
-
-
 
     ms = [18, 17, 16, 15] #circumfrential modes to solve for
     Nn = 5 #number of radial modes to solve for
@@ -127,16 +136,11 @@ def main(source):
 
         eigenvals[m] = mus[:Nn]
 
-    print(eigenvals)
     #SAVE EIGENVALUES
     #columns are m, rows are n
     eigenvals.to_csv( '{}/eigenvalues.dat'.format(datadir), sep=' ',
                         index=True )
 
-
-
-
-    # print(AxialEigenvalFunc(1, m, Ri, Ro))
 
 
     ####################################################################
@@ -156,10 +160,23 @@ def main(source):
 
 
 
+    ####################################################################
+    ### PROB 3 - WAVE NUMBER/CUT-OFF CONDITION #########################
+    ####################################################################
 
 
+    wavenums = eigenvals.copy()
+
+    # wavenums = AxialWavenumber(eigenvals, omega, a, M)
+    wavenums = wavenums.applymap(lambda x: AxialWavenumber(x, omega, a, M))
 
 
+    print(wavenums)
+
+    #SAVE EIGENVALUES
+    #columns are m, rows are n
+    wavenums.to_csv( '{}/wavenumbers.dat'.format(datadir), sep=' ',
+                        index=True )
 
 
     # ####################################################################

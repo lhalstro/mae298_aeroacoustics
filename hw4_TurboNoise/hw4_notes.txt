@@ -1,1 +1,4 @@
 why is omega from rpm a function of number of blades?
+ignoring downstream propagation, so we dont need to calc Kz-, just Kz+?
+Only one cut-on mode for upstream propagation?
+
