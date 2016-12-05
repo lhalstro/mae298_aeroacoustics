@@ -96,9 +96,8 @@ def AxialWavenumber(mu, omega, c, M):
 
 
 
-def main(source):
+def main():
     """Perform calculations for frequency data processing
-    source --> file name of source sound file
     """
 
     ####################################################################
@@ -170,13 +169,33 @@ def main(source):
     # wavenums = AxialWavenumber(eigenvals, omega, a, M)
     wavenums = wavenums.applymap(lambda x: AxialWavenumber(x, omega, a, M))
 
-
-    print(wavenums)
-
     #SAVE EIGENVALUES
     #columns are m, rows are n
     wavenums.to_csv( '{}/wavenumbers.dat'.format(datadir), sep=' ',
                         index=True )
+
+    #Cut-on if real and negative
+
+
+
+
+    ####################################################################
+    ### PROB 4 - SPL OF REAL PRESSURE FIELD ############################
+    ####################################################################
+
+    #READ EXPERIMENTAL PRESSURE DISTRIBUTION AT Z=0 PLANE
+        #Columns: Radius [in], Real-part pressure, Imaginary-part pressure
+    df = pd.read_csv('{}/pressure_input.dat'.format(datadir), sep='\t',
+                    names=['R', 'pRe', 'pIm'])
+
+    print(df)
+
+
+
+
+
+
+
 
 
     # ####################################################################
@@ -225,6 +244,4 @@ def main(source):
 if __name__ == "__main__":
 
 
-    Source = 'Boom_F1B2_6.wav'
-
-    main(Source)
+    main()
