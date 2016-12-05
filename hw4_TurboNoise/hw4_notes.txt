@@ -1,4 +1,8 @@
 why is omega from rpm a function of number of blades?
+    each blade is a source so more blades means observer hears more sources in a single rotation
 ignoring downstream propagation, so we dont need to calc Kz-, just Kz+?
+    real part is direction of propegation
+    imaginary part is decaying or expanding exponential
 Only one cut-on mode for upstream propagation?
+    yes
 

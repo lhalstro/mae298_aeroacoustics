@@ -83,6 +83,15 @@ def AxialEigenfunction(r, ri, m, mu):
     """
     return jn(m, mu * r) - jn(m, mu * ri) / yn(m, mu * ri) * yn(m, mu * r)
 
+def AxialEigenfunctionLambda(ri, m, mu):
+    """Axial flow eigenfunction, with lambda function radial input for
+    integration
+    ri --> inner radius of axial jet engine
+    m  --> circumfrential acoustic mode
+    mu --> eigenvalue (dependent on radial mode n)
+    """
+    return lambda r: jn(m, mu * r) - jn(m, mu * ri) / yn(m, mu * ri) * yn(m, mu * r)
+
 def AxialWavenumber(mu, omega, c, M):
     """Calculate z-direction wavenumber (Kz+) for sound mode in axial flow
     mu --> eigenvalue of current mode
@@ -158,6 +167,39 @@ def main():
 
 
 
+    R = np.linspace(Ri, Ro, 101) #Radial vector in engine
+
+    fig, ax = plt.subplots(len(ms), sharex=True, figsize=[5, 10])
+    for i, m in enumerate(ms):
+        for j, n in enumerate(ns):
+            ax[i].plot(R, AxialEigenfunction(R, Ri, m, eigenvals[m][j]),
+                        label='n={}'.format(j)
+                        )
+            ax[i].set_ylabel('$\\Psi_{{{},n}}$'.format(m))
+            ax[i].set_xlim([Ri, Ro])
+    ax[i].set_xlabel('Radial Location [in]') #label x-axis on last subplot
+
+    plt.show()
+
+
+
+    ###############
+
+    _,ax = PlotStart(None, 'Radial Location [in]', '$\\Psi_{{m,n}}$', figsize=[6, 6])
+
+    for i, m in enumerate(ms):
+
+        for j, n in enumerate(ns):
+
+            ax.plot(R, AxialEigenfunction(R, Ri, m, eigenvals[m][j]),
+                        label='n={}'.format(j), color=colors[j],
+                        )
+    # ax.set_ylabel('$\\Psi_{{{}n}}$'.format(m))
+    # ax.set_xlabel('Radius [in]') #label x-axis on last subplot
+    ax.set_xlim([Ri, Ro])
+
+    plt.show()
+
 
     ####################################################################
     ### PROB 3 - WAVE NUMBER/CUT-OFF CONDITION #########################
@@ -184,11 +226,12 @@ def main():
     ####################################################################
 
     #READ EXPERIMENTAL PRESSURE DISTRIBUTION AT Z=0 PLANE
-        #Columns: Radius [in], Real-part pressure, Imaginary-part pressure
+        #Columns: Radius [in], Real pressure [psi], Imaginary pressure [psi]
     df = pd.read_csv('{}/pressure_input.dat'.format(datadir), sep='\t',
                     names=['R', 'pRe', 'pIm'])
 
     print(df)
+
 
 
 
