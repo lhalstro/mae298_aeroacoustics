@@ -17,8 +17,21 @@ import numpy as np
 import pandas as pd
 
 from scipy.special import jn, yn #bessel functions
-from scipy.optimize import fsolve
+from scipy.optimize import fsolve #linear solver
+from scipy.optimize import broyden1 #non-linear solver
 
+
+
+#CUSTOM PLOTTING PACKAGE
+import matplotlib.pyplot as plt
+import sys
+sys.path.append('/Users/Logan/lib/python')
+from lplot import *
+from seaborn import color_palette
+import seaborn as sns
+UseSeaborn('xkcd') #use seaborn plotting features with custom colors
+colors = sns.color_palette() #color cycle
+markers = bigmarkers         #marker cycle
 
 
 
@@ -36,6 +49,27 @@ def AxialEigenvalFunc(x, *args):
     X = x * ro
     Y = x * ri
 
+    return ( 0.5 * (jn(m-1, X) - jn(m+1, X)) * 0.5 * (yn(m-1, Y) - yn(m+1, Y))
+           - 0.5 * (jn(m-1, Y) - jn(m+1, Y)) * 0.5 * (yn(m-1, X) - yn(m+1, X))
+            )
+
+
+def AxialEigenvalFunc(x, m, ri, ro):
+    """Determinant of axial flow boundary condition eigenfunctions, which is
+    equal to zero.  Use scipy solver to get eigenvalues
+    x  --> dependent variable (eigenvalue mu in axial flow eigenfunction)
+    m  --> Order of bessel function
+    ri --> inner radius of jet engine
+    ro --> ourter radius of jet engine
+    """
+    # return (0.5 * (jn(m-1, x * ro) - jn(m+1, x * ro))
+    #                   * 0.5 * (yn(m-1, x * ri) - yn(m+1, x * ri))
+    #                   - 0.5 * (jn(m-1, x * ri) - jn(m+1, x * ri))
+    #                   * 0.5 * (yn(m-1, x * ro) - yn(m+1, x * ro))
+    #         )
+
+    X = x * ro
+    Y = x * ri
     return ( 0.5 * (jn(m-1, X) - jn(m+1, X)) * 0.5 * (yn(m-1, Y) - yn(m+1, Y))
            - 0.5 * (jn(m-1, Y) - jn(m+1, Y)) * 0.5 * (yn(m-1, X) - yn(m+1, X))
             )
@@ -61,10 +95,46 @@ def main(source):
     ####################################################################
 
 
-    m = 15
-    x0 = 1
-    mu = fsolve(AxialEigenvalFunc, x0, args=(m, Ri, Ro) )
-    print(mu)
+    eigenvals = pd.DataFrame() #solutions for eigenvalues
+
+
+
+    ms = [18, 17, 16, 15] #circumfrential modes to solve for
+    Nn = 5 #number of radial modes to solve for
+    ns = range(Nn) #find first five radial modes
+
+    for m in ms:
+
+        #guesses for root solutions
+        x0s = np.linspace(0.1,3, 30)
+        mus = []
+        for x0 in x0s:
+
+            #try each solution guess to see if it returns a good result
+            try:
+                #find solution corresponding to current guess
+                mu = broyden1( lambda x: AxialEigenvalFunc(x, m, Ri, Ro), x0)
+                #add to solution list if no error message
+                    #convert to float and round of floating point error
+                mus.append( round(float(mu), 6) )
+            except Exception:
+                #Skip any solution errors
+                pass
+
+        #Get only unique solutions with 'set'
+            #convert to numpy array and sort least to greatest
+        mus = np.sort(np.array( list(set(mus)) ), axis=None)
+
+        eigenvals[m] = mus[:Nn]
+
+    print(eigenvals)
+    #SAVE EIGENVALUES
+    #columns are m, rows are n
+    eigenvals.to_csv( '{}/eigenvalues.dat'.format(datadir), sep=' ',
+                        index=True )
+
+
+
 
     # print(AxialEigenvalFunc(1, m, Ri, Ro))
 
@@ -73,13 +143,14 @@ def main(source):
     ### PROB 2 - PLOT EIGENFUNCTIONS ###################################
     ####################################################################
 
-    import matplotlib.pyplot as plt
 
-    R = np.linspace(Ri, Ro, 101)
+    # R = np.linspace(Ri, Ro, 101)
 
-    plt.figure()
-    plt.plot(R, AxialEigenfunction(R, Ri, m, mu))
-    plt.show()
+    # plt.figure()
+    # plt.plot(R, AxialEigenfunction(R, Ri, m, mu) )
+
+    # plt.xlim([Ri, Ro])
+    # plt.show()
 
 
 
