@@ -90,7 +90,7 @@ def AxialEigenfunctionLambda(ri, m, mu):
     m  --> circumfrential acoustic mode
     mu --> eigenvalue (dependent on radial mode n)
     """
-    return lambda r: jn(m, mu * r) - jn(m, mu * ri) / yn(m, mu * ri) * yn(m, mu * r)
+    return lambda r: AxialEigenfunction(r, ri, m, mu)
 
 def AxialWavenumber(mu, omega, c, M):
     """Calculate z-direction wavenumber (Kz+) for sound mode in axial flow
@@ -167,9 +167,9 @@ def main():
 
 
 
-    R = np.linspace(Ri, Ro, 101) #Radial vector in engine
+    R = np.linspace(Ri, Ro, 201) #Radial vector in engine
 
-    fig, ax = plt.subplots(len(ms), sharex=True, figsize=[5, 10])
+    fig, ax = plt.subplots(len(ms), sharex=True, figsize=[3, 12])
     for i, m in enumerate(ms):
         for j, n in enumerate(ns):
             ax[i].plot(R, AxialEigenfunction(R, Ri, m, eigenvals[m][j]),
@@ -179,26 +179,25 @@ def main():
             ax[i].set_xlim([Ri, Ro])
     ax[i].set_xlabel('Radial Location [in]') #label x-axis on last subplot
 
-    plt.show()
+    savename = '{}/2_eigenfunctions_subplot.{}'.format(picdir, pictype)
+    SavePlot(savename)
 
 
 
     ###############
 
-    _,ax = PlotStart(None, 'Radial Location [in]', '$\\Psi_{{m,n}}$', figsize=[6, 6])
+    _,ax = PlotStart(None, 'Radial Location [in]',
+                            'Eigenfunction ($\\Psi_{{m,n}}$)', figsize=[6, 6])
 
     for i, m in enumerate(ms):
-
         for j, n in enumerate(ns):
-
             ax.plot(R, AxialEigenfunction(R, Ri, m, eigenvals[m][j]),
                         label='n={}'.format(j), color=colors[j],
                         )
-    # ax.set_ylabel('$\\Psi_{{{}n}}$'.format(m))
-    # ax.set_xlabel('Radius [in]') #label x-axis on last subplot
     ax.set_xlim([Ri, Ro])
 
-    plt.show()
+    savename = '{}/2_eigenfunctions.{}'.format(picdir, pictype)
+    SavePlot(savename)
 
 
     ####################################################################
@@ -231,6 +230,8 @@ def main():
                     names=['R', 'pRe', 'pIm'])
 
     print(df)
+
+
 
 
 
