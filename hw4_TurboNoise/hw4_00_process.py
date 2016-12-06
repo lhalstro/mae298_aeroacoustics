@@ -120,16 +120,16 @@ def AxialWavenumber(mu, omega, c, M):
 #           - 0.5 * (ri ** 2 - m ** 2 / mu ** 2)
 #             * ( AxialEigenfunction(ri, ri, m, mu) ) ** 2 )
 
-def GetGammaAmn(m, n, mus, p, r):
+def GetGammaAmn(m, n, mu, p, r):
     """Get Gamma_mn and Amn from eigenfunction and acoustic pressure
     m     --> current circumfrential mode
     n     --> current radial mode
-    mus   --> dataframe of eigenvalues
+    mu    --> eigenvalue for current m,n
     p   --> acoustic pressure at z=0 plane
     r   --> radius vector associated with p (goes from Ri --> Ro)
     """
     ri, ro = min(r), max(r) #inner/outer radii of engine
-    mu = mus[m][n] #eigenvalue for curent (m,n)
+
     #Calculate Gamma_mn for non m=n=0 case:
     Gam = (0.5 * (ro ** 2 - m ** 2 / mu ** 2)
             * AxialEigenfunction(ro, ri, m, mu) ** 2
@@ -158,40 +158,49 @@ def main():
     Nn = 5 #number of radial modes to solve for
     ns = range(Nn) #find first five radial modes
 
+    # #tweak for round off error
+        #     #values for calculating Wmn are very near zero.  small round-off
+        #     #errors can cause Wmn=0 and PWL=infinity.
+        #     #Change number of sigfigs to get correct Wmn for all cases
+    rounds = [] #round eigenvalue to deal with floating point error
     for m in ms:
+        rounds.append([None, None, None, None, None])
+    rounds[0] = [8, None, None, None, None]
+
+    for i, m in enumerate(ms):
 
         #guesses for root solutions
-        x0s = np.linspace(0.1,3, 300)
+        x0s = np.linspace(0.1, 3, 300)
         mus = []
-        for x0 in x0s:
+        for j, x0 in enumerate(x0s):
 
             #try each solution guess to see if it returns a good result
             try:
                 #find solution corresponding to current guess
                 mu = broyden1( lambda x: AxialEigenvalFunc(x, m, Ri, Ro), x0)
+                mu = float(mu)
                 #add to solution list if no error message
-                    #convert to float and round of floating point error
-                # mus.append( round(float(mu), 6) )
-                mus.append( float(mu) )
+                mus.append( mu )
             except Exception:
                 #Skip any solution errors
                 pass
 
-
-        # #Get only unique solutions with 'set'
-        #     #convert to numpy array and sort least to greatest
-        # mus = np.sort(np.array( list(set(mus)) ), axis=None)
-
         #GET ONLY UNIQUE VALUES OF MU
         df = pd.DataFrame({'long' : list(mus), 'short' : list(mus)})
-        df = df.round({'short': 8}) #shorten values to find unique ones
+        df = df.round({'short': 6}) #shorten values to find unique ones
         df = df.drop_duplicates(subset='short') #drop duplicates in short vals
         df = df.sort_values('long') #sort eigen values from least to greatest
         df = df.reset_index() #reset indicies to same as n
 
         #Asign desired number of eigen values to solution dataframe
-        eigenvals[m] = df['long'][:Nn]
-        # eigenvals[m] = mus[:Nn]
+        mus = df['long'][:Nn]
+        #Deal with floating point error
+        for j, mu in enumerate(mus):
+            if rounds[i][j] != None:
+                mus[j] =  round(mu, rounds[i][j])
+        eigenvals[m] = mus
+
+        # eigenvals = eigenvals.round({m : 8})
 
     #SAVE EIGENVALUES
     #columns are m, rows are n
@@ -283,8 +292,9 @@ def main():
 
     m, n = 18, 0
 
-    for n in [0, 1, 2]:
-        Gam, Amn = GetGammaAmn(m, n, eigenvals, df['p'], df['R'])
+    for i, n in enumerate([0, 1, 2]):
+        mu = eigenvals[m][n] #eigenvalue for curent (m,n)
+        Gam, Amn = GetGammaAmn(m, n, mu, df['p'], df['R'])
 
         # print(Gam)
         # print(eigenvals[m][n])
@@ -297,11 +307,11 @@ def main():
                 (1 + M ** 2) * frac.real + M * (abs(frac) ** 2 + 1) )
 
         # print('frac', frac)
-        print('Wmn 1st half', np.pi / (rho * a) * Gam * Amn * np.conj(Amn))
-        print('Wmn 2nd half', (1 + M ** 2) * frac.real + M * (abs(frac) ** 2 + 1) )
+        # print('Wmn 1st half', np.pi / (rho * a) * Gam * Amn * np.conj(Amn))
+        # print('Wmn 2nd half', (1 + M ** 2) * frac.real + M * (abs(frac) ** 2 + 1) )
 
-        print((1 + M ** 2) * frac.real)
-        print(M * (abs(frac) ** 2 + 1))
+        # print((1 + M ** 2) * frac.real)
+        # print(M * (abs(frac) ** 2 + 1))
 
 
 
