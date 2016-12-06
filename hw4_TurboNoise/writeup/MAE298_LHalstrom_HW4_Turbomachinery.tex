@@ -126,24 +126,24 @@ the engine so that sound propagates to $–z$ direction assuming the $+z$ direct
 
 1. [20 points] Determine the first five eigenvalues of acoustics for m=18, 17, 16, 15 or (k=1, 2, 3, 4) or (m,n)=(18,0), (18,1), (18,2), (18,3), (18,4), (17,0), (17,1), (17,2), (17,3), (17,4), (16,0), (16,1), (16,2), (16,3), (16,4), (15,0), (15,1), (15,2), (15,3), (15,4)
 
-\begin{center}
+
 \begin{table}[htb]
+\begin{centering}
 \begin{tabular}{| c | c c c c |}
 \hline
 % {} & \multicolumn{4}{c}{m} \\
 {} &  $\mathbf{m=18}$ &  $\mathbf{m=17}$ &  $\mathbf{m=16}$ &  $\mathbf{m=15}$ \\
 \hline
-$\mathbf{n=0}$ &       1.549545 &       1.469574 &       1.389482 &       1.309256 \\
-$\mathbf{n=1}$ &       1.961197 &       1.875532 &       1.789559 &       1.703250 \\
-$\mathbf{n=2}$ &       2.282319 &       2.193182 &       2.103645 &       2.013674 \\
-$\mathbf{n=3}$ &       2.577225 &       2.485453 &       2.393227 &       2.300507 \\
-$\mathbf{n=4}$ &       2.858492 &       2.764587 &       2.670191 &       2.575265 \\
+$\mathbf{n=0}$ &       1.5495 &         1.4696 &         1.3895 &         1.3093 \\
+$\mathbf{n=1}$ &       1.9612 &         1.8755 &         1.7896 &         1.7032 \\
+$\mathbf{n=2}$ &       2.2823 &         2.1932 &         2.1036 &         2.0137 \\
+$\mathbf{n=3}$ &       2.5772 &         2.4855 &         2.3932 &         2.3005 \\
+$\mathbf{n=4}$ &       2.8585 &         2.7646 &         2.6702 &         2.5753 \\
 \hline
 \end{tabular}
-\caption{test}
+\caption{Eigenvalues $\mu$ for all modes}
+\end{centering}
 \end{table}
-\end{center}
-
 
 
 
@@ -183,10 +183,11 @@ The most straight-forward of testing methods described by Himelblau is the
 
 3. [20 points] Determine the wavenumbers in the z direction for (m,n)=(18,0), (18,1), (18,2), (17,0), (17,1), (17,2), (16,0), (16,1), (16,2), (15,0), (15,1), (15,2). Indicate whether the mode is cut-on (propagating) or cut-off (exponentially decaying). Consider only the propagation in the –z direction. Exclude the exponentially growing solution and include only the propagating solutions or exponentially decaying solutions.
 
-
+\begin{table}[htb]
+\begin{centering}
 \begin{tabular}{| c c c c |}
 \hline
-$\mathbf{m}$ &  $\mathbf{n}$ &                      $\mathbf{Kz}$ & $\mathbf{Cut-on}$ \\
+$\mathbf{m}$ &  $\mathbf{n}$ &                      $\mathbf{K_z}$ & $\mathbf{Cut-on}$ \\
 \hline
 18 &             0 &  (-0.842342752252+0.860467931211j) &                No \\
 18 &             1 &    (-0.842342752252+1.6539375966j) &                No \\
@@ -205,7 +206,9 @@ $\mathbf{m}$ &  $\mathbf{n}$ &                      $\mathbf{Kz}$ & $\mathbf{Cut
 15 &             2 &  (-0.842342752252+1.73881279925j) &                No \\
 \hline
 \end{tabular}
-
+\caption{Axial wavenumbers $K_z$ for certian modes and associated cut-on condition}
+\end{centering}
+\end{table}
 
 
 
@@ -215,10 +218,22 @@ $\mathbf{m}$ &  $\mathbf{n}$ &                      $\mathbf{Kz}$ & $\mathbf{Cut
 \section{Modal Power Levels}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-4. [30 points] The pressure distribution file at z=0 plane for m=18 or 1 BPF is provided. The first column is the dimensional radius [in], the second column the real part of the pressure [psi], and the third column is the imaginary part of the pressure [psi]. Using this boundary condition, compute the sound power level for (m,n)=(18,0), (18,1), (18,2). This noise is considered for blade self noise that is not associated with the gust response since k=0. Note that the z=0 plane is not the same as the engine inlet. Use the conversion for the unit for the sound power as follows: PWL (dB)=10*log10((Wmn))- 10*log10(7.3756E-13)
+4. [30 points] The pressure distribution file at z=0 plane for m=18 or 1 BPF is provided. The first column is the dimensional radius [in], the second column the real part of the pressure [psi], and the third column is the imaginary part of the pressure [psi]. Using this boundary condition, compute the sound power level for (m,n)=(18,0), (18,1), (18,2). This noise is considered for blade self noise that is not associated with the gust response since k=0. Note that the z=0 plane is not the same as the engine inlet. Use the conversion for the unit for the sound power as follows: $PWL(dB) = 10*\log_{10}(W_{mn}) - 10*\log_{10}(7.3756E-13)$
 
-
-
+\begin{table}[htb]
+\begin{centering}
+\begin{tabular}{| c | c |}
+\hline
+$\mathbf{n}$ &  $\mathbf{PWL (dB)}$ \\
+\hline
+$\mathbf{0}$ &       -10.4015 \\
+$\mathbf{1}$ &       -13.3776 \\
+$\mathbf{2}$ &       -22.3880 \\
+\hline
+\end{tabular}
+\caption{Sound Power Levels in dB of modal power of $m=18$ circumfrential mode}
+\end{centering}
+\end{table}
 
 
 
