@@ -17,6 +17,7 @@ import numpy as np
 import pandas as pd
 
 from scipy.special import jn, yn #bessel functions
+from scipy.special import jv, yv #bessel functions
 from scipy.optimize import fsolve #linear solver
 from scipy.optimize import broyden1 #non-linear solver
 
@@ -35,23 +36,23 @@ markers = bigmarkers         #marker cycle
 
 
 
-def AxialEigenvalFunc(x, *args):
-    """Determinant of axial flow boundary condition eigenfunctions, which is
-    equal to zero.  Use scipy solver to get eigenvalues
-    x    --> dependent variable (eigenvalue mu in axial flow eigenfunction)
-    args --> tuple of other arguments: (m, n, ri, ro)
-        m --> Order of bessel function
-        ri --> inner radius of jet engine
-        ro --> ourter radius of jet engine
-    """
-    m, ri, ro = args
+# def AxialEigenvalFunc(x, *args):
+#     """Determinant of axial flow boundary condition eigenfunctions, which is
+#     equal to zero.  Use scipy solver to get eigenvalues
+#     x    --> dependent variable (eigenvalue mu in axial flow eigenfunction)
+#     args --> tuple of other arguments: (m, n, ri, ro)
+#         m --> Order of bessel function
+#         ri --> inner radius of jet engine
+#         ro --> ourter radius of jet engine
+#     """
+#     m, ri, ro = args
 
-    X = x * ro
-    Y = x * ri
+#     X = x * ro
+#     Y = x * ri
 
-    return ( 0.5 * (jn(m-1, X) - jn(m+1, X)) * 0.5 * (yn(m-1, Y) - yn(m+1, Y))
-           - 0.5 * (jn(m-1, Y) - jn(m+1, Y)) * 0.5 * (yn(m-1, X) - yn(m+1, X))
-            )
+#     return ( 0.5 * (jv(m-1, X) - jv(m+1, X)) * 0.5 * (yv(m-1, Y) - yv(m+1, Y))
+#            - 0.5 * (jv(m-1, Y) - jv(m+1, Y)) * 0.5 * (yv(m-1, X) - yv(m+1, X))
+#             )
 
 
 def AxialEigenvalFunc(x, m, ri, ro):
@@ -62,16 +63,16 @@ def AxialEigenvalFunc(x, m, ri, ro):
     ri --> inner radius of jet engine
     ro --> ourter radius of jet engine
     """
-    # return (0.5 * (jn(m-1, x * ro) - jn(m+1, x * ro))
-    #                   * 0.5 * (yn(m-1, x * ri) - yn(m+1, x * ri))
-    #                   - 0.5 * (jn(m-1, x * ri) - jn(m+1, x * ri))
-    #                   * 0.5 * (yn(m-1, x * ro) - yn(m+1, x * ro))
+    # return (0.5 * (jv(m-1, x * ro) - jv(m+1, x * ro))
+    #                   * 0.5 * (yv(m-1, x * ri) - yv(m+1, x * ri))
+    #                   - 0.5 * (jv(m-1, x * ri) - jv(m+1, x * ri))
+    #                   * 0.5 * (yv(m-1, x * ro) - yv(m+1, x * ro))
     #         )
 
     X = x * ro
     Y = x * ri
-    return ( 0.5 * (jn(m-1, X) - jn(m+1, X)) * 0.5 * (yn(m-1, Y) - yn(m+1, Y))
-           - 0.5 * (jn(m-1, Y) - jn(m+1, Y)) * 0.5 * (yn(m-1, X) - yn(m+1, X))
+    return ( 0.5 * (jv(m-1, X) - jv(m+1, X)) * 0.5 * (yv(m-1, Y) - yv(m+1, Y))
+           - 0.5 * (jv(m-1, Y) - jv(m+1, Y)) * 0.5 * (yv(m-1, X) - yv(m+1, X))
             )
 
 def AxialEigenfunction(r, ri, m, mu):
@@ -81,16 +82,19 @@ def AxialEigenfunction(r, ri, m, mu):
     m  --> circumfrential acoustic mode
     mu --> eigenvalue (dependent on radial mode n)
     """
-    return jn(m, mu * r) - jn(m, mu * ri) / yn(m, mu * ri) * yn(m, mu * r)
+    X = mu * ri
+    return ( jv(m, mu * r) - (0.5 * (jv(m-1, X) - jv(m+1, X)))
+                / (0.5 * (yv(m-1, X) - yv(m+1, X))) * yv(m, mu * r) )
 
-def AxialEigenfunctionLambda(ri, m, mu):
-    """Axial flow eigenfunction, with lambda function radial input for
-    integration
-    ri --> inner radius of axial jet engine
-    m  --> circumfrential acoustic mode
-    mu --> eigenvalue (dependent on radial mode n)
-    """
-    return lambda r: AxialEigenfunction(r, ri, m, mu)
+
+# def AxialEigenfunctionLambda(ri, m, mu):
+#     """Axial flow eigenfunction, with lambda function radial input for
+#     integration
+#     ri --> inner radius of axial jet engine
+#     m  --> circumfrential acoustic mode
+#     mu --> eigenvalue (dependent on radial mode n)
+#     """
+#     return lambda r: AxialEigenfunction(r, ri, m, mu)
 
 def AxialWavenumber(mu, omega, c, M):
     """Calculate z-direction wavenumber (Kz+) for sound mode in axial flow
@@ -103,18 +107,18 @@ def AxialWavenumber(mu, omega, c, M):
     Kz = (-M + np.emath.sqrt(1 - (1 - M ** 2) * (mu / K) ** 2 )) / (1 - M ** 2) * K
     return Kz
 
-def GetGamma(m, n, mus, ri, ro):
-    """Get Gamma_mn
-    m     --> current circumfrential mode
-    n     --> current radial mode
-    mus   --> dataframe of eigenvalues
-    ri,ro --> jet engine inner/outer radius
-    """
-    mu = mus[m][n] #eigenvalue for curent (m,n)
-    return (0.5 * (ro ** 2 - m ** 2 / mu ** 2)
-            * ( AxialEigenfunction(ro, ri, m, mu) ) ** 2
-          - 0.5 * (ri ** 2 - m ** 2 / mu ** 2)
-            * ( AxialEigenfunction(ri, ri, m, mu) ) ** 2 )
+# def GetGamma(m, n, mus, ri, ro):
+#     """Get Gamma_mn
+#     m     --> current circumfrential mode
+#     n     --> current radial mode
+#     mus   --> dataframe of eigenvalues
+#     ri,ro --> jet engine inner/outer radius
+#     """
+#     mu = mus[m][n] #eigenvalue for curent (m,n)
+#     return (0.5 * (ro ** 2 - m ** 2 / mu ** 2)
+#             * ( AxialEigenfunction(ro, ri, m, mu) ) ** 2
+#           - 0.5 * (ri ** 2 - m ** 2 / mu ** 2)
+#             * ( AxialEigenfunction(ri, ri, m, mu) ) ** 2 )
 
 def GetGammaAmn(m, n, mus, p, r):
     """Get Gamma_mn and Amn from eigenfunction and acoustic pressure
@@ -128,12 +132,14 @@ def GetGammaAmn(m, n, mus, p, r):
     mu = mus[m][n] #eigenvalue for curent (m,n)
     #Calculate Gamma_mn for non m=n=0 case:
     Gam = (0.5 * (ro ** 2 - m ** 2 / mu ** 2)
-            * ( AxialEigenfunction(ro, ri, m, mu) ) ** 2
-          - 0.5 * (ri ** 2 - m ** 2 / mu ** 2)
-            * ( AxialEigenfunction(ri, ri, m, mu) ) ** 2 )
+            * AxialEigenfunction(ro, ri, m, mu) ** 2
+         - 0.5 * (ri ** 2 - m ** 2 / mu ** 2)
+            * AxialEigenfunction(ri, ri, m, mu) ** 2 )
     #Calculate Amn
-    Psi = lambda r: AxialEigenfunction(r, ri, m, mu)
-    Amn = 1 / Gam * np.trapz( p * AxialEigenfunction(r, ri, m, mu) * r, r)
+    # Psi = lambda r: AxialEigenfunction(r, ri, m, mu)
+    Psi = AxialEigenfunction(r, ri, m, mu)
+    Amn = 1 / Gam * np.trapz( p * Psi * r, r)
+
 
     return Gam, Amn
 
@@ -155,7 +161,7 @@ def main():
     for m in ms:
 
         #guesses for root solutions
-        x0s = np.linspace(0.1,3, 30)
+        x0s = np.linspace(0.1,3, 300)
         mus = []
         for x0 in x0s:
 
@@ -165,16 +171,27 @@ def main():
                 mu = broyden1( lambda x: AxialEigenvalFunc(x, m, Ri, Ro), x0)
                 #add to solution list if no error message
                     #convert to float and round of floating point error
-                mus.append( round(float(mu), 6) )
+                # mus.append( round(float(mu), 6) )
+                mus.append( float(mu) )
             except Exception:
                 #Skip any solution errors
                 pass
 
-        #Get only unique solutions with 'set'
-            #convert to numpy array and sort least to greatest
-        mus = np.sort(np.array( list(set(mus)) ), axis=None)
 
-        eigenvals[m] = mus[:Nn]
+        # #Get only unique solutions with 'set'
+        #     #convert to numpy array and sort least to greatest
+        # mus = np.sort(np.array( list(set(mus)) ), axis=None)
+
+        #GET ONLY UNIQUE VALUES OF MU
+        df = pd.DataFrame({'long' : list(mus), 'short' : list(mus)})
+        df = df.round({'short': 8}) #shorten values to find unique ones
+        df = df.drop_duplicates(subset='short') #drop duplicates in short vals
+        df = df.sort_values('long') #sort eigen values from least to greatest
+        df = df.reset_index() #reset indicies to same as n
+
+        #Asign desired number of eigen values to solution dataframe
+        eigenvals[m] = df['long'][:Nn]
+        # eigenvals[m] = mus[:Nn]
 
     #SAVE EIGENVALUES
     #columns are m, rows are n
@@ -269,9 +286,9 @@ def main():
     for n in [0, 1, 2]:
         Gam, Amn = GetGammaAmn(m, n, eigenvals, df['p'], df['R'])
 
-        print(Gam)
-        print(eigenvals[m][n])
-        print(Amn)
+        # print(Gam)
+        # print(eigenvals[m][n])
+        # print(Amn)
 
         #MODAL POWER
         Kz = wavenums[m][n]
@@ -279,11 +296,16 @@ def main():
         Wmn = np.pi / (rho * a) * Gam * Amn * np.conj(Amn) * (
                 (1 + M ** 2) * frac.real + M * (abs(frac) ** 2 + 1) )
 
-        print('frac', frac)
+        # print('frac', frac)
         print('Wmn 1st half', np.pi / (rho * a) * Gam * Amn * np.conj(Amn))
         print('Wmn 2nd half', (1 + M ** 2) * frac.real + M * (abs(frac) ** 2 + 1) )
 
-        print(Kz)
+        print((1 + M ** 2) * frac.real)
+        print(M * (abs(frac) ** 2 + 1))
+
+
+
+        # print(Kz)
         print('wmn', Wmn)
 
         #SOUND POWER LEVEL
