@@ -3,7 +3,7 @@ Logan Halstrom
 MAE 298 AEROACOUSTICS
 HOMEWORK 4 - TURBOMACHINERY NOISE
 CREATED: 17 NOV 2016
-MODIFIY: 04 DEC 2016
+MODIFIY: 06 DEC 2016
 
 DESCRIPTION:
 
@@ -36,26 +36,6 @@ colors = sns.color_palette() #color cycle
 markers = bigmarkers         #marker cycle
 
 
-
-# def AxialEigenvalFunc(x, *args):
-#     """Determinant of axial flow boundary condition eigenfunctions, which is
-#     equal to zero.  Use scipy solver to get eigenvalues
-#     x    --> dependent variable (eigenvalue mu in axial flow eigenfunction)
-#     args --> tuple of other arguments: (m, n, ri, ro)
-#         m --> Order of bessel function
-#         ri --> inner radius of jet engine
-#         ro --> ourter radius of jet engine
-#     """
-#     m, ri, ro = args
-
-#     X = x * ro
-#     Y = x * ri
-
-#     return ( 0.5 * (jv(m-1, X) - jv(m+1, X)) * 0.5 * (yv(m-1, Y) - yv(m+1, Y))
-#            - 0.5 * (jv(m-1, Y) - jv(m+1, Y)) * 0.5 * (yv(m-1, X) - yv(m+1, X))
-#             )
-
-
 def AxialEigenvalFunc(x, m, ri, ro):
     """Determinant of axial flow boundary condition eigenfunctions, which is
     equal to zero.  Use scipy solver to get eigenvalues
@@ -64,11 +44,6 @@ def AxialEigenvalFunc(x, m, ri, ro):
     ri --> inner radius of jet engine
     ro --> ourter radius of jet engine
     """
-    # return (0.5 * (jv(m-1, x * ro) - jv(m+1, x * ro))
-    #                   * 0.5 * (yv(m-1, x * ri) - yv(m+1, x * ri))
-    #                   - 0.5 * (jv(m-1, x * ri) - jv(m+1, x * ri))
-    #                   * 0.5 * (yv(m-1, x * ro) - yv(m+1, x * ro))
-    #         )
 
     X = x * ro
     Y = x * ri
@@ -208,6 +183,7 @@ def main():
     ####################################################################
 
     R = np.linspace(Ri, Ro, 201) #Radial vector in engine
+    line = ['-', '--', '-.', ':']
 
     fig, ax = plt.subplots(len(ms), sharex=True, figsize=[3, 12])
     for i, m in enumerate(ms):
@@ -229,12 +205,37 @@ def main():
     _,ax = PlotStart(None, 'Radial Location [in]',
                             'Eigenfunction ($\\Psi_{{m,n}}$)', figsize=[6, 6])
 
+    ax.plot([Ri, Ro], [0, 0], color='black', linestyle='--', linewidth=2, alpha=0.7) #zero
+    mhandles = []
+    mlabels = []
+    nhandles = []
+    nlabels = []
+    labels = []
     for i, m in enumerate(ms):
         for j, n in enumerate(ns):
-            ax.plot(R, AxialEigenfunction(R, Ri, m, eigenvals[m][j]),
+            h, = ax.plot(R, AxialEigenfunction(R, Ri, m, eigenvals[m][j]),
                         label='n={}'.format(j), color=colors[j],
+                        linestyle=line[i],
                         )
+            if j == 0:
+                mhandles.append(h)
+                mlabels.append(str(m))
+            if i == 0:
+                nhandles.append(h)
+                nlabels.append(str(n))
+            labels.append(j)
     ax.set_xlim([Ri, Ro])
+
+    leg1 = PlotLegendLabels(ax, mhandles, mlabels, loc='upper left', title='m')
+    # leg1 = ax.legend(mhandles, mlabels, loc='upper left', title='m',
+    #                 # fancybox=True, frameon=True, framealpha=0.5,
+    #                 # numpoints=1, scatterpoints=1, prop={'size':28},
+    #                 # borderpad=0.1, borderaxespad=0.1, handletextpad=0.2,
+    #                 # handlelength=1.0, labelspacing=0
+    #                 )
+
+    leg2 = PlotLegendLabels(ax, nhandles, nlabels, loc='lower left', title='n')
+    plt.gca().add_artist(leg1)
 
     savename = '{}/2_eigenfunctions.{}'.format(picdir, pictype)
     SavePlot(savename)

@@ -17,6 +17,7 @@
   % compile with `pdflatex -shell-escape main` or `xelatex  -shell-escape main`
 
 
+
 \usepackage{tikz}             %for creating vector graphics diagrams
 \usetikzlibrary{backgrounds}  %put backgrounds behind tikz figures
 \usetikzlibrary{calc}         %perform calculations within $$
@@ -24,6 +25,147 @@
 \usetikzlibrary{angles}       %label angles between lines with arcs
 \usetikzlibrary{quotes}       %Put angle label in quotes
 \usetikzlibrary{patterns}     %Patterns to fill shapes with
+
+
+
+
+
+
+
+\usepackage{caption}          %caption graphics ('\captionof')
+\usepackage{framed}           %allows shaded text
+\usepackage[T1]{fontenc}      %allows escaping specific charaters like '_'
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%HYPERLINKS
+\usepackage{hyperref}     %insert hyperlines with '\url' or '\href'
+\newcommand\linkcolor{blue} %variable to color url text
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%CODE LISTING SYNTAX COLORING
+\usepackage{color}     %make custom colors for syntax coloring
+\usepackage{listings}  %allows code listings
+\usepackage{textcomp}  %allows apostrophes to be straight (unidirectional)
+% \usepackage{framed}
+% \usepackage{caption}
+\usepackage{bm}
+\usepackage{tcolorbox}        %use for code listing color definitions
+\tcbuselibrary{listings}      %allow color defenitions in code listings
+\tcbuselibrary{breakable}     %allow tccolorboxes across page breaks
+\tcbuselibrary{most}     %allow tccolorboxes across page breaks
+
+\captionsetup[lstlisting]{font={small,tt}} %setup caption style
+
+%Custom Colors
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\definecolor{sublimeblack}{HTML}{272822}
+\definecolor{sublimered}{HTML}{F92672}
+\definecolor{sublimeblue}{HTML}{66D9EF}
+\definecolor{sublimeyellow}{HTML}{E6DB74}
+\definecolor{sublimegrey}{HTML}{75715E}
+\definecolor{sublimegreen}{HTML}{66CC33}
+\definecolor{sublimeorange}{HTML}{FD971F}
+\definecolor{sublimepurple}{HTML}{AE81FF}
+
+
+%White or Black background toggle
+\newcommand\whiteback{0}
+\ifnum\whiteback=1%
+  %White Background
+  \newcommand\backclr{white}
+  \newcommand\txtclr{\color{black}}
+  \newcommand\txtupclr{black} %same as text color, used elsewhere
+  \newcommand\comclr{\color{sublimegrey}}
+  % \newcommand\comclr{\color{mygreen}}
+  \newcommand\keyclr{\color{sublimeblue}}
+  % \newcommand\keyclr{\color{blue}}
+  \newcommand\ndkeyclr{\color{sublimered}}
+  \newcommand\strclr{\color{mygreen}}
+  % \newcommand\strclr{\color{sublimeyellow}}
+  \newcommand\frameon{single} %single-frame box around code
+
+\else
+  %Black Background (like SublimeText)
+  \newcommand\backclr{sublimeblack}
+  \newcommand\txtclr{\color{white}} %text color
+  \newcommand\txtupclr{white} %same as text color, used elsewhere
+  \newcommand\comclr{\color{sublimegrey}}
+  \newcommand\keyclr{\color{sublimeblue}}
+  \newcommand\ndkeyclr{\color{sublimered}}
+  \newcommand\strclr{\color{sublimeyellow}}
+  \newcommand\frameon{false} %no frame for black background
+\fi
+
+
+%Listing Style
+% \newcommand\lstfontsize{\scriptsize}
+\newcommand\lstfontsize{\small}
+\lstdefinestyle{mystyle}{%
+  % backgroundcolor=\backclr,   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\ttfamily\txtclr\lstfontsize, % the SIZE OF THE FONTS that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  % breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\comclr,            % comment color
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=\frameon,                  % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  columns=flexible,
+  otherkeywords={zip,enumerate,True,False,None,...},  %add words to be highlighted
+  keywordstyle=\keyclr,            % keyword (e.g. 'print') color
+  language=Python,                 % the language of the code
+  upquote=true,                    % make apostrophes straight (unidirectional)
+  alsoletter={<>=-+*/!},            % to avoid coloring operators when they're not
+  ndkeywords={=,+,-,*,**,/,+=,*=,-=,/=,<=,>=,==,!=,<,>,... },  % operator keywords
+  ndkeywordstyle=\ndkeyclr,         % style of operator keywords
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % line-number style: size, color
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\strclr,             % string color
+  tabsize=4,                       % sets default tabsize
+}
+
+
+%Function that calls listing of specific file with custom coloring
+  %first input is filename to list
+  %next two inputs are start and end line numbers
+    %(use 0 and large number for all lines)
+\newcommand\mylisting[3]{
+  \tcbinputlisting{
+        listing file=#1,
+        breakable,
+        nobeforeafter,
+        arc=0pt,
+        top=0mm,
+        bottom=0mm,
+        left=0mm,
+        right=0mm,
+        boxrule=0pt,
+        colback=\backclr, %background color (continue accross page breaks)
+        colupper=\txtupclr, %basic text color (continue accross page breaks)
+        listing only,
+        listing options={
+                            style=mystyle,            %use custom style
+                            firstline=#2,lastline=#3, %lines of code to use
+                            firstnumber=#2,           %same numbering as script
+                        },
+        % hbox %Turning this on prevents page breaks
+      }
+}
+
+
+
 
 
 
@@ -145,37 +287,24 @@ $\mathbf{n=4}$ &       2.8585 &         2.7646 &         2.6702 &         2.5753
 \end{centering}
 \end{table}
 
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Ground Testing}
-
-The most straight-forward of testing methods described by Himelblau is the
-
-
-
-
-% %%\vspace{-2em}
-% \begin{figure}[tb!]
-% \begin{center}
-% \includegraphics[width=\textwidth]{Images/Himelblau_Fig36.png}
-% \caption{Acoustic test of the OGO spacecraft near the discharge nozzle of a large blowdown wind tunnel\cite{SpaceVehicleAeroacousticVibrationPrediction}}
-% \label{FreeFieldTest}
-% \end{center}
-% \end{figure}
-% %%\vspace{-2em}
-
-
-
-
-
+\clearpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Eigenfunctions}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 2. [20 points] Plot the five eigenfunctions (radial modes, n=0, 1, 2, 3, 4) for m=18, 17, 16, 15 or (k=1, 2, 3, 4) and verify n describes the number of zero crossings in the radial direction
+
+
+%%\vspace{-2em}
+\begin{figure}[htb!]
+\begin{center}
+\includegraphics[width=\textwidth]{../Plots/2_eigenfunctions.png}
+\caption{Eigenfunctions of all modes showing zero crossings corresponding to $n$}
+\label{eigenfuncs}
+\end{center}
+\end{figure}
+%%\vspace{-2em}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Wavenumbers}
@@ -206,7 +335,7 @@ $\mathbf{m}$ &  $\mathbf{n}$ &                      $\mathbf{K_z}$ & $\mathbf{Cu
 15 &             2 &  (-0.842342752252+1.73881279925j) &                No \\
 \hline
 \end{tabular}
-\caption{Axial wavenumbers $K_z$ for certian modes and associated cut-on condition}
+\caption{Axial wavenumbers $K_z$ for certain modes and associated cut-on condition}
 \end{centering}
 \end{table}
 
@@ -231,7 +360,7 @@ $\mathbf{1}$ &       -13.3776 \\
 $\mathbf{2}$ &       -22.3880 \\
 \hline
 \end{tabular}
-\caption{Sound Power Levels in dB of modal power of $m=18$ circumfrential mode}
+\caption{Sound Power Levels in dB of modal power of $m=18$ circumferential mode}
 \end{centering}
 \end{table}
 
@@ -239,9 +368,33 @@ $\mathbf{2}$ &       -22.3880 \\
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%APPENDIX (CODE LISTING)
 
+\clearpage
+% \onecolumn      %change to single column
+\appendix       %%% starting appendix
 
+%SETUP
+\newcommand\scriptname{dummy}      %init code name variable
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Appendix A: Global Variable Storage Script}
+\renewcommand\scriptname{hw4_98_globalVars.py}
+\begin{center}
+\mylisting{../\scriptname}{0}{10000}
+% \vspace{-0.2cm}
+% \captionof{lstlisting}{\emph{\scriptname} - Stores global variables for usage in all other scripts}
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Appendix B: Main Data Processing and Plotting Script}
+\renewcommand\scriptname{hw4_00_process.py}
+\begin{center}
+\mylisting{../\scriptname}{0}{10000}
+% \vspace{-0.2cm}
+% \captionof{lstlisting}{\emph{\scriptname} - Stores global variables for usage in all other scripts}
+\end{center}
 
 
 

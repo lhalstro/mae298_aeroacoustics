@@ -3,7 +3,7 @@ Logan Halstrom
 MAE 298 AEROACOUSTICS
 HOMEWORK 4 - TURBOMACHINERY NOISE
 CREATED: 17 NOV 2016
-MODIFIY: 17 NOV 2016
+MODIFIY: 06 DEC 2016
 
 DESCRIPTION: Provide global variables for all scripts including wrapper.
 """
@@ -28,11 +28,6 @@ RPM = 8326.3042  #Fan RPM
 omega = RPM * (2 * np.pi / 60) * Nblade #angular frequency [rad/s]
 
 
-
-
-
-
-
 #DATA OVERWRITE SWITCHES
 datoverwrite = 1 #Overwrite data = 1
 
@@ -42,7 +37,7 @@ savedir = 'Results' #
 
 picdir = 'Plots' #Plot storage directory
 pictype = 'png'      #Plot save filetype
-#pictype = 'pdf'      #Plot save filetype
+pictype = 'pdf'      #Plot save filetype
 
 sigfigs = 4 #number of sig figs to save in data files
 
