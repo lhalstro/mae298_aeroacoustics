@@ -27,7 +27,6 @@ rho = 1.4988e-5 #density [slug/in^3]
 RPM = 8326.3042  #Fan RPM
 omega = RPM * (2 * np.pi / 60) * Nblade #angular frequency [rad/s]
 
-
 #DATA OVERWRITE SWITCHES
 datoverwrite = 1 #Overwrite data = 1
 
@@ -37,10 +36,6 @@ savedir = 'Results' #
 
 picdir = 'Plots' #Plot storage directory
 pictype = 'png'      #Plot save filetype
-pictype = 'pdf'      #Plot save filetype
+# pictype = 'pdf'      #Plot save filetype
 
 sigfigs = 4 #number of sig figs to save in data files
-
-
-#CONVERSIONS
-volt2pasc = -116.0 #volts to pascals
