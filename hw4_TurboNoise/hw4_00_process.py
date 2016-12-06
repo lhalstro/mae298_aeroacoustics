@@ -27,6 +27,7 @@ from scipy.optimize import broyden1 #non-linear solver
 import matplotlib.pyplot as plt
 import sys
 sys.path.append('/Users/Logan/lib/python')
+from lutil import df2tex
 from lplot import *
 from seaborn import color_palette
 import seaborn as sns
@@ -87,15 +88,6 @@ def AxialEigenfunction(r, ri, m, mu):
                 / (0.5 * (yv(m-1, X) - yv(m+1, X))) * yv(m, mu * r) )
 
 
-# def AxialEigenfunctionLambda(ri, m, mu):
-#     """Axial flow eigenfunction, with lambda function radial input for
-#     integration
-#     ri --> inner radius of axial jet engine
-#     m  --> circumfrential acoustic mode
-#     mu --> eigenvalue (dependent on radial mode n)
-#     """
-#     return lambda r: AxialEigenfunction(r, ri, m, mu)
-
 def AxialWavenumber(mu, omega, c, M):
     """Calculate z-direction wavenumber (Kz+) for sound mode in axial flow
     mu --> eigenvalue of current mode
@@ -107,18 +99,20 @@ def AxialWavenumber(mu, omega, c, M):
     Kz = (-M + np.emath.sqrt(1 - (1 - M ** 2) * (mu / K) ** 2 )) / (1 - M ** 2) * K
     return Kz
 
-# def GetGamma(m, n, mus, ri, ro):
-#     """Get Gamma_mn
-#     m     --> current circumfrential mode
-#     n     --> current radial mode
-#     mus   --> dataframe of eigenvalues
-#     ri,ro --> jet engine inner/outer radius
-#     """
-#     mu = mus[m][n] #eigenvalue for curent (m,n)
-#     return (0.5 * (ro ** 2 - m ** 2 / mu ** 2)
-#             * ( AxialEigenfunction(ro, ri, m, mu) ) ** 2
-#           - 0.5 * (ri ** 2 - m ** 2 / mu ** 2)
-#             * ( AxialEigenfunction(ri, ri, m, mu) ) ** 2 )
+def CutOnCondition(Kz):
+    """Determine if mode is cuton based on wave number
+    Must be real to propagate (pos. imag.: decay exponential, neg.: expand)
+    Must be negative for upstream propagation
+    Kz --> axial wavenumber for current mode
+    """
+    cuton = 'No'
+    #Test if no imaginary part (propagation)
+    if Kz.imag == 0:
+        #Test if upstream propagation
+        if Kz.real < 0:
+            cuton = 'Yes'
+    return cuton
+
 
 def GetGammaAmn(m, n, mu, p, r):
     """Get Gamma_mn and Amn from eigenfunction and acoustic pressure
@@ -199,31 +193,19 @@ def main():
             if rounds[i][j] != None:
                 mus[j] =  round(mu, rounds[i][j])
         eigenvals[m] = mus
-
         # eigenvals = eigenvals.round({m : 8})
 
     #SAVE EIGENVALUES
     #columns are m, rows are n
     eigenvals.to_csv( '{}/eigenvalues.dat'.format(datadir), sep=' ',
                         index=True )
+    df2tex(eigenvals, '{}/eigenvalues'.format(datadir), dec=sigfigs)
 
 
 
     ####################################################################
     ### PROB 2 - PLOT EIGENFUNCTIONS ###################################
     ####################################################################
-
-
-    # R = np.linspace(Ri, Ro, 101)
-
-    # plt.figure()
-    # plt.plot(R, AxialEigenfunction(R, Ri, m, mu) )
-
-    # plt.xlim([Ri, Ro])
-    # plt.show()
-
-
-
 
     R = np.linspace(Ri, Ro, 201) #Radial vector in engine
 
@@ -273,9 +255,21 @@ def main():
     wavenums.to_csv( '{}/wavenumbers.dat'.format(datadir), sep=' ',
                         index=True )
 
-    #Cut-on if real and negative
 
 
+    #DETERMINE CUTON CONDITION
+    curNs = [0, 1, 2]
+    #sort by m
+    for m in ms:
+        Kzs = []
+        for n in curNs:
+            Kzs.append(wavenums[m][n])
+
+        df = pd.DataFrame({'m' : [m for x in curNs], 'n' : curNs, 'Kz' : Kzs})
+        df['Cut-on'] = [CutOnCondition(Kz) for Kz in df['Kz']]
+        #save wavenumber and cuton table
+        df = df[['m', 'n', 'Kz', 'Cut-on']]
+        df2tex(df, '{}/wavenumbers_m{}'.format(datadir, m), dec=sigfigs)
 
 
     ####################################################################
@@ -292,6 +286,8 @@ def main():
 
     m, n = 18, 0
 
+    PWLs = []
+
     for i, n in enumerate([0, 1, 2]):
         mu = eigenvals[m][n] #eigenvalue for curent (m,n)
         Gam, Amn = GetGammaAmn(m, n, mu, df['p'], df['R'])
@@ -306,72 +302,16 @@ def main():
         Wmn = np.pi / (rho * a) * Gam * Amn * np.conj(Amn) * (
                 (1 + M ** 2) * frac.real + M * (abs(frac) ** 2 + 1) )
 
-        # print('frac', frac)
-        # print('Wmn 1st half', np.pi / (rho * a) * Gam * Amn * np.conj(Amn))
-        # print('Wmn 2nd half', (1 + M ** 2) * frac.real + M * (abs(frac) ** 2 + 1) )
-
-        # print((1 + M ** 2) * frac.real)
-        # print(M * (abs(frac) ** 2 + 1))
-
-
-
-        # print(Kz)
-        print('wmn', Wmn)
-
         #SOUND POWER LEVEL
         PWL = 10 * np.log10( abs(Wmn) ) - 10* np.log10(7.3756e-13)
 
-        print('PWL', PWL)
+        PWLs.append(PWL)
 
+    #SAVE POWERLEVELS
+    PWLs = pd.DataFrame({m : PWLs})
+    PWLs.to_csv( '{}/powerlevels.dat'.format(datadir), sep=' ', index=True )
+    df2tex(PWLs, '{}/powerlevels'.format(datadir), dec=sigfigs)
 
-
-
-
-
-
-
-
-    # ####################################################################
-    # ### READ SOUND FILE ################################################
-    # ####################################################################
-
-    # df = pd.DataFrame() #Stores signal data
-
-    # #Read source frequency (fs) and signal in volts normallized between -1&1
-    # fs, df['V'] = ReadWavNorm( '{}/{}'.format(datadir, source) ) #Like matlab
-
-    # #Convert to pascals
-    # df['Pa'] = df['V'] * volt2pasc
-
-
-
-    # print('\nNum. of Points, Narrow-band:'    , len(df))
-    # print(  'Num. of Points, 1/3 Octave-band:', len(octv3rd))
-    # print(  'Num. of Points, Octave-band:'    , len(octv))
-
-    ####################################################################
-    ### SAVE DATA ######################################################
-    ####################################################################
-
-    # #SAVE WAVE SIGNAL DATA
-    # df = df[['time', 'Pa', 'SPL', 'V']] #reorder
-    # df.to_csv( '{}/timespec.dat'.format(datadir), sep=' ', index=False ) #save
-
-    # #SAVE POWER SPECTRUM DATA
-    # powspec.to_csv( '{}/freqspec.dat'.format(datadir), sep=' ', index=False )
-
-    # #SAVE OCTAVE-BAND DATA
-    # octv3rd.to_csv( '{}/octv3rd.dat'.format(datadir), sep=' ', index=False)
-    # octv.to_csv( '{}/octv.dat'.format(datadir), sep=' ', index=False)
-
-    # #SAVE SINGLE PARAMETERS
-    # params = pd.DataFrame()
-    # params = params.append(pd.Series(
-    #     {'fs' : fs, 'SPL_overall' : Lp_overall,
-    #      'Pmax' : Pmax, 'tNwave' : dt_Nwave,
-    #      'ti' : ti, 'Pi' : Pi, 'tf' : tf, 'Pf' : Pf}
-    #     ), ignore_index=True)
-    # params.to_csv( '{}/params.dat'.format(datadir), sep=' ', index=False)
 
 
 if __name__ == "__main__":

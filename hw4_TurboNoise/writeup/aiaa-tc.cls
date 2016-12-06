@@ -132,10 +132,12 @@
   \RequirePackage{bibentry}%  inline citations
 \else
  \if@aiaa@submit
-  \LoadClass[letterpaper,12pt]{article}
+  \LoadClass[letterpaper,11pt]{article}
   \RequirePackage{setspace}% control line spacing
  \else
-  \LoadClass[letterpaper,10pt]{article}
+  % \LoadClass[letterpaper,10pt]{article}
+  \LoadClass[letterpaper,12pt,
+              margin=1in]{article}
  \fi
  \RequirePackage[margin=1in,top=0.75in,headheight=\baselineskip]%
                 {geometry}% page layout
@@ -289,7 +291,7 @@
  }
 \else
  \def\@maketitle{%
-  \newpage
+  % \newpage
   \null
   \begin{center}%
   \if@aiaa@handcarry
@@ -300,6 +302,7 @@
   \else
     \vskip\baselineskip
     \vskip1em
+    \vspace*{\fill} %fill above title to center vertically
   \fi
   \let \footnote \thanks
     {\LARGE\bfseries \@title \par}%
@@ -311,7 +314,10 @@
       \end{tabular}\par}%
   \end{center}%
   \par
-  \vskip 1.5ex}
+  \vskip 1.5ex
+  \vspace*{\fill} %fill below to center vertically
+  \newpage %Start rest of document on next page
+  }
 \fi
 \setlength\hfuzz{2pt}
 \fancyhf{}% clear defaults

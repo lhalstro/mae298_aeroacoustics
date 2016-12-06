@@ -44,6 +44,8 @@ picdir = 'Plots' #Plot storage directory
 pictype = 'png'      #Plot save filetype
 #pictype = 'pdf'      #Plot save filetype
 
+sigfigs = 4 #number of sig figs to save in data files
+
 
 #CONVERSIONS
 volt2pasc = -116.0 #volts to pascals
