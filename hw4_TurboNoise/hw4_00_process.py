@@ -103,7 +103,39 @@ def AxialWavenumber(mu, omega, c, M):
     Kz = (-M + np.emath.sqrt(1 - (1 - M ** 2) * (mu / K) ** 2 )) / (1 - M ** 2) * K
     return Kz
 
+def GetGamma(m, n, mus, ri, ro):
+    """Get Gamma_mn
+    m     --> current circumfrential mode
+    n     --> current radial mode
+    mus   --> dataframe of eigenvalues
+    ri,ro --> jet engine inner/outer radius
+    """
+    mu = mus[m][n] #eigenvalue for curent (m,n)
+    return (0.5 * (ro ** 2 - m ** 2 / mu ** 2)
+            * ( AxialEigenfunction(ro, ri, m, mu) ) ** 2
+          - 0.5 * (ri ** 2 - m ** 2 / mu ** 2)
+            * ( AxialEigenfunction(ri, ri, m, mu) ) ** 2 )
 
+def GetGammaAmn(m, n, mus, p, r):
+    """Get Gamma_mn and Amn from eigenfunction and acoustic pressure
+    m     --> current circumfrential mode
+    n     --> current radial mode
+    mus   --> dataframe of eigenvalues
+    p   --> acoustic pressure at z=0 plane
+    r   --> radius vector associated with p (goes from Ri --> Ro)
+    """
+    ri, ro = min(r), max(r) #inner/outer radii of engine
+    mu = mus[m][n] #eigenvalue for curent (m,n)
+    #Calculate Gamma_mn for non m=n=0 case:
+    Gam = (0.5 * (ro ** 2 - m ** 2 / mu ** 2)
+            * ( AxialEigenfunction(ro, ri, m, mu) ) ** 2
+          - 0.5 * (ri ** 2 - m ** 2 / mu ** 2)
+            * ( AxialEigenfunction(ri, ri, m, mu) ) ** 2 )
+    #Calculate Amn
+    Psi = lambda r: AxialEigenfunction(r, ri, m, mu)
+    Amn = 1 / Gam * np.trapz( p * AxialEigenfunction(r, ri, m, mu) * r, r)
+
+    return Gam, Amn
 
 def main():
     """Perform calculations for frequency data processing
@@ -228,11 +260,36 @@ def main():
         #Columns: Radius [in], Real pressure [psi], Imaginary pressure [psi]
     df = pd.read_csv('{}/pressure_input.dat'.format(datadir), sep='\t',
                     names=['R', 'pRe', 'pIm'])
+    #Create complex values of acoustic pressure
+    df['p'] = df['pRe'] + df['pIm'] * 1j
 
-    print(df)
 
+    m, n = 18, 0
 
+    for n in [0, 1, 2]:
+        Gam, Amn = GetGammaAmn(m, n, eigenvals, df['p'], df['R'])
 
+        print(Gam)
+        print(eigenvals[m][n])
+        print(Amn)
+
+        #MODAL POWER
+        Kz = wavenums[m][n]
+        frac = Kz / (omega / a - Kz * M)
+        Wmn = np.pi / (rho * a) * Gam * Amn * np.conj(Amn) * (
+                (1 + M ** 2) * frac.real + M * (abs(frac) ** 2 + 1) )
+
+        print('frac', frac)
+        print('Wmn 1st half', np.pi / (rho * a) * Gam * Amn * np.conj(Amn))
+        print('Wmn 2nd half', (1 + M ** 2) * frac.real + M * (abs(frac) ** 2 + 1) )
+
+        print(Kz)
+        print('wmn', Wmn)
+
+        #SOUND POWER LEVEL
+        PWL = 10 * np.log10( abs(Wmn) ) - 10* np.log10(7.3756e-13)
+
+        print('PWL', PWL)
 
 
 
