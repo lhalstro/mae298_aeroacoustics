@@ -5,9 +5,12 @@ HOMEWORK 4 - TURBOMACHINERY NOISE
 CREATED: 17 NOV 2016
 MODIFIY: 06 DEC 2016
 
-DESCRIPTION:
+DESCRIPTION:  Solve for upstream propagation modes in an axial jet turbine
+engine.  Perform sound pressure level analysis for blade self noise caused
+by a gust entering the inlet and encountering a fan blade.
 
-NOTE:
+NOTE:  Calculations are for a 1/6 scale model of the jet engine and z=0 plane
+pressure data is derived from a CFD model
 """
 
 #IMPORT GLOBAL VARIABLES
@@ -20,8 +23,6 @@ from scipy.special import jn, yn #bessel functions
 from scipy.special import jv, yv #bessel functions
 from scipy.optimize import fsolve #linear solver
 from scipy.optimize import broyden1 #non-linear solver
-
-
 
 #CUSTOM PLOTTING PACKAGE
 import matplotlib.pyplot as plt
@@ -227,13 +228,6 @@ def main():
     ax.set_xlim([Ri, Ro])
 
     leg1 = PlotLegendLabels(ax, mhandles, mlabels, loc='upper left', title='m')
-    # leg1 = ax.legend(mhandles, mlabels, loc='upper left', title='m',
-    #                 # fancybox=True, frameon=True, framealpha=0.5,
-    #                 # numpoints=1, scatterpoints=1, prop={'size':28},
-    #                 # borderpad=0.1, borderaxespad=0.1, handletextpad=0.2,
-    #                 # handlelength=1.0, labelspacing=0
-    #                 )
-
     leg2 = PlotLegendLabels(ax, nhandles, nlabels, loc='lower left', title='n')
     plt.gca().add_artist(leg1)
 
@@ -247,16 +241,12 @@ def main():
 
 
     wavenums = eigenvals.copy()
-
-    # wavenums = AxialWavenumber(eigenvals, omega, a, M)
     wavenums = wavenums.applymap(lambda x: AxialWavenumber(x, omega, a, M))
 
     #SAVE EIGENVALUES
     #columns are m, rows are n
     wavenums.to_csv( '{}/wavenumbers.dat'.format(datadir), sep=' ',
                         index=True )
-
-
 
     #DETERMINE CUTON CONDITION
     curNs = [0, 1, 2]
@@ -284,18 +274,12 @@ def main():
     #Create complex values of acoustic pressure
     df['p'] = df['pRe'] + df['pIm'] * 1j
 
-
     m, n = 18, 0
-
     PWLs = []
 
     for i, n in enumerate([0, 1, 2]):
         mu = eigenvals[m][n] #eigenvalue for curent (m,n)
         Gam, Amn = GetGammaAmn(m, n, mu, df['p'], df['R'])
-
-        # print(Gam)
-        # print(eigenvals[m][n])
-        # print(Amn)
 
         #MODAL POWER
         Kz = wavenums[m][n]
@@ -312,7 +296,6 @@ def main():
     PWLs = pd.DataFrame({m : PWLs})
     PWLs.to_csv( '{}/powerlevels.dat'.format(datadir), sep=' ', index=True )
     df2tex(PWLs, '{}/powerlevels'.format(datadir), dec=sigfigs)
-
 
 
 if __name__ == "__main__":
